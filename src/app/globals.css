@@ -313,7 +313,11 @@ body {
 }
 
 @media (max-width: 640px) {
-  .nav__i { padding: 0 20px; }
+  .nav__i { padding: 0 16px; gap: 12px; }
+  .nav__r { gap: 8px; }
+  .nav__login { display: none; }
+  .theme-toggle { width: 32px; height: 32px; font-size: 13px; flex-shrink: 0; }
+  .btn--sm { padding: 8px 14px; font-size: 0.8rem; }
 }
 
 .brand {
