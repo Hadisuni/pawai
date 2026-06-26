@@ -48,10 +48,10 @@ export default function Footer() {
       <div className="wrap">
         <div className="footer__top">
           <div>
-            <a className="brand" href="/" aria-label="PAWai — home">
+            <Link className="brand" href="/" aria-label="PAWai — home">
               <PawLogo size={28} />
               PAW<b>ai</b>
-            </a>
+            </Link>
             <p>The AI health companion for every pet. Vet-reviewed care, available any hour of the day.</p>
             <div className="footer__social" aria-label="Follow PAWai on social media">
               {SOCIAL_LINKS.map((s) => (

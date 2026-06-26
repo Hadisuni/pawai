@@ -7,7 +7,8 @@ import FindingsPanel from './care-journey/FindingsPanel';
 import TimelinePanel from './care-journey/TimelinePanel';
 import SummaryCard from './care-journey/SummaryCard';
 import { useSpeech } from '@/hooks/useSpeech';
-import { loadSession, type PawSession } from '@/lib/session';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { loadSession, useSession } from '@/lib/session';
 import {
   BRANCHES, getBranch, tierFromScore, personalize, DEFAULT_PET,
   type Branch, type Finding, type TimelineEvent, type StepOption, type Tier,
@@ -36,7 +37,7 @@ function formatTime(s: number) {
 }
 
 export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {}) {
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = usePrefersReducedMotion();
   const [started, setStarted] = useState(false);
   const [phase, setPhase] = useState<Phase>('greeting');
   const [branch, setBranch] = useState<Branch | null>(null);
@@ -51,7 +52,7 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState<Speed>(1);
   const [callSeconds, setCallSeconds] = useState(0);
-  const [session, setSession] = useState<PawSession | null>(null);
+  const session = useSession();
 
   const petName = session?.pet.name || DEFAULT_PET;
   const patientLine = session
@@ -234,12 +235,15 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
 
   useEffect(() => {
     const loadedSession = loadSession();
-    if (loadedSession) setSession(loadedSession);
     const activePetName = loadedSession?.pet.name || DEFAULT_PET;
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) {
-      setReducedMotion(true);
+    if (reducedMotion) {
+      // `reducedMotion` only resolves to its real value after hydration (the
+      // SSR snapshot is always `false`), so a lazy useState initializer can't
+      // build this scripted state — it would lock in the false-branch result
+      // before the real preference is known. Reacting to it here, once, on
+      // mount is the correct place for this setup.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStarted(true);
       const b = getBranch('vomiting')!;
       setBranch(b);

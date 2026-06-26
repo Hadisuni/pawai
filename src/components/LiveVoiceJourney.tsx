@@ -6,7 +6,7 @@ import PawAvatar from './care-journey/PawAvatar';
 import PriorityBadge from './care-journey/PriorityBadge';
 import FindingsPanel from './care-journey/FindingsPanel';
 import TimelinePanel from './care-journey/TimelinePanel';
-import { loadSession, type PawSession } from '@/lib/session';
+import { useSession, type PawSession } from '@/lib/session';
 import { AGENTS } from '@/lib/agents';
 import type { Finding, TimelineEvent, Tier } from '@/lib/careJourney';
 
@@ -53,8 +53,7 @@ function asTier(v: unknown): Tier | null {
 }
 
 function LiveVoiceJourneyInner() {
-  const [session, setSession] = useState<PawSession | null>(null);
-  const [sessionChecked, setSessionChecked] = useState(false);
+  const session = useSession();
   const [transcript, setTranscript] = useState<Msg[]>([]);
   const [findings, setFindings] = useState<Finding[]>([]);
   const [timeline, setTimeline] = useState<TimelineEvent[]>([]);
@@ -64,11 +63,6 @@ function LiveVoiceJourneyInner() {
   const [manuallyEnded, setManuallyEnded] = useState(false);
   const findingIdRef = useRef(0);
   const timelineIdRef = useRef(0);
-
-  useEffect(() => {
-    setSession(loadSession());
-    setSessionChecked(true);
-  }, []);
 
   const conversation = useConversation({
     clientTools: {
@@ -134,15 +128,18 @@ function LiveVoiceJourneyInner() {
 
   // Never let two agents run at once — tear down any live connection if this
   // component unmounts (e.g. the visitor navigates away mid-call). Stored in
-  // a ref so the cleanup always calls the latest session, not a stale one
-  // captured by an empty-dependency effect.
+  // a ref, kept fresh every render via its own effect, so the cleanup effect
+  // below always calls the latest endSession rather than a stale one
+  // captured by its empty dependency array.
   const endSessionRef = useRef(conversation.endSession);
-  endSessionRef.current = conversation.endSession;
+  useEffect(() => {
+    endSessionRef.current = conversation.endSession;
+  }, [conversation.endSession]);
   useEffect(() => {
     return () => { endSessionRef.current(); };
   }, []);
 
-  const agentId = resolveAgentId(session);
+  const agentId = resolveAgentId(session ?? null);
 
   async function handleStart() {
     setError(null);
@@ -160,7 +157,7 @@ function LiveVoiceJourneyInner() {
       conversation.startSession({
         agentId,
         connectionType: 'webrtc',
-        dynamicVariables: buildDynamicVariables(session),
+        dynamicVariables: buildDynamicVariables(session ?? null),
       });
     } catch {
       setError('Microphone access is needed for the live voice conversation.');
@@ -186,7 +183,7 @@ function LiveVoiceJourneyInner() {
             <div className={`callcard__stage${!started ? ' is-idle' : ''}`}>
               <PawAvatar speaking={conversation.isSpeaking} listening={conversation.isListening} />
               {!started && (
-                <button type="button" className="callcard__start" onClick={handleStart} data-mag disabled={!sessionChecked}>
+                <button type="button" className="callcard__start" onClick={handleStart} data-mag disabled={session === undefined}>
                   🎙 Start Voice Conversation
                 </button>
               )}

@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from 'react';
 import type { AgentGroup } from './agents';
 
 export interface PetInfo {
@@ -71,4 +72,23 @@ export function loadDraft(): PawDraft | null {
 export function clearDraft() {
   if (typeof window === 'undefined') return;
   window.localStorage.removeItem(DRAFT_KEY);
+}
+
+// localStorage doesn't fire events for same-tab writes, and these values are
+// only ever read once per mount (never updated externally afterward), so the
+// subscribe callback is intentionally a no-op — useSyncExternalStore still
+// gives us the right thing here: a hydration-safe way to read browser-only
+// storage (getServerSnapshot returns `undefined` for "not yet known", since
+// localStorage genuinely doesn't exist during SSR) without the extra
+// render-pass a manual `useEffect(() => setState(load()))` would cause.
+function noopSubscribe() {
+  return () => {};
+}
+
+export function useSession(): PawSession | null | undefined {
+  return useSyncExternalStore(noopSubscribe, loadSession, () => undefined);
+}
+
+export function useDraft(): PawDraft | null | undefined {
+  return useSyncExternalStore(noopSubscribe, loadDraft, () => undefined);
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { loadDraft, saveSession, clearDraft, type PawDraft } from '@/lib/session';
+import { useDraft, saveSession, clearDraft } from '@/lib/session';
 import { isAgentLive, type AgentGroup } from '@/lib/agents';
 import type { IntakeResponse } from '@/app/api/intake/route';
 
@@ -28,15 +28,9 @@ const EXPERIENCES: ExperienceTile[] = [
 
 export default function ExperiencePicker() {
   const router = useRouter();
-  const [draft, setDraft] = useState<PawDraft | null>(null);
-  const [checked, setChecked] = useState(false);
+  const draft = useDraft();
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setDraft(loadDraft());
-    setChecked(true);
-  }, []);
 
   async function handlePick(exp: ExperienceTile) {
     if (!draft || pendingId) return;
@@ -60,7 +54,7 @@ export default function ExperiencePicker() {
     }
   }
 
-  if (checked && !draft) {
+  if (draft === null) {
     return (
       <div className="welcome-form" style={{ textAlign: 'center' }}>
         <p className="hero__lead" style={{ margin: '0 auto 24px' }}>
