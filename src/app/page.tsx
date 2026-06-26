@@ -87,7 +87,7 @@ export default function Home() {
             <p data-r data-d="2">From the first sniffle to ongoing conditions, PAWai is the calm, knowledgeable companion in your pocket.</p>
           </div>
           <div className="feats">
-            <div className="feat" data-tilt data-r>
+            <div className="feat" data-tilt data-r id="symptom-checker">
               <div className="cg" aria-hidden="true" />
               <div className="ic" style={{ background: 'rgba(var(--teal-rgb),.1)' }} aria-hidden="true">🔍</div>
               <h3>Symptom checker</h3>
@@ -99,7 +99,7 @@ export default function Home() {
               <h3>Vet in the loop</h3>
               <p>Every urgent flag is reviewed by a licensed veterinarian, usually within minutes — so you&apos;re never acting on a guess.</p>
             </div>
-            <div className="feat" data-tilt data-r data-d="2">
+            <div className="feat" data-tilt data-r data-d="2" id="health-timeline">
               <div className="cg" aria-hidden="true" />
               <div className="ic" style={{ background: 'rgba(180,100,160,.12)' }} aria-hidden="true">📈</div>
               <h3>Health timeline</h3>

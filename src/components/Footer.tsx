@@ -64,18 +64,18 @@ export default function Footer() {
           <div>
             <h4>Product</h4>
             <ul>
-              <li><a href="#">Symptom checker</a></li>
-              <li><a href="#">Health timeline</a></li>
-              <li><a href="#">For vets</a></li>
-              <li><a href="#">Pricing</a></li>
+              <li><Link href="/#symptom-checker">Symptom checker</Link></li>
+              <li><Link href="/#health-timeline">Health timeline</Link></li>
+              <li><Link href="/#vets">For vets</Link></li>
+              <li><Link href="/#pricing">Pricing</Link></li>
             </ul>
           </div>
           <div>
             <h4>Company</h4>
             <ul>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Press</a></li>
+              <li><Link href="/about">About</Link></li>
+              <li><Link href="/careers">Careers</Link></li>
+              <li><Link href="/press">Press</Link></li>
               <li><Link href="/blog">Blog</Link></li>
             </ul>
           </div>
@@ -85,7 +85,7 @@ export default function Footer() {
               <li><a href="mailto:contact.pawai.it@gmail.com">contact.pawai.it@gmail.com</a></li>
               <li><a href="tel:+17789004775">+1 (778) 900-4775</a></li>
               <li>Vancouver, BC, Canada</li>
-              <li><a href="#">Help center</a></li>
+              <li><Link href="/help">Help center</Link></li>
             </ul>
           </div>
         </div>
