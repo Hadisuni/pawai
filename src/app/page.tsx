@@ -53,11 +53,11 @@ export default function Home() {
               </div>
             </div>
             <div className="fc fc--a">
-              <div className="ico" style={{ background: 'rgba(46,220,168,.14)' }}>✓</div>
+              <div className="ico" style={{ background: 'rgba(var(--teal-rgb),.14)' }}>✓</div>
               <div>Reviewed by a vet<small>in under 10 min</small></div>
             </div>
             <div className="fc fc--b">
-              <div className="ico" style={{ background: 'rgba(240,145,90,.14)' }}>📋</div>
+              <div className="ico" style={{ background: 'rgba(var(--peach-rgb),.14)' }}>📋</div>
               <div>Health record saved<small>Bella · Labrador, 4y</small></div>
             </div>
           </div>
@@ -89,13 +89,13 @@ export default function Home() {
           <div className="feats">
             <div className="feat" data-tilt data-r>
               <div className="cg" aria-hidden="true" />
-              <div className="ic" style={{ background: 'rgba(46,220,168,.1)' }} aria-hidden="true">🔍</div>
+              <div className="ic" style={{ background: 'rgba(var(--teal-rgb),.1)' }} aria-hidden="true">🔍</div>
               <h3>Symptom checker</h3>
               <p>Describe what you&apos;re seeing in plain words. PAWai asks the right follow-ups and gives a clear, ranked sense of what might be going on.</p>
             </div>
             <div className="feat" data-tilt data-r data-d="1">
               <div className="cg" aria-hidden="true" />
-              <div className="ic" style={{ background: 'rgba(240,145,90,.11)' }} aria-hidden="true">🩺</div>
+              <div className="ic" style={{ background: 'rgba(var(--peach-rgb),.11)' }} aria-hidden="true">🩺</div>
               <h3>Vet in the loop</h3>
               <p>Every urgent flag is reviewed by a licensed veterinarian, usually within minutes — so you&apos;re never acting on a guess.</p>
             </div>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PawLogo from './PawLogo';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
   return (
@@ -17,6 +18,7 @@ export default function Header() {
           <Link href="/#pricing">Pricing</Link>
         </nav>
         <div className="nav__r">
+          <ThemeToggle />
           <a className="nav__login" href="#">Log in</a>
           <Link href="/welcome" className="btn btn--pri btn--sm" data-mag>Get Started</Link>
         </div>

@@ -14,12 +14,13 @@ export default function InteractionEngine() {
     globalInit.current = true;
 
     const NO_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const HAS_FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
 
     const cDot = document.getElementById('c-dot');
     const cRing = document.getElementById('c-ring');
     const cGlow = document.getElementById('glow');
 
-    if (cDot && cRing && cGlow) {
+    if (cDot && cRing && cGlow && HAS_FINE_POINTER) {
       let mx = window.innerWidth / 2;
       let my = window.innerHeight / 2;
       let rx = mx, ry = my;
@@ -50,10 +51,14 @@ export default function InteractionEngine() {
       if (canvas && ctx) {
         let W = 0, H = 0;
         const isMobile = window.innerWidth < 768;
-        const N = isMobile ? 18 : 42;
+        const N = isMobile ? 14 : 28;
         const MAX_D = 80;
         const MAX_D2 = MAX_D * MAX_D;
         let paused = false;
+
+        const rootStyle = getComputedStyle(document.documentElement);
+        const tealC = rootStyle.getPropertyValue('--teal-rgb').trim() || '46,220,168';
+        const peachC = rootStyle.getPropertyValue('--peach-rgb').trim() || '240,145,90';
 
         const resize = () => {
           W = canvas.width = window.innerWidth;
@@ -78,7 +83,7 @@ export default function InteractionEngine() {
             this.vx = (Math.random() - 0.5) * 0.28;
             this.vy = (Math.random() - 0.5) * 0.28;
             this.a = Math.random() * 0.38 + 0.08;
-            this.c = Math.random() > 0.62 ? '240,145,90' : '46,220,168';
+            this.c = Math.random() > 0.62 ? peachC : tealC;
           }
           step() {
             this.x += this.vx; this.y += this.vy;
@@ -95,9 +100,16 @@ export default function InteractionEngine() {
         const pts: Pt[] = [];
         for (let i = 0; i < N; i++) pts.push(new Pt());
 
-        const animPts = () => {
+        // Purely decorative — capped well under display refresh rate so it doesn't
+        // compete with real work on 120Hz+ screens.
+        const FRAME_MS = 1000 / 30;
+        let lastFrame = 0;
+
+        const animPts = (now: number) => {
           requestAnimationFrame(animPts);
           if (paused) return;
+          if (now - lastFrame < FRAME_MS) return;
+          lastFrame = now;
           ctx.clearRect(0, 0, W, H);
           for (let i = 0; i < pts.length; i++) { pts[i].step(); pts[i].draw(); }
           if (!isMobile) {
@@ -110,7 +122,7 @@ export default function InteractionEngine() {
                   ctx.beginPath();
                   ctx.moveTo(pts[i].x, pts[i].y);
                   ctx.lineTo(pts[j].x, pts[j].y);
-                  ctx.strokeStyle = `rgba(46,220,168,${(1 - Math.sqrt(d2) / MAX_D) * 0.07})`;
+                  ctx.strokeStyle = `rgba(${tealC},${(1 - Math.sqrt(d2) / MAX_D) * 0.07})`;
                   ctx.lineWidth = 0.5;
                   ctx.stroke();
                 }
@@ -118,7 +130,7 @@ export default function InteractionEngine() {
             }
           }
         };
-        animPts();
+        requestAnimationFrame(animPts);
       }
     } else {
       const cv = document.getElementById('pts');

@@ -39,13 +39,13 @@ export default function DemoPage() {
           <div className="feats">
             <div className="feat" data-tilt data-r>
               <div className="cg" aria-hidden="true" />
-              <div className="ic" style={{ background: 'rgba(46,220,168,.1)' }} aria-hidden="true">🩺</div>
+              <div className="ic" style={{ background: 'rgba(var(--teal-rgb),.1)' }} aria-hidden="true">🩺</div>
               <h3>Asks like a real vet nurse</h3>
               <p>Each next question depends on the last answer — different complaints lead down entirely different interview paths.</p>
             </div>
             <div className="feat" data-tilt data-r data-d="1">
               <div className="cg" aria-hidden="true" />
-              <div className="ic" style={{ background: 'rgba(240,145,90,.11)' }} aria-hidden="true">🚨</div>
+              <div className="ic" style={{ background: 'rgba(var(--peach-rgb),.11)' }} aria-hidden="true">🚨</div>
               <h3>Flags urgency signals live</h3>
               <p>PAWai watches for red flags as the conversation unfolds and updates priority in real time.</p>
             </div>

@@ -17,7 +17,7 @@ export default function AmbientBackground() {
         aria-hidden="true"
         style={{
           width: 750, height: 750,
-          background: 'rgba(46,220,168,.07)',
+          background: 'rgba(var(--teal-rgb),.07)',
           top: -220, right: -180,
           animation: 'blob1 24s ease-in-out infinite',
         }}
@@ -27,7 +27,7 @@ export default function AmbientBackground() {
         aria-hidden="true"
         style={{
           width: 550, height: 550,
-          background: 'rgba(240,145,90,.055)',
+          background: 'rgba(var(--peach-rgb),.055)',
           bottom: '8%', left: -160,
           animation: 'blob2 30s ease-in-out infinite',
         }}
