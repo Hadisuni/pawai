@@ -7,9 +7,9 @@ import InteractionEngine from '@/components/InteractionEngine';
 import SupportWidget from '@/components/SupportWidget';
 
 export const metadata: Metadata = {
-  title: 'PAWai — The AI health companion for every animal',
+  title: 'PAWai — The AI Health Companion for Every Pet',
   description:
-    'PAWai listens to your worries, checks symptoms against millions of cases, and tells you what to do next — backed by licensed vets.',
+    "Describe your pet's symptoms and get clear, veterinarian-reviewed guidance in minutes—anytime, anywhere.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -11,10 +11,10 @@ export default function Home() {
               <span className="ey"><span className="dot" aria-hidden="true" />Vet-reviewed AI · 24/7</span>
             </div>
             <h1 id="hero-h1" data-r data-d="1">
-              The AI health companion for <span className="hl">every animal</span>.
+              The AI Health Companion for <span className="hl">Every Pet</span>.
             </h1>
             <p className="hero__lead" data-r data-d="2">
-              PAWai listens to your worries, checks symptoms against millions of cases, and tells you what to do next — backed by licensed vets. Peace of mind, any hour.
+              Describe your pet&apos;s symptoms and get clear, veterinarian-reviewed guidance in minutes—anytime, anywhere.
             </p>
             <div className="hero__cta" data-r data-d="3">
               <Link href="/welcome" className="btn btn--pri btn--lg" data-mag>Start free check</Link>
