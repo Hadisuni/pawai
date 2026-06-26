@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import InteractionEngine from '@/components/InteractionEngine';
 import SupportWidget from '@/components/SupportWidget';
 import { THEME_INIT_SCRIPT } from '@/components/ThemeToggle';
+import { SITE_URL } from '@/lib/site';
 
 const fredoka = Fredoka({
   subsets: ['latin'],
@@ -24,6 +25,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'PAWai — The AI Health Companion for Every Pet',
   description:
     "Describe your pet's symptoms and get clear, veterinarian-reviewed guidance in minutes—anytime, anywhere.",

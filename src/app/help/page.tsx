@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Help Center — PAWai',
   description: 'Find educational guides in the PAWai Knowledge Hub, or contact us directly for help.',
+  alternates: { canonical: '/help' },
 };
 
 export default function HelpPage() {

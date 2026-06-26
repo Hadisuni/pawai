@@ -4,6 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'About PAWai — The AI Health Companion for Every Pet',
   description: 'PAWai helps pet owners organize what they’re observing and arrive at veterinary visits prepared — without ever diagnosing or replacing a veterinarian.',
+  alternates: { canonical: '/about' },
 };
 
 export default function AboutPage() {

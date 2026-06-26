@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "PAWai — Your Pet's AI Care Journey",
   description:
     'Watch PAWai conduct a real adaptive intake interview, reason through findings live, and prepare a vet-ready summary before the visit even starts.',
+  alternates: { canonical: '/demo' },
 };
 
 export default function DemoPage() {

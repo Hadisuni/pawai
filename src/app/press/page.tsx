@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Press — PAWai',
   description: 'Press and media inquiries for PAWai, the AI health companion for every pet.',
+  alternates: { canonical: '/press' },
 };
 
 export default function PressPage() {

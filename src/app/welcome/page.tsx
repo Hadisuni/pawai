@@ -4,6 +4,7 @@ import WelcomeForm from '@/components/WelcomeForm';
 export const metadata: Metadata = {
   title: 'PAWai — Get Started',
   description: "Tell us about you and your pet so PAWai can personalize your care journey.",
+  alternates: { canonical: '/welcome' },
 };
 
 export default function WelcomePage() {

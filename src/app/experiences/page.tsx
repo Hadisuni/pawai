@@ -3,6 +3,7 @@ import ExperiencePicker from '@/components/ExperiencePicker';
 
 export const metadata: Metadata = {
   title: 'PAWai — Choose an Experience',
+  alternates: { canonical: '/experiences' },
 };
 
 export default function ExperiencesPage() {

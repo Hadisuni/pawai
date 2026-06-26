@@ -11,6 +11,7 @@ import {
   getRelatedPosts,
   formatPublishedDate,
 } from '@/lib/blog';
+import { SITE_URL } from '@/lib/site';
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = getPostBySlug(slug);
   if (!post) return {};
 
-  const url = `https://pawai.it.com/blog/${post.slug}`;
+  const url = `${SITE_URL}/blog/${post.slug}`;
 
   return {
     title: post.metaTitle,
@@ -68,9 +69,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     publisher: {
       '@type': 'Organization',
       name: 'PAWai',
-      logo: { '@type': 'ImageObject', url: 'https://pawai.it.com/favicon.ico' },
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/favicon.ico` },
     },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://pawai.it.com/blog/${post.slug}` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${post.slug}` },
     keywords: post.keywords.join(', '),
     articleSection: post.category,
   };

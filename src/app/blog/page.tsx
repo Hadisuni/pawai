@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: 'PAWai Knowledge Hub — Pet Health, Veterinary AI & Care Guides',
   description:
     'Educational guides on pet health, preventive care, breed knowledge, and how AI is changing the conversation between pet owners and veterinary teams.',
+  alternates: {
+    canonical: '/blog',
+    types: { 'application/rss+xml': '/blog/rss.xml' },
+  },
 };
 
 export default function BlogIndexPage() {

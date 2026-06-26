@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Careers at PAWai',
   description: 'PAWai is a small, early-stage team. We are not actively hiring publicly right now, but we would like to hear from you.',
+  alternates: { canonical: '/careers' },
 };
 
 export default function CareersPage() {
