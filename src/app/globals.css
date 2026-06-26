@@ -853,35 +853,38 @@ body {
 }
 
 /* Avatar */
-.pa { width: 168px; height: 168px; position: relative; }
-.pa__svg { width: 100%; height: 100%; }
-.pa__body { animation: paBreathe 4.2s ease-in-out infinite; transform-origin: 100px 140px; }
-.pa__eye { animation: paBlink 5.5s ease-in-out infinite; transform-origin: center; }
-.pa__eye:nth-of-type(2) { animation-delay: 0.05s; }
+.pa { width: 168px; height: 168px; position: relative; display: grid; place-items: center; }
 
-.pa__mouth-talk { opacity: 0; }
-.pa--talk .pa__mouth-idle { opacity: 0; }
-.pa--talk .pa__mouth-talk { animation: paTalk 0.28s steps(1) infinite; }
+.pa__photo {
+  width: 152px; height: 152px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative; z-index: 1;
+  border: 2px solid rgba(46, 220, 168, 0.35);
+  animation: paBreathe 4.2s ease-in-out infinite;
+}
 
-.pa--listen .pa__body { animation: paBreathe 2.2s ease-in-out infinite; }
+.pa__ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(46, 220, 168, 0.18);
+  box-shadow: 0 0 0 0 rgba(46, 220, 168, 0.25);
+}
+
+.pa--listen .pa__photo { animation: paBreathe 2.2s ease-in-out infinite; }
+
+.pa--talk .pa__photo { border-color: rgba(46, 220, 168, 0.7); }
+.pa--talk .pa__ring { animation: paTalkRing 1.1s ease-out infinite; }
 
 @keyframes paBreathe {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-3px) scale(1.012); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
-@keyframes paBlink {
-  0%, 92%, 100% { transform: scaleY(1); }
-  95% { transform: scaleY(0.08); }
+@keyframes paTalkRing {
+  0% { box-shadow: 0 0 0 0 rgba(46, 220, 168, 0.32); }
+  100% { box-shadow: 0 0 0 14px rgba(46, 220, 168, 0); }
 }
-
-@keyframes paTalk {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
-
-.pa--talk .pa__mouth-talk--a { animation-delay: 0s; }
-.pa--talk .pa__mouth-talk--b { animation-delay: 0.14s; }
 
 /* Conversation */
 .convo {
@@ -1084,5 +1087,5 @@ body {
   .fc--a, .fc--b, .ey .dot, .blob { animation: none !important; }
   .demo__feed .ch, .demo__scan, .demo__caret, .demo__scan-dot,
   .convo__feed .ch, .findings__live-dot, .callcard__live-dot,
-  .pa__body, .pa__eye, .pa__mouth-talk, .callcard__ctrl--mic { animation: none !important; }
+  .pa__photo, .pa__ring, .callcard__ctrl--mic { animation: none !important; }
 }
