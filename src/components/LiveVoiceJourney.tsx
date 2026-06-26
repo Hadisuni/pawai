@@ -110,6 +110,20 @@ function LiveVoiceJourneyInner() {
       setTranscript((t) => [...t, { speaker: props.role === 'user' ? 'owner' : 'ai', text: props.message }]);
     },
     onError: (message) => setError(typeof message === 'string' ? message : 'Something went wrong with the voice connection.'),
+    // Without this, a call ended by the agent/server (quota, max duration,
+    // silence timeout, origin rejection, etc.) just silently drops back to
+    // "Tap to begin" with zero clue why — onError alone only fires for
+    // client-side errors, not server-initiated disconnects.
+    onDisconnect: (details) => {
+      console.warn('[PAWai] ElevenLabs conversation disconnected:', details);
+      if (details.reason === 'user') return;
+      const codeInfo = details.closeCode ? ` (code ${details.closeCode}${details.closeReason ? `: ${details.closeReason}` : ''})` : '';
+      if (details.reason === 'error') {
+        setError(`${details.message}${codeInfo}`);
+      } else {
+        setError(`The voice agent ended the call${codeInfo || ' unexpectedly'}.`);
+      }
+    },
   });
 
   // Never let two agents run at once — tear down any live connection if this
