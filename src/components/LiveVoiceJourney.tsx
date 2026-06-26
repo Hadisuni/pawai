@@ -109,7 +109,13 @@ function LiveVoiceJourneyInner() {
     onMessage: (props) => {
       setTranscript((t) => [...t, { speaker: props.role === 'user' ? 'owner' : 'ai', text: props.message }]);
     },
-    onError: (message) => setError(typeof message === 'string' ? message : 'Something went wrong with the voice connection.'),
+    // Visitors only ever see calm, on-brand copy — never raw SDK text or
+    // close codes. The full technical detail still goes to the console so
+    // it's debuggable without exposing it on the page.
+    onError: (message) => {
+      console.warn('[PAWai] ElevenLabs conversation error:', message);
+      setError("The voice conversation couldn't continue right now. Please try again in a moment, or use the text conversation instead.");
+    },
     // Without this, a call ended by the agent/server (quota, max duration,
     // silence timeout, origin rejection, etc.) just silently drops back to
     // "Tap to begin" with zero clue why — onError alone only fires for
@@ -117,12 +123,12 @@ function LiveVoiceJourneyInner() {
     onDisconnect: (details) => {
       console.warn('[PAWai] ElevenLabs conversation disconnected:', details);
       if (details.reason === 'user') return;
-      const codeInfo = details.closeCode ? ` (code ${details.closeCode}${details.closeReason ? `: ${details.closeReason}` : ''})` : '';
-      if (details.reason === 'error') {
-        setError(`${details.message}${codeInfo}`);
-      } else {
-        setError(`The voice agent ended the call${codeInfo || ' unexpectedly'}.`);
-      }
+      const raw = details.reason === 'error' ? details.message : details.closeReason ?? '';
+      setError(
+        /quota|credit|limit/i.test(raw)
+          ? "PAWai's voice companion is resting for a moment. Please try again shortly, or use the text conversation instead."
+          : "The voice conversation couldn't continue right now. Please try again, or use the text conversation instead."
+      );
     },
   });
 
