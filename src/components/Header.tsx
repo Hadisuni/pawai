@@ -19,7 +19,6 @@ export default function Header() {
         <div className="nav__r">
           <a className="nav__login" href="#">Log in</a>
           <Link href="/welcome" className="btn btn--pri btn--sm" data-mag>Get Started</Link>
-          <button className="btn btn--ghost btn--sm" data-mag>Get the app</button>
         </div>
       </div>
     </header>
