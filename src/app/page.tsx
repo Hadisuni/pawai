@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -116,9 +115,6 @@ export default function Home() {
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
-                <div className="feat__img">
-                  <Image src="/feats-pets.jpg" alt="A dog and cat sitting calmly together" fill sizes="(max-width: 900px) 92vw, 40vw" />
-                </div>
                 <div className="subg"><div className="lb">🚨 Early warning</div><div className="dc">Flags subtle changes in eating, activity or behavior before they become emergencies.</div></div>
                 <div className="subg"><div className="lb">💊 Med reminders</div><div className="dc">Never miss a dose with smart schedules and refill nudges.</div></div>
               </div>

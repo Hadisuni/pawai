@@ -61,6 +61,7 @@ function LiveVoiceJourneyInner() {
   const [tier, setTier] = useState<Tier>('routine');
   const [summary, setSummary] = useState<VetSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [manuallyEnded, setManuallyEnded] = useState(false);
   const findingIdRef = useRef(0);
   const timelineIdRef = useRef(0);
 
@@ -112,22 +113,30 @@ function LiveVoiceJourneyInner() {
   });
 
   // Never let two agents run at once — tear down any live connection if this
-  // component unmounts (e.g. the visitor navigates away mid-call).
+  // component unmounts (e.g. the visitor navigates away mid-call). Stored in
+  // a ref so the cleanup always calls the latest session, not a stale one
+  // captured by an empty-dependency effect.
+  const endSessionRef = useRef(conversation.endSession);
+  endSessionRef.current = conversation.endSession;
   useEffect(() => {
-    return () => { conversation.endSession(); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => { endSessionRef.current(); };
   }, []);
 
   const agentId = resolveAgentId(session);
 
   async function handleStart() {
     setError(null);
+    setManuallyEnded(false);
     if (!agentId) {
       setError('No voice agent is configured for this experience yet.');
       return;
     }
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
+      // This is only to surface the permission prompt up front; the SDK opens
+      // its own mic stream for the actual call. Release ours immediately so
+      // we're not holding a second, orphaned, never-closed mic handle.
+      const probeStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      probeStream.getTracks().forEach((t) => t.stop());
       conversation.startSession({
         agentId,
         connectionType: 'webrtc',
@@ -138,7 +147,12 @@ function LiveVoiceJourneyInner() {
     }
   }
 
-  const started = conversation.status === 'connected' || conversation.status === 'connecting';
+  function handleEnd() {
+    setManuallyEnded(true);
+    conversation.endSession();
+  }
+
+  const started = !manuallyEnded && (conversation.status === 'connected' || conversation.status === 'connecting');
 
   return (
     <div className="cj">
@@ -168,7 +182,7 @@ function LiveVoiceJourneyInner() {
                 <button
                   type="button"
                   className="callcard__ctrl callcard__ctrl--end"
-                  onClick={() => conversation.endSession()}
+                  onClick={handleEnd}
                   aria-label="End the conversation"
                   data-mag
                 >
