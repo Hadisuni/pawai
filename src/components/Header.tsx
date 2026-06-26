@@ -15,6 +15,7 @@ export default function Header() {
           <Link href="/#how">How it works</Link>
           <Link href="/demo">AI Care Journey</Link>
           <Link href="/#vets">For vets</Link>
+          <Link href="/blog">Blog</Link>
           <Link href="/#pricing">Pricing</Link>
         </nav>
         <div className="nav__r">

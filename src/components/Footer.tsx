@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import PawLogo from './PawLogo';
 
 const SOCIAL_LINKS = [
@@ -75,7 +76,7 @@ export default function Footer() {
               <li><a href="#">About</a></li>
               <li><a href="#">Careers</a></li>
               <li><a href="#">Press</a></li>
-              <li><a href="#">Blog</a></li>
+              <li><Link href="/blog">Blog</Link></li>
             </ul>
           </div>
           <div>
