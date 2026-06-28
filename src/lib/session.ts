@@ -20,6 +20,7 @@ export interface PawSession {
 
 export interface PawDraft {
   ownerName: string;
+  ownerEmail: string;
   petName: string;
   species: string;
   breed?: string;
@@ -85,10 +86,47 @@ function noopSubscribe() {
   return () => {};
 }
 
+// getSnapshot must return a referentially stable value when the underlying
+// data hasn't changed — loadSession()/loadDraft() parse JSON on every call,
+// so using them directly as getSnapshot returns a new object each render and
+// trips React's "getSnapshot should be cached" warning / max update depth
+// loop. Cache against the raw string and only re-parse when it actually changes.
+let cachedSessionRaw: string | null | undefined = undefined;
+let cachedSession: PawSession | null | undefined = undefined;
+
+function getSessionSnapshot(): PawSession | null | undefined {
+  if (typeof window === 'undefined') return undefined;
+  const raw = window.localStorage.getItem(KEY);
+  if (raw === cachedSessionRaw) return cachedSession;
+  cachedSessionRaw = raw;
+  try {
+    cachedSession = raw ? (JSON.parse(raw) as PawSession) : null;
+  } catch {
+    cachedSession = null;
+  }
+  return cachedSession;
+}
+
+let cachedDraftRaw: string | null | undefined = undefined;
+let cachedDraft: PawDraft | null | undefined = undefined;
+
+function getDraftSnapshot(): PawDraft | null | undefined {
+  if (typeof window === 'undefined') return undefined;
+  const raw = window.localStorage.getItem(DRAFT_KEY);
+  if (raw === cachedDraftRaw) return cachedDraft;
+  cachedDraftRaw = raw;
+  try {
+    cachedDraft = raw ? (JSON.parse(raw) as PawDraft) : null;
+  } catch {
+    cachedDraft = null;
+  }
+  return cachedDraft;
+}
+
 export function useSession(): PawSession | null | undefined {
-  return useSyncExternalStore(noopSubscribe, loadSession, () => undefined);
+  return useSyncExternalStore(noopSubscribe, getSessionSnapshot, () => undefined);
 }
 
 export function useDraft(): PawDraft | null | undefined {
-  return useSyncExternalStore(noopSubscribe, loadDraft, () => undefined);
+  return useSyncExternalStore(noopSubscribe, getDraftSnapshot, () => undefined);
 }
