@@ -74,6 +74,8 @@ export async function POST(req: Request) {
   };
 
   const webhookUrl = process.env.N8N_WEBHOOK_URL || PRODUCTION_PAWAI_WEBHOOK_URL;
+  // TEMP DEBUG — remove after diagnosing production webhook routing.
+  console.log('[api/intake] DEBUG webhookUrl source:', process.env.N8N_WEBHOOK_URL ? 'env:N8N_WEBHOOK_URL' : 'fallback', '| resolved URL:', webhookUrl);
 
   // Shaped to match PawAI Contact Form's Normalize Submission node field names
   // (ownerName/ownerEmail/petName/.../mainConcern/message), not the IntakePayload shape above.

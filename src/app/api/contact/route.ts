@@ -33,6 +33,8 @@ export async function POST(req: Request) {
   };
 
   const webhookUrl = process.env.BOOKING_WEBHOOK_URL || PRODUCTION_BOOKING_WEBHOOK_URL;
+  // TEMP DEBUG — remove after diagnosing production webhook routing.
+  console.log('[api/contact] DEBUG webhookUrl source:', process.env.BOOKING_WEBHOOK_URL ? 'env:BOOKING_WEBHOOK_URL' : 'fallback', '| resolved URL:', webhookUrl);
 
   try {
     const controller = new AbortController();
