@@ -78,8 +78,14 @@ export default function ExperiencePicker() {
       {error && <p className="welcome-form__error" role="alert" style={{ textAlign: 'center' }}>{error}</p>}
 
       <div className="exp-grid">
-        {EXPERIENCES.map((exp, i) =>
-          isAgentLive(exp.group) ? (
+        {EXPERIENCES.map((exp, i) => {
+          // The intake submission (saving owner/pet info to the Contact Form
+          // workflow) is independent of whether the live voice demo agent is
+          // configured for that group. Health Assessment is the primary
+          // intake card and must always be clickable; other tiles stay
+          // gated on isAgentLive until their agent is wired up.
+          const intakeEnabled = exp.id === 'health' || isAgentLive(exp.group);
+          return intakeEnabled ? (
             <button
               key={exp.id}
               type="button"
@@ -102,8 +108,8 @@ export default function ExperiencePicker() {
               <p>{exp.description}</p>
               <span className="exp-tile__badge">Coming soon</span>
             </div>
-          )
-        )}
+          );
+        })}
       </div>
     </div>
   );
