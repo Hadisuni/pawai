@@ -1,0 +1,105 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Appendicular osteoarthritis (canine)" },
+      { "id": "e2", "type": "Species", "name": "Canine, young (8 months–4 years)" },
+      { "id": "e3", "type": "ClinicalSign", "name": "Subtle/owner-unrecognized mobility impairment" },
+      { "id": "e4", "type": "Diagnostic", "name": "Sedated orthogonal radiography (11-point joint OA scoring)" },
+      { "id": "e5", "type": "Diagnostic", "name": "Orthopedic clinical examination (joint pain scoring 0–4)" },
+      { "id": "e6", "type": "RiskFactor", "name": "Reliance on owner-reported symptoms alone" },
+      { "id": "e7", "type": "RiskFactor", "name": "Lack of a validated 'gold standard' for OA-pain diagnosis/grading" },
+      { "id": "e8", "type": "Treatment", "name": "Analgesic/pain management therapy" }
+    ],
+    "relationships": [
+      { "source": "e2", "relation": "associated_with", "target": "e1", "evidenceLevel": "Moderate — single prospective cohort study (n=123); 39.8% (49/123) had radiographic OA in ≥1 joint" },
+      { "source": "e1", "relation": "diagnosed_by", "target": "e4", "evidenceLevel": "Moderate — same cohort, study methodology" },
+      { "source": "e1", "relation": "diagnosed_by", "target": "e5", "evidenceLevel": "Moderate — same cohort, study methodology" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "missed_clinical_OA", "evidenceLevel": "Moderate — owners recognized impairment in only ~30% of confirmed clinical-OA dogs" },
+      { "source": "e7", "relation": "contraindicated_for", "target": "reproducible_severity_grading", "evidenceLevel": "Low — authors' own stated methodological limitation, not a tested finding" },
+      { "source": "e8", "relation": "associated_with", "target": "e1", "evidenceLevel": "Low — descriptive only; only 2 of the clinical-OA dogs were receiving pain management, no efficacy data" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a prospective single-practice study of 123 dogs aged 8 months–4 years, 39.8% (49/123) had radiographic osteoarthritis in at least one joint.",
+      "sourcePaper": "Enomoto et al. 2024",
+      "category": "Prevalence",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Depending on the pain-severity cutoff used, 16.3%–23.6% of the dogs in this study met criteria for 'clinical OA' (overlapping radiographic OA and joint pain on exam).",
+      "sourcePaper": "Enomoto et al. 2024",
+      "category": "Diagnostics",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Among dogs meeting criteria for clinical OA in this study, owners recognized signs of impairment in only about 30% of cases.",
+      "sourcePaper": "Enomoto et al. 2024",
+      "category": "Owner Recognition Gap",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "The elbow, hip, tarsus, and stifle were the most commonly affected joints, in that descending order, among young dogs with radiographic OA in this study.",
+      "sourcePaper": "Enomoto et al. 2024",
+      "category": "Clinical Pattern",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Only 2 of the dogs identified with clinical OA in this study were receiving pain management at the time of screening.",
+      "sourcePaper": "Enomoto et al. 2024",
+      "category": "Undertreatment",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "No validated 'gold standard' currently exists for diagnosing or grading the severity of osteoarthritis-related pain in dogs, per this study's authors.",
+      "sourcePaper": "Enomoto et al. 2024",
+      "category": "Methodological Limitation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Existing canine OA assessment/scoring tools were developed primarily in older dog populations, which these authors note as a limitation when applying them to young dogs.",
+      "sourcePaper": "Enomoto et al. 2024",
+      "category": "Methodological Limitation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Radiographically detectable osteoarthritis was already present in some dogs as young as 8 months old in this study, indicating OA is not exclusively a disease of older dogs.",
+      "sourcePaper": "Enomoto et al. 2024",
+      "category": "Risk Factors / Age",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not specified by this paper. Its core finding (owners recognized impairment in only ~30% of confirmed clinical-OA cases) supports prioritizing specific, symptom-targeted questions over a general 'does your dog seem painful?' — but the paper itself does not prescribe what those questions should be."
+    ],
+    "redFlags": [
+      "Not addressed — this study does not identify red-flag symptoms warranting urgent referral."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study measures appendicular OA prevalence, not differential diagnosis."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "The study's own method: orthopedic exam (joint pain scoring) combined with sedated orthogonal radiographs (11-point OA scoring), applied even to outwardly normal-seeming young dogs."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "Author-acknowledged: single practice, single geographic location — limits breed/population generalizability",
+    "Author-acknowledged: clinical OA defined on subjective veterinarian-assessed criteria, affecting reproducibility",
+    "Author-acknowledged: existing assessment tools were developed in older dog populations, not validated specifically for this young cohort",
+    "Author-acknowledged: no 'gold standard' currently exists for diagnosing or grading canine OA-pain severity",
+    "Extraction-level: no treatment-efficacy data was generated by this study — the pain-management finding (2/29 dogs) is purely descriptive, not an outcome comparison"
+  ]
+}
