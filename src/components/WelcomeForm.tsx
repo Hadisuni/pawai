@@ -2,7 +2,8 @@
 
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { saveDraft } from '@/lib/session';
+import { saveSession } from '@/lib/session';
+import type { IntakeResponse } from '@/app/api/intake/route';
 
 const SPECIES_OPTIONS = ['Dog', 'Cat', 'Other'];
 const SEX_OPTIONS = ['Male', 'Female', 'Unknown'];
@@ -18,8 +19,9 @@ export default function WelcomeForm() {
   const [sex, setSex] = useState('Unknown');
   const [weight, setWeight] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!ownerName.trim() || !petName.trim()) {
       setError('Please fill in your name and your pet’s name.');
@@ -30,8 +32,35 @@ export default function WelcomeForm() {
       return;
     }
     setError(null);
-    saveDraft({ ownerName, ownerEmail, petName, species, breed, age, sex, weight });
-    router.push('/experiences');
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch('/api/intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ownerName,
+          ownerEmail,
+          petName,
+          species,
+          breed,
+          age,
+          sex,
+          weight,
+          // Defaults every first-time /welcome submission to the Health
+          // Assessment intake path — selecting a different experience is
+          // a secondary action on /experiences, not required up front.
+          selectedExperience: 'health',
+        }),
+      });
+      if (!res.ok) throw new Error('Request failed');
+      const data: IntakeResponse = await res.json();
+      saveSession({ ...data, agentGroup: 'health' });
+      router.push('/demo');
+    } catch {
+      setError('Something went wrong on our end — please try again.');
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -108,8 +137,15 @@ export default function WelcomeForm() {
 
       {error && <p className="welcome-form__error" role="alert">{error}</p>}
 
-      <button type="submit" className="btn btn--pri btn--lg" data-mag style={{ width: '100%', justifyContent: 'center' }}>
-        Continue
+      <button
+        type="submit"
+        className="btn btn--pri btn--lg"
+        data-mag
+        style={{ width: '100%', justifyContent: 'center' }}
+        disabled={isSubmitting}
+        aria-busy={isSubmitting}
+      >
+        {isSubmitting ? 'Getting things ready…' : 'Continue'}
       </button>
 
       <p className="welcome-form__note">
