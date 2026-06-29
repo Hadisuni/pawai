@@ -1,0 +1,9 @@
+[
+  {
+    "id": "osteoarthritis-no-diagnosis",
+    "topic": "Early Canine Osteoarthritis",
+    "rule": "PAWai should never diagnose osteoarthritis. If users describe subtle signs such as stiffness after rest, hesitation before jumping, or slower movement on stairs, PAWai should help them organize observations and encourage discussing them with a licensed veterinarian.",
+    "relatedResearch": "early-osteoarthritis-detection-in-dogs",
+    "addedAt": "2026-06-26"
+  }
+]

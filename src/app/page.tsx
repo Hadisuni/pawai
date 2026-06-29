@@ -1,11 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { getAllResearch } from '@/lib/research';
+import RecentEvidenceCard from '@/components/research/RecentEvidenceCard';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
 export default function Home() {
+  const latestEvidence = getAllResearch().slice(0, 3);
+
   return (
     <>
       {/* HERO */}
@@ -187,6 +191,30 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* EVIDENCE SHOWCASE */}
+      {latestEvidence.length > 0 && (
+        <section className="sec" aria-labelledby="evidence-h2">
+          <div className="wrap">
+            <div className="sec__hd">
+              <div data-r><span className="ey"><span className="dot" aria-hidden="true" />PAWai Evidence Library</span></div>
+              <h2 id="evidence-h2" data-r data-d="1">Guidance backed by real research.</h2>
+              <p data-r data-d="2">Every insight PAWai surfaces traces back to a peer-reviewed paper, graded honestly for how strong the evidence really is.</p>
+            </div>
+            <div className="recent-evidence__grid">
+              {latestEvidence.map((insight) => (
+                <RecentEvidenceCard
+                  key={insight.slug}
+                  slug={insight.slug}
+                  homepageTitle={insight.homepageTitle}
+                  homepageBlurb={insight.homepageBlurb}
+                  evidenceLevel={insight.evidenceLevel}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* TESTIMONIAL */}
       <section className="sec how" aria-label="Customer testimonial">

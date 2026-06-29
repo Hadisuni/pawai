@@ -77,6 +77,7 @@ export default function Footer() {
               <li><Link href="/careers">Careers</Link></li>
               <li><Link href="/press">Press</Link></li>
               <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/research">Research</Link></li>
             </ul>
           </div>
           <div>
@@ -86,6 +87,7 @@ export default function Footer() {
               <li><a href="tel:+17789004775">+1 (778) 900-4775</a></li>
               <li>Vancouver, BC, Canada</li>
               <li><Link href="/help">Help center</Link></li>
+              <li><Link href="/trust">Trust center</Link></li>
             </ul>
           </div>
         </div>
