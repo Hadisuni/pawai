@@ -10,6 +10,7 @@ const SEX_OPTIONS = ['Male', 'Female', 'Unknown'];
 export default function WelcomeForm() {
   const router = useRouter();
   const [ownerName, setOwnerName] = useState('');
+  const [ownerEmail, setOwnerEmail] = useState('');
   const [petName, setPetName] = useState('');
   const [species, setSpecies] = useState('Dog');
   const [breed, setBreed] = useState('');
@@ -24,8 +25,12 @@ export default function WelcomeForm() {
       setError('Please fill in your name and your pet’s name.');
       return;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ownerEmail.trim())) {
+      setError('Please enter a valid email address.');
+      return;
+    }
     setError(null);
-    saveDraft({ ownerName, petName, species, breed, age, sex, weight });
+    saveDraft({ ownerName, ownerEmail, petName, species, breed, age, sex, weight });
     router.push('/experiences');
   }
 
@@ -40,6 +45,19 @@ export default function WelcomeForm() {
           onChange={(e) => setOwnerName(e.target.value)}
           placeholder="Maya Hernandez"
           autoComplete="name"
+          required
+        />
+      </div>
+
+      <div className="welcome-form__field">
+        <label htmlFor="ownerEmail">Your email</label>
+        <input
+          id="ownerEmail"
+          type="email"
+          value={ownerEmail}
+          onChange={(e) => setOwnerEmail(e.target.value)}
+          placeholder="maya@example.com"
+          autoComplete="email"
           required
         />
       </div>
