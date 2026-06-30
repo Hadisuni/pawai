@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Section } from '../page';
+import { Section } from './Section';
 import type { OwnerCtx } from './types';
 
 export default function WeightSection({ ctx }: { ctx: OwnerCtx }) {
