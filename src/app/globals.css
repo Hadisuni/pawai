@@ -1431,6 +1431,56 @@ body {
 .recent-evidence__meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .recent-evidence__reviewed { font-size: 0.76rem; color: var(--tx3); font-weight: 600; }
 
+/* ─── Dashboard form inputs ─── */
+.dashboard-input,
+.dashboard-input input,
+.dashboard-input select,
+.dashboard-input textarea {
+  width: 100%;
+  background: rgba(var(--overlay-rgb), 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  color: var(--tx1);
+  font-family: var(--font-b);
+  transition: border-color 0.15s;
+  outline: none;
+}
+.dashboard-input input:focus,
+.dashboard-input select:focus,
+.dashboard-input textarea:focus {
+  border-color: var(--teal);
+}
+/* catch all inputs/selects/textareas inside dashboard sections */
+section input[type="text"],
+section input[type="number"],
+section input[type="date"],
+section select,
+section textarea {
+  width: 100%;
+  background: rgba(var(--overlay-rgb), 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  color: var(--tx1);
+  font-family: var(--font-b);
+  transition: border-color 0.15s;
+  outline: none;
+  appearance: auto;
+}
+section input:focus,
+section select:focus,
+section textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(var(--teal-rgb), 0.1);
+}
+section input::placeholder,
+section textarea::placeholder {
+  color: var(--tx3);
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-r] { transition: none !important; opacity: 1 !important; transform: none !important; }
   .hero h1 .hl { animation: none !important; background-position: 0% 50% !important; }
