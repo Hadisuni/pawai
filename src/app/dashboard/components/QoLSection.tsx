@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Section } from '../page';
+import { Section } from './Section';
 import { Field, FormActions } from './WeightSection';
 import type { OwnerCtx } from './types';
 
