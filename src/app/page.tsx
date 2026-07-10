@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import HomeCta from '@/components/HomeCta';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -22,7 +23,7 @@ export default function Home() {
               Worried about your pet? Answer a few guided questions and walk away with a clear sense of urgency — and a vet-ready summary you can bring to the clinic.
             </p>
             <div className="hero__cta" data-r data-d="3">
-              <Link href="/welcome" className="btn btn--pri btn--lg" data-mag>Create your pet&apos;s free profile</Link>
+              <HomeCta />
               <Link href="/demo" className="btn btn--ghost btn--lg" data-mag>
                 ▶ View Interactive Demo
               </Link>
@@ -150,7 +151,7 @@ export default function Home() {
             </h2>
             <p>Free while in early access — no account, no card, no catch.</p>
             <div className="btns">
-              <Link href="/welcome" className="btn btn--pri btn--lg" data-mag>Create your pet&apos;s free profile</Link>
+              <HomeCta />
               <Link href="/demo" className="btn btn--ghost btn--lg" data-mag>View interactive demo</Link>
             </div>
           </div>
