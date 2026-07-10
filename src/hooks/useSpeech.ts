@@ -40,14 +40,34 @@ export function useSpeech() {
       opts?.onEnd?.();
       return;
     }
+    // A new message supersedes whatever is still queued or speaking. Detach
+    // the previous utterance's handlers BEFORE cancel(): browsers fire
+    // onerror (and sometimes BOTH onerror and onend) for a canceled
+    // utterance, which re-ran the previous message's onEnd and double-
+    // advanced the conversation — the root cause of the duplicated first
+    // question bubble.
+    if (utterRef.current) {
+      utterRef.current.onstart = null;
+      utterRef.current.onend = null;
+      utterRef.current.onerror = null;
+    }
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.rate = opts?.rate ?? 1;
     utter.pitch = 1.02;
     if (voiceRef.current) utter.voice = voiceRef.current;
+    // Once-guard: onend and onerror can both fire for one utterance (e.g. a
+    // cancel racing its natural end), so onEnd must be single-fire.
+    let ended = false;
+    const finish = () => {
+      if (ended) return;
+      ended = true;
+      setSpeaking(false);
+      opts?.onEnd?.();
+    };
     utter.onstart = () => setSpeaking(true);
-    utter.onend = () => { setSpeaking(false); opts?.onEnd?.(); };
-    utter.onerror = () => { setSpeaking(false); opts?.onEnd?.(); };
+    utter.onend = finish;
+    utter.onerror = finish;
     utterRef.current = utter;
     window.speechSynthesis.speak(utter);
   }, [muted]);

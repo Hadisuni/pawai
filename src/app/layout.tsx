@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'PAWai — The AI Health Companion for Every Pet',
   description:
-    "Describe your pet's symptoms and get clear, veterinarian-reviewed guidance in minutes—anytime, anywhere.",
+    "Describe your pet's symptoms, get a clear sense of urgency, and walk into the clinic with a vet-ready summary — anytime, anywhere.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

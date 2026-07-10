@@ -1,15 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllResearch } from '@/lib/research';
-import RecentEvidenceCard from '@/components/research/RecentEvidenceCard';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
 export default function Home() {
-  const latestEvidence = getAllResearch().slice(0, 3);
-
   return (
     <>
       {/* HERO */}
@@ -17,25 +13,25 @@ export default function Home() {
         <div className="wrap hero__grid">
           <div>
             <div data-r>
-              <span className="ey"><span className="dot" aria-hidden="true" />Vet-reviewed AI · 24/7</span>
+              <span className="ey"><span className="dot" aria-hidden="true" />AI-guided pet health support · 24/7</span>
             </div>
             <h1 id="hero-h1" data-r data-d="1">
               The AI Health Companion for <span className="hl">Every Pet</span>.
             </h1>
             <p className="hero__lead" data-r data-d="2">
-              Describe your pet&apos;s symptoms and get clear, veterinarian-reviewed guidance in minutes—anytime, anywhere.
+              Worried about your pet? Answer a few guided questions and walk away with a clear sense of urgency — and a vet-ready summary you can bring to the clinic.
             </p>
             <div className="hero__cta" data-r data-d="3">
-              <Link href="/welcome" className="btn btn--pri btn--lg" data-mag>Start free check</Link>
+              <Link href="/welcome" className="btn btn--pri btn--lg" data-mag>Create your pet&apos;s free profile</Link>
               <Link href="/demo" className="btn btn--ghost btn--lg" data-mag>
                 ▶ View Interactive Demo
               </Link>
             </div>
             <div className="hero__trust" data-r data-d="4">
               <div className="avs" aria-hidden="true">
-                <span>🐕</span><span>🐈</span><span>🐰</span><span>🐎</span>
+                <span>🐕</span><span>🐈</span><span>🐰</span>
               </div>
-              <small><b>240,000+</b> pet parents trust PAWai</small>
+              <small><b>Free in early access</b> — no account, no card needed</small>
             </div>
           </div>
 
@@ -50,42 +46,28 @@ export default function Home() {
                 </div>
                 <div className="psc-body">
                   <div className="vitals">
-                    <div className="vcard"><div className="lbl">Activity</div><div className="val">86<b>%</b></div></div>
-                    <div className="vcard"><div className="lbl">Resting HR</div><div className="val">72<b>bpm</b></div></div>
+                    <div className="vcard"><div className="lbl">Urgency</div><div className="val">Routine</div></div>
+                    <div className="vcard"><div className="lbl">Weight</div><div className="val">24<b>kg</b></div></div>
                   </div>
                   <div className="ch ch--me">Bella&apos;s been scratching her left ear since yesterday.</div>
                   <div className="ch ch--ai">
                     <div className="ch__tag">🩺 PAWai</div>
-                    Ear scratching often points to an infection. Can you send a photo? I&apos;ll flag it for Dr. Okafor.
+                    Ear scratching can have several causes. Let me ask a few quick questions and organize what we find into a summary for your vet.
                   </div>
                 </div>
               </div>
             </div>
             <div className="fc fc--a">
-              <div className="ico" style={{ background: 'rgba(var(--teal-rgb),.14)' }}>✓</div>
-              <div>Reviewed by a vet<small>in under 10 min</small></div>
+              <div className="ico" style={{ background: 'rgba(var(--teal-rgb),.14)' }}>📋</div>
+              <div>Vet-ready summary<small>organized before your visit</small></div>
             </div>
             <div className="fc fc--b">
-              <div className="ico" style={{ background: 'rgba(var(--peach-rgb),.14)' }}>📋</div>
-              <div>Health record saved<small>Bella · Labrador, 4y</small></div>
+              <div className="ico" style={{ background: 'rgba(var(--peach-rgb),.14)' }}>🐾</div>
+              <div>Health record started<small>Bella · Labrador, 4y</small></div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* LOGOS */}
-      <div className="logos">
-        <div className="wrap">
-          <p>Trusted by clinics &amp; shelters everywhere</p>
-          <div className="logos__row" aria-hidden="true">
-            <span>🏥 Brightpaw Vet</span>
-            <span>🐾 Harborside Animal</span>
-            <span>🌿 Willow Clinic</span>
-            <span>🦴 Northgate Pets</span>
-            <span>❤ RescueHub</span>
-          </div>
-        </div>
-      </div>
 
       {/* FEATURES */}
       <section className="sec" id="features" aria-labelledby="feat-h2">
@@ -104,28 +86,28 @@ export default function Home() {
             </div>
             <div className="feat" data-tilt data-r data-d="1">
               <div className="cg" aria-hidden="true" />
-              <div className="ic" style={{ background: 'rgba(var(--peach-rgb),.11)' }} aria-hidden="true">🩺</div>
-              <h3>Vet in the loop</h3>
-              <p>Every urgent flag is reviewed by a licensed veterinarian, usually within minutes — so you&apos;re never acting on a guess.</p>
+              <div className="ic" style={{ background: 'rgba(var(--peach-rgb),.11)' }} aria-hidden="true">🚨</div>
+              <h3>Clear urgency, every time</h3>
+              <p>Every conversation ends with a plain-language read: routine, same-day, urgent, or emergency — so you know what to do next, not just what it might be.</p>
             </div>
             <div className="feat" data-tilt data-r data-d="2" id="health-timeline">
               <div className="cg" aria-hidden="true" />
               <div className="ic" style={{ background: 'rgba(180,100,160,.12)' }} aria-hidden="true">📈</div>
-              <h3>Health timeline</h3>
-              <p>Weight, meds, vaccinations and visits in one tidy record. Spot trends early and share with your clinic in a tap.</p>
+              <h3>A record that builds over time</h3>
+              <p>Log weight, meds and vaccinations as you go. Every conversation adds to your pet&apos;s story — one calm place instead of scattered notes.</p>
             </div>
             <div className="feat feat--wide" data-r data-d="1">
               <div>
-                <div style={{ marginBottom: 18 }}><span className="ey"><span className="dot" aria-hidden="true" />Multi-species</span></div>
-                <h3>Built for the whole barn, not just the couch.</h3>
-                <p>Dogs, cats, rabbits, horses, reptiles and pocket pets. PAWai&apos;s models are trained across species so every animal gets the same attentive eye.</p>
+                <div style={{ marginBottom: 18 }}><span className="ey"><span className="dot" aria-hidden="true" />For dogs, cats &amp; more</span></div>
+                <h3>Made for the pets who share your home.</h3>
+                <p>PAWai starts with dogs and cats — the pets we know best — and treats every animal with the same attentive, unhurried care.</p>
                 <div className="chips">
-                  <span>🐕 Dogs</span><span>🐈 Cats</span><span>🐰 Small pets</span><span>🐎 Equine</span><span>🦎 Exotics</span>
+                  <span>🐕 Dogs</span><span>🐈 Cats</span><span>🐾 More coming</span>
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
-                <div className="subg"><div className="lb">🚨 Early warning</div><div className="dc">Flags subtle changes in eating, activity or behavior before they become emergencies.</div></div>
-                <div className="subg"><div className="lb">💊 Med reminders</div><div className="dc">Never miss a dose with smart schedules and refill nudges.</div></div>
+                <div className="subg"><div className="lb">📋 Vet-ready summary</div><div className="dc">Walk into your appointment with the whole story organized — your vet will thank you.</div></div>
+                <div className="subg"><div className="lb">🤝 Honest by design</div><div className="dc">PAWai organizes information; it never diagnoses. Medical decisions always belong to your veterinarian.</div></div>
               </div>
             </div>
           </div>
@@ -143,107 +125,33 @@ export default function Home() {
             <div className="step" data-r>
               <div className="step__n" aria-hidden="true">1</div>
               <h3>Tell PAWai what&apos;s up</h3>
-              <p>Type, talk, or snap a photo. Describe the symptom the way you&apos;d tell a friend — no medical jargon needed.</p>
+              <p>Describe what you&apos;re seeing the way you&apos;d tell a friend — PAWai guides you through the right follow-up questions, no medical jargon needed.</p>
             </div>
             <div className="step" data-r data-d="1">
               <div className="step__n" aria-hidden="true">2</div>
               <h3>Get a clear read</h3>
-              <p>PAWai weighs the symptoms against millions of cases and your pet&apos;s history, then explains what it found and how urgent it is.</p>
+              <p>As you answer, PAWai tracks what matters and explains how urgent things look — routine, same-day, urgent, or emergency.</p>
             </div>
             <div className="step" data-r data-d="2">
               <div className="step__n" aria-hidden="true">3</div>
               <h3>Know your next move</h3>
-              <p>Home care, monitor, or see a vet now — with the nearest open clinic and a vet-reviewed note ready to share.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* VETS */}
-      <section className="sec" id="vets" aria-labelledby="vets-h2">
-        <div className="wrap vets__i">
-          <div>
-            <div data-r><span className="ey"><span className="dot" aria-hidden="true" />For clinics &amp; vets</span></div>
-            <h2
-              id="vets-h2"
-              style={{ fontSize: 'clamp(1.75rem,3.5vw,2.7rem)', margin: '18px 0 18px', letterSpacing: '-0.025em' }}
-              data-r
-              data-d="1"
-            >
-              A teammate that handles the 2am worries.
-            </h2>
-            <p
-              style={{ fontSize: '1.03rem', lineHeight: 1.72, color: 'var(--tx2)', marginBottom: 26 }}
-              data-r
-              data-d="2"
-            >
-              PAWai triages routine questions, preps structured intake notes, and routes the truly urgent cases straight to you.
-            </p>
-            <button className="btn btn--accent btn--md" data-mag data-r data-d="3">
-              Partner with PAWai
-            </button>
-          </div>
-          <div className="stat-g" data-r data-d="1">
-            <div className="stat"><div className="n">68<b>%</b></div><div className="l">fewer non-urgent calls after hours</div></div>
-            <div className="stat"><div className="n">&lt;10<b>m</b></div><div className="l">median vet review time on flags</div></div>
-            <div className="stat"><div className="n">4.9<b>★</b></div><div className="l">average rating from pet parents</div></div>
-            <div className="stat"><div className="n">1,200<b>+</b></div><div className="l">clinics on the PAWai network</div></div>
-          </div>
-        </div>
-      </section>
-
-      {/* EVIDENCE SHOWCASE */}
-      {latestEvidence.length > 0 && (
-        <section className="sec" aria-labelledby="evidence-h2">
-          <div className="wrap">
-            <div className="sec__hd">
-              <div data-r><span className="ey"><span className="dot" aria-hidden="true" />PAWai Evidence Library</span></div>
-              <h2 id="evidence-h2" data-r data-d="1">Guidance backed by real research.</h2>
-              <p data-r data-d="2">Every insight PAWai surfaces traces back to a peer-reviewed paper, graded honestly for how strong the evidence really is.</p>
-            </div>
-            <div className="recent-evidence__grid">
-              {latestEvidence.map((insight) => (
-                <RecentEvidenceCard
-                  key={insight.slug}
-                  slug={insight.slug}
-                  homepageTitle={insight.homepageTitle}
-                  homepageBlurb={insight.homepageBlurb}
-                  evidenceLevel={insight.evidenceLevel}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* TESTIMONIAL */}
-      <section className="sec how" aria-label="Customer testimonial">
-        <div className="wrap quote">
-          <div className="mark" data-r aria-hidden="true">&ldquo;</div>
-          <p data-r data-d="1">
-            I caught Bella&apos;s ear infection days before it got bad. PAWai told me exactly what to watch for and a real vet confirmed it the same morning.
-          </p>
-          <div className="who" data-r data-d="2">
-            <div className="ph" aria-hidden="true">👩</div>
-            <div style={{ textAlign: 'left' }}>
-              <b>Maya Hernandez</b>
-              <small>Pet parent to Bella 🐕</small>
+              <p>Home care, monitor, or see a vet — with a vet-ready summary of the whole conversation to bring to the appointment.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="cta" id="pricing" aria-labelledby="cta-h2">
+      <section className="cta" aria-labelledby="cta-h2">
         <div className="wrap">
           <div className="cta__card" data-r>
             <h2 id="cta-h2">
               Your pet can&apos;t tell you what&apos;s wrong.<br />PAWai can help you listen.
             </h2>
-            <p>Start free — your first health check and timeline are on us, no card needed.</p>
+            <p>Free while in early access — no account, no card, no catch.</p>
             <div className="btns">
-              <button className="btn btn--pri btn--lg" data-mag>Download for iOS</button>
-              <button className="btn btn--ghost btn--lg" data-mag>Download for Android</button>
+              <Link href="/welcome" className="btn btn--pri btn--lg" data-mag>Create your pet&apos;s free profile</Link>
+              <Link href="/demo" className="btn btn--ghost btn--lg" data-mag>View interactive demo</Link>
             </div>
           </div>
         </div>

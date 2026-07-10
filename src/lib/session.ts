@@ -1,6 +1,15 @@
 import { useSyncExternalStore } from 'react';
 import type { AgentGroup } from './agents';
 
+export interface OwnerInfo {
+  name: string;
+  email: string;
+  phone?: string;
+  cityCountry?: string;
+  /** ISO timestamp of the onboarding consent checkbox. */
+  consentAt: string;
+}
+
 export interface PetInfo {
   name: string;
   species: string;
@@ -8,14 +17,24 @@ export interface PetInfo {
   age?: string;
   sex?: string;
   weight?: string;
+  /** v2 onboarding fields */
+  ageBucket?: string;
+  sexNeutered?: string;
+  conditions?: string;
+  medications?: string;
+  vetClinic?: string;
 }
 
 export interface PawSession {
   sessionId: string;
+  /** Legacy top-level owner name — kept in sync with owner.name for old readers. */
   ownerName: string;
+  /** v2: full owner profile. Absent on legacy pet-only sessions. */
+  owner?: OwnerInfo;
   pet: PetInfo;
   selectedExperience: string;
   agentGroup: AgentGroup;
+  createdAt?: string;
 }
 
 export interface PawDraft {
@@ -32,9 +51,50 @@ export interface PawDraft {
 const KEY = 'pawai_session';
 const DRAFT_KEY = 'pawai_draft';
 
+// Same-tab reactivity: localStorage fires no events for same-tab writes, so
+// saveSession/clearSession notify subscribers directly. useSession stays
+// hydration-safe (server snapshot is `undefined` = "not yet known").
+const sessionListeners = new Set<() => void>();
+
+function emitSession() {
+  sessionListeners.forEach((l) => l());
+}
+
+// The `storage` event covers writes from OTHER tabs (same-tab writes emit
+// directly), so a second tab's gate reacts when this one clears the session.
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key === KEY || e.key === null) emitSession();
+  });
+}
+
+function subscribeSession(cb: () => void) {
+  sessionListeners.add(cb);
+  return () => {
+    sessionListeners.delete(cb);
+  };
+}
+
+/**
+ * True when onboarding finished: the session carries a full owner profile.
+ * Checks shape, not just truthiness — localStorage is user-editable and a
+ * malformed session must gate back to /welcome, not crash the dashboard.
+ */
+export function hasCompleteProfile(
+  session: PawSession | null | undefined,
+): session is PawSession & { owner: OwnerInfo } {
+  return (
+    typeof session?.owner?.email === 'string' && session.owner.email.length > 0 &&
+    typeof session.owner.name === 'string' &&
+    typeof session.pet?.name === 'string' && session.pet.name.length > 0 &&
+    typeof session.pet.species === 'string'
+  );
+}
+
 export function saveSession(session: PawSession) {
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(KEY, JSON.stringify(session));
+  emitSession();
 }
 
 export function loadSession(): PawSession | null {
@@ -50,11 +110,11 @@ export function loadSession(): PawSession | null {
 export function clearSession() {
   if (typeof window === 'undefined') return;
   window.localStorage.removeItem(KEY);
+  emitSession();
 }
 
-// The draft holds owner + pet info collected on /welcome, before an
-// experience has been chosen. /experiences turns a draft into a full
-// session (with sessionId + selectedExperience + agentGroup) once a tile is picked.
+// The draft helpers predate the 2-step onboarding and are currently unused;
+// kept because they are harmless and removal is unrelated cleanup.
 export function saveDraft(draft: PawDraft) {
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
@@ -75,22 +135,9 @@ export function clearDraft() {
   window.localStorage.removeItem(DRAFT_KEY);
 }
 
-// localStorage doesn't fire events for same-tab writes, and these values are
-// only ever read once per mount (never updated externally afterward), so the
-// subscribe callback is intentionally a no-op — useSyncExternalStore still
-// gives us the right thing here: a hydration-safe way to read browser-only
-// storage (getServerSnapshot returns `undefined` for "not yet known", since
-// localStorage genuinely doesn't exist during SSR) without the extra
-// render-pass a manual `useEffect(() => setState(load()))` would cause.
-function noopSubscribe() {
-  return () => {};
-}
-
 // getSnapshot must return a referentially stable value when the underlying
-// data hasn't changed — loadSession()/loadDraft() parse JSON on every call,
-// so using them directly as getSnapshot returns a new object each render and
-// trips React's "getSnapshot should be cached" warning / max update depth
-// loop. Cache against the raw string and only re-parse when it actually changes.
+// data hasn't changed — cache against the raw string and only re-parse when
+// it actually changes (avoids React's "getSnapshot should be cached" loop).
 let cachedSessionRaw: string | null | undefined = undefined;
 let cachedSession: PawSession | null | undefined = undefined;
 
@@ -123,8 +170,12 @@ function getDraftSnapshot(): PawDraft | null | undefined {
   return cachedDraft;
 }
 
+function noopSubscribe() {
+  return () => {};
+}
+
 export function useSession(): PawSession | null | undefined {
-  return useSyncExternalStore(noopSubscribe, getSessionSnapshot, () => undefined);
+  return useSyncExternalStore(subscribeSession, getSessionSnapshot, () => undefined);
 }
 
 export function useDraft(): PawDraft | null | undefined {

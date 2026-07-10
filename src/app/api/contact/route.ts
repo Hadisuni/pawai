@@ -7,11 +7,7 @@ export interface ContactPayload {
   message: string;
 }
 
-// Production fallback so the route works even if BOOKING_WEBHOOK_URL isn't set in the deploy
-// environment. Locally, .env.local points BOOKING_WEBHOOK_URL at the n8n test webhook instead.
-const PRODUCTION_BOOKING_WEBHOOK_URL =
-  'https://n8n-production-ee0c.up.railway.app/webhook/pawai-contact';
-
+// Env-only by design: no hardcoded production fallback (see api/intake).
 export async function POST(req: Request) {
   let body: Partial<ContactPayload>;
   try {
@@ -24,6 +20,13 @@ export async function POST(req: Request) {
   if (!name?.trim() || !email?.trim() || !message?.trim()) {
     return NextResponse.json({ error: 'name, email, and message are required' }, { status: 400 });
   }
+  // Same relay hardening as api/intake: shape + size caps.
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) || email.trim().length > 254) {
+    return NextResponse.json({ error: 'email is not a valid email address' }, { status: 400 });
+  }
+  if (name.length > 100 || (phone?.length ?? 0) > 40 || message.length > 6000) {
+    return NextResponse.json({ error: 'field too long' }, { status: 400 });
+  }
 
   const payload: ContactPayload = {
     name: name.trim(),
@@ -32,7 +35,11 @@ export async function POST(req: Request) {
     message: message.trim(),
   };
 
-  const webhookUrl = process.env.BOOKING_WEBHOOK_URL || PRODUCTION_BOOKING_WEBHOOK_URL;
+  const webhookUrl = process.env.BOOKING_WEBHOOK_URL;
+  if (!webhookUrl) {
+    console.error('[api/contact] BOOKING_WEBHOOK_URL is not configured — refusing to send');
+    return NextResponse.json({ error: 'Contact service is not configured' }, { status: 503 });
+  }
 
   try {
     const controller = new AbortController();

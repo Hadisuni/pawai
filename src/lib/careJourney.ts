@@ -7,7 +7,9 @@ export type Tier = 'routine' | 'sameday' | 'urgent' | 'emergency';
 export const DEFAULT_PET = 'Max';
 
 export function personalize(text: string, petName: string) {
-  return petName === DEFAULT_PET ? text : text.replace(new RegExp(`\\b${DEFAULT_PET}\\b`, 'g'), petName);
+  // Replacement is a function so a pet name containing `$`, `$&`, etc. is
+  // inserted literally instead of being treated as a replacement pattern.
+  return petName === DEFAULT_PET ? text : text.replace(new RegExp(`\\b${DEFAULT_PET}\\b`, 'g'), () => petName);
 }
 
 export interface Finding {

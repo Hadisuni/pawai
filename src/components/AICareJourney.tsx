@@ -6,11 +6,13 @@ import PriorityBadge from './care-journey/PriorityBadge';
 import FindingsPanel from './care-journey/FindingsPanel';
 import TimelinePanel from './care-journey/TimelinePanel';
 import SummaryCard from './care-journey/SummaryCard';
+import SaveRecordCard from './care-journey/SaveRecordCard';
 import { useSpeech } from '@/hooks/useSpeech';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { loadSession, useSession } from '@/lib/session';
+import { addRecordEntry } from '@/lib/record';
 import {
-  BRANCHES, getBranch, tierFromScore, personalize, DEFAULT_PET,
+  BRANCHES, getBranch, tierFromScore, personalize, DEFAULT_PET, TIER_META,
   type Branch, type Finding, type TimelineEvent, type StepOption, type Tier,
 } from '@/lib/careJourney';
 
@@ -30,15 +32,21 @@ const LOOP_DELAY = 7000;
 let uidCounter = 0;
 const uid = () => `f${++uidCounter}`;
 
-function formatTime(s: number) {
-  const m = Math.floor(s / 60);
-  const sec = s % 60;
-  return `${m}:${sec.toString().padStart(2, '0')}`;
-}
-
-export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {}) {
+// Two ways to run this component:
+// - driven (a session exists and `demo` is not set): the visitor answers every
+//   question themselves, the summary is the destination, and it is saved to
+//   the device-local record. No showreel controls, no auto-play.
+// - demo (`demo` prop, used on /demo): the self-playing showreel with the
+//   default pet. Sessions are ignored entirely so a returning owner watching
+//   the demo never sees their own pet auto-answered by a script.
+export default function AICareJourney({ autoStart, demo }: { autoStart?: boolean; demo?: boolean } = {}) {
   const reducedMotion = usePrefersReducedMotion();
   const [started, setStarted] = useState(false);
+  const [driven, setDriven] = useState(false);
+  // `scripted` = the reduced-motion pre-baked transcript (showreel only —
+  // driven conversations always run interactively since they need clicks,
+  // not animation).
+  const [scripted, setScripted] = useState(false);
   const [phase, setPhase] = useState<Phase>('greeting');
   const [branch, setBranch] = useState<Branch | null>(null);
   const [stepIndex, setStepIndex] = useState(-1);
@@ -49,20 +57,34 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
   const [picks, setPicks] = useState<string[]>([]);
   const [awaitingInput, setAwaitingInput] = useState(false);
   const [thinking, setThinking] = useState(false);
+  const [saveFailed, setSaveFailed] = useState(false);
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState<Speed>(1);
-  const [callSeconds, setCallSeconds] = useState(0);
   const session = useSession();
+  const activeSession = demo ? null : session;
 
-  const petName = session?.pet.name || DEFAULT_PET;
-  const patientLine = session
-    ? `${session.pet.name} — ${session.pet.species}${session.pet.age ? ` — ${session.pet.age}` : ''}${session.pet.breed ? ` — ${session.pet.breed}` : ''}`
+  const petName = activeSession?.pet.name || DEFAULT_PET;
+  const patientLine = activeSession
+    ? [
+        activeSession.pet.name,
+        activeSession.pet.species,
+        activeSession.pet.ageBucket || activeSession.pet.age,
+        activeSession.pet.sexNeutered || activeSession.pet.sex,
+        activeSession.pet.breed,
+      ].filter(Boolean).join(' — ')
     : 'Max — Dog — 6 years — Neutered Male';
 
   const speech = useSpeech();
   const stageRef = useRef<HTMLDivElement>(null);
   const feedRef = useRef<HTMLDivElement>(null);
   const startedRef = useRef(false);
+  const drivenRef = useRef(false);
+  const savedSummaryRef = useRef(false);
+  // Synchronous mirror of awaitingInput: a double-tap on an answer chip must
+  // not register twice (it would double-add points and inflate the urgency
+  // tier in the saved summary). State alone is async; the ref is checked and
+  // cleared in the same tick.
+  const awaitingRef = useRef(false);
   const autoPausedRef = useRef(false);
   const pausedRef = useRef(false);
   const speedRef = useRef<Speed>(1);
@@ -127,6 +149,9 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
 
   function startGreeting() {
     cancelPending();
+    savedSummaryRef.current = false;
+    awaitingRef.current = false;
+    setSaveFailed(false);
     setPhase('greeting');
     setTranscript([]);
     setFindings([]);
@@ -144,6 +169,8 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
     setPhase('picker');
     appendAI(pickerQuestionFor(petName), () => {
       setAwaitingInput(true);
+      awaitingRef.current = true;
+      if (drivenRef.current) return; // wait for the visitor's real answer
       scheduleAutoAdvance(() => {
         const b = BRANCHES[branchCycleRef.current % BRANCHES.length];
         handlePickBranch(b);
@@ -152,6 +179,8 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
   }
 
   function handlePickBranch(b: Branch) {
+    if (!awaitingRef.current) return;
+    awaitingRef.current = false;
     cancelPending();
     branchCycleRef.current += 1;
     setAwaitingInput(false);
@@ -168,6 +197,8 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
     const step = b.steps[idx];
     appendAI(step.question, () => {
       setAwaitingInput(true);
+      awaitingRef.current = true;
+      if (drivenRef.current) return; // wait for the visitor's real answer
       scheduleAutoAdvance(() => {
         const opt = step.options[Math.floor(Math.random() * step.options.length)];
         handleChoose(b, idx, opt);
@@ -176,6 +207,8 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
   }
 
   function handleChoose(b: Branch, idx: number, opt: StepOption) {
+    if (!awaitingRef.current) return;
+    awaitingRef.current = false;
     cancelPending();
     setAwaitingInput(false);
     appendOwner(opt.label);
@@ -196,7 +229,9 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
   function finishBranch() {
     setThinking(false);
     setPhase('summary');
-    scheduleAutoAdvance(loopToNextBranch, LOOP_DELAY);
+    // Driven conversations end at the summary — it's the destination, not a
+    // scene transition. Only the self-playing demo loops to the next scenario.
+    if (!drivenRef.current) scheduleAutoAdvance(loopToNextBranch, LOOP_DELAY);
   }
 
   function loopToNextBranch() {
@@ -220,7 +255,6 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
     cancelPending();
     speech.cancel();
     branchCycleRef.current = 0;
-    setCallSeconds(0);
     setPaused(false);
     pausedRef.current = false;
     startGreeting();
@@ -228,22 +262,27 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
 
   function handleStart() {
     if (startedRef.current) return;
+    const s = demo ? null : loadSession();
+    drivenRef.current = !!s;
+    setDriven(!!s);
     setStarted(true);
     startedRef.current = true;
     startGreeting();
   }
 
   useEffect(() => {
-    const loadedSession = loadSession();
+    const loadedSession = demo ? null : loadSession();
     const activePetName = loadedSession?.pet.name || DEFAULT_PET;
 
-    if (reducedMotion) {
+    if (reducedMotion && !loadedSession) {
+      // Reduced-motion showreel: a pre-baked transcript instead of the
+      // animated auto-play. Driven conversations never take this path — they
+      // are click-driven and must never fabricate answers into a record.
       // `reducedMotion` only resolves to its real value after hydration (the
-      // SSR snapshot is always `false`), so a lazy useState initializer can't
-      // build this scripted state — it would lock in the false-branch result
-      // before the real preference is known. Reacting to it here, once, on
+      // SSR snapshot is always `false`), so reacting to it here, once, on
       // mount is the correct place for this setup.
       // eslint-disable-next-line react-hooks/set-state-in-effect
+      setScripted(true);
       setStarted(true);
       const b = getBranch('vomiting')!;
       setBranch(b);
@@ -273,10 +312,6 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
 
     if (autoStart) handleStart();
 
-    const callTimer = setInterval(() => {
-      if (startedRef.current) setCallSeconds((s) => s + 1);
-    }, 1000);
-
     function onVisibilityChange() {
       if (document.hidden) {
         if (!pausedRef.current) {
@@ -299,7 +334,6 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
     document.addEventListener('visibilitychange', onVisibilityChange);
 
     return () => {
-      clearInterval(callTimer);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       cancelPending();
       speech.cancel();
@@ -309,18 +343,45 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
 
   const tier: Tier = branch ? tierFromScore(points, branch.minTier) : 'routine';
 
+  // Plain-text mirror of the on-screen SummaryCard. Saved to the device
+  // record and sent in the intake `message` field so the confirmation email
+  // contains the actual summary.
+  const summaryText = branch
+    ? [
+        `Vet-Ready Summary — ${TIER_META[tier].label}`,
+        `Patient: ${patientLine}`,
+        `Presenting complaint: ${branch.summary.complaint}`,
+        'History:',
+        ...branch.summary.historyTemplate(picks).map((l) => `• ${l}`),
+        `Recommended action: ${personalize(branch.summary.action(tier), petName)}`,
+        '',
+        'PAWai organizes information. PAWai does not diagnose. Final medical decisions are always made by licensed veterinarians.',
+      ].join('\n')
+    : '';
+
+  // Driven conversations save their summary to the device-local record the
+  // moment it appears — the record is the product surface, not the email.
+  useEffect(() => {
+    if (phase === 'summary' && drivenRef.current && branch && summaryText && !savedSummaryRef.current) {
+      savedSummaryRef.current = true;
+      const result = addRecordEntry({ type: 'summary', concern: branch.label, tier: TIER_META[tier].label, text: summaryText });
+      // Never claim "saved" when storage failed — surface it instead.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (!result.ok) setSaveFailed(true);
+    }
+  }, [phase, branch, summaryText, tier]);
+
   return (
     <div className="cj">
       <div className="cj__grid" ref={stageRef} data-r>
         <div className="cj__call">
           <div className="callcard">
             <div className="callcard__top">
-              <span className="callcard__title">PAWai AI Assistant</span>
-              <span className="callcard__live"><span className="callcard__live-dot" aria-hidden="true" />LIVE</span>
+              <span className="callcard__title">{driven ? 'Guided health check' : 'PAWai AI Assistant'}</span>
             </div>
             <div className={`callcard__stage${!started ? ' is-idle' : ''}`}>
               <PawAvatar speaking={speech.speaking} listening={awaitingInput} />
-              {!started && !reducedMotion && (
+              {!started && !scripted && (
                 <button type="button" className="callcard__start" onClick={handleStart} data-mag>
                   ▶ Start the Conversation
                 </button>
@@ -328,8 +389,7 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
             </div>
             <div className="callcard__status">
               <span className="callcard__status-dot" aria-hidden="true" />
-              {!started ? 'Tap to begin' : phase === 'summary' ? 'Wrapping up' : awaitingInput ? 'Your turn' : thinking ? 'Thinking…' : 'Connected'}
-              {started && <span className="callcard__timer">{formatTime(callSeconds)}</span>}
+              {!started ? 'Tap to begin' : phase === 'summary' ? 'Wrapping up' : awaitingInput ? 'Your turn' : thinking ? 'Thinking…' : 'In progress'}
             </div>
             <div className="callcard__controls">
               <button
@@ -350,9 +410,6 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
               >
                 ↻
               </button>
-              <span className={`callcard__ctrl callcard__ctrl--mic${awaitingInput ? ' is-live' : ''}`} aria-hidden="true">
-                🎙
-              </span>
             </div>
           </div>
         </div>
@@ -373,12 +430,12 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
                   PAWai is thinking…
                 </div>
               )}
-              {!started && !reducedMotion && (
-                <p className="convo__empty">Tap &ldquo;Start the Conversation&rdquo; to begin the live intake call.</p>
+              {!started && !scripted && (
+                <p className="convo__empty">Tap &ldquo;Start the Conversation&rdquo; to begin.</p>
               )}
             </div>
 
-            {!reducedMotion && phase === 'picker' && awaitingInput && (
+            {!scripted && phase === 'picker' && awaitingInput && (
               <div className="convo__choices" role="group" aria-label={pickerQuestionFor(petName)}>
                 {BRANCHES.map((b) => (
                   <button key={b.id} type="button" className="chip-btn" onClick={() => handlePickBranch(b)} data-mag>
@@ -388,7 +445,7 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
               </div>
             )}
 
-            {!reducedMotion && phase === 'asking' && awaitingInput && branch && stepIndex >= 0 && (
+            {!scripted && phase === 'asking' && awaitingInput && branch && stepIndex >= 0 && (
               <div className="convo__choices" role="group" aria-label={branch.steps[stepIndex].question}>
                 {branch.steps[stepIndex].options.map((opt) => (
                   <button
@@ -411,10 +468,21 @@ export default function AICareJourney({ autoStart }: { autoStart?: boolean } = {
           <FindingsPanel findings={findings} active={phase === 'asking'} />
           <TimelinePanel events={timeline} />
           {phase === 'summary' && branch && <SummaryCard branch={branch} picks={picks} tier={tier} patientLine={patientLine} petName={petName} />}
+          {phase === 'summary' && saveFailed && (
+            <p className="welcome-form__error" role="alert" style={{ margin: '10px 0 0' }}>
+              This summary couldn&apos;t be saved to this device (storage is full or unavailable) —
+              email yourself a copy below so it isn&apos;t lost.
+            </p>
+          )}
+          {phase === 'summary' && branch && driven && activeSession && (
+            <SaveRecordCard pet={activeSession.pet} concern={branch.label} summaryText={summaryText} />
+          )}
         </div>
       </div>
 
-      {!reducedMotion && started && (
+      {/* Showreel controls exist for the self-playing demo only — a real
+          guided check must feel like a tool, not a video player. */}
+      {!scripted && started && !driven && (
         <div className="intake-controls">
           <button type="button" className="btn btn--ghost btn--sm" data-mag onClick={togglePause} aria-label={paused ? 'Resume demo' : 'Pause demo'}>
             {paused ? '▶ Resume' : '⏸ Pause'}

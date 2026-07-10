@@ -52,7 +52,7 @@ export default function Footer() {
               <PawLogo size={28} />
               PAW<b>ai</b>
             </Link>
-            <p>The AI health companion for every pet. Vet-reviewed care, available any hour of the day.</p>
+            <p>The AI health companion for every pet. Calm, organized guidance, any hour of the day.</p>
             <div className="footer__social" aria-label="Follow PAWai on social media">
               {SOCIAL_LINKS.map((s) => (
                 <a key={s.label} href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer">
@@ -65,17 +65,14 @@ export default function Footer() {
             <h4>Product</h4>
             <ul>
               <li><Link href="/#symptom-checker">Symptom checker</Link></li>
-              <li><Link href="/#health-timeline">Health timeline</Link></li>
-              <li><Link href="/#vets">For vets</Link></li>
-              <li><Link href="/#pricing">Pricing</Link></li>
+              <li><Link href="/#health-timeline">Health record</Link></li>
+              <li><Link href="/demo">AI Care Journey</Link></li>
             </ul>
           </div>
           <div>
             <h4>Company</h4>
             <ul>
               <li><Link href="/about">About</Link></li>
-              <li><Link href="/careers">Careers</Link></li>
-              <li><Link href="/press">Press</Link></li>
               <li><Link href="/blog">Blog</Link></li>
               <li><Link href="/research">Research</Link></li>
             </ul>
@@ -92,7 +89,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer__bot">
-          <span>© 2026 PAWai, Inc. PAWai is not a substitute for emergency veterinary care.</span>
+          <span>© 2026 PAWai. PAWai is not a substitute for emergency veterinary care.</span>
           <span>Made with 🐾 for animals everywhere</span>
         </div>
       </div>

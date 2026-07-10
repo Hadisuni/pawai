@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Section } from './Section';
 import { Field, FormActions } from './WeightSection';
-import type { OwnerCtx } from './types';
+import { addRecordEntry, useRecord } from '@/lib/record';
 
 const SCORES = ['1', '2', '3', '4', '5'] as const;
 
@@ -17,53 +17,70 @@ const DIMENSIONS = [
 
 type DimKey = typeof DIMENSIONS[number]['key'];
 
-export default function QoLSection({ ctx }: { ctx: OwnerCtx }) {
+export default function QoLSection({ petName }: { petName: string }) {
+  const record = useRecord();
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'saved' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
   const [scores, setScores] = useState<Record<DimKey, string>>({
     mobility: '', appetite: '', mood: '', painLevel: '', energy: '',
   });
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState(today());
 
+  const latest = (record ?? []).find((e) => e.type === 'qol');
+
   const overallScore = (() => {
     const vals = Object.values(scores).map(Number).filter(Boolean);
-    return vals.length === 5 ? (vals.reduce((a, b) => a + b, 0) / 5).toFixed(1) : null;
+    return vals.length === 5 ? Number((vals.reduce((a, b) => a + b, 0) / 5).toFixed(1)) : null;
   })();
 
-  async function submit(e: React.FormEvent) {
+  function submit(e: React.FormEvent) {
     e.preventDefault();
-    setStatus('saving');
-    try {
-      const res = await fetch('/api/health/qol', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...ctx, date, ...scores, overallScore, notes }),
-      });
-      setStatus(res.ok ? 'saved' : 'error');
-      if (res.ok) {
-        setOpen(false);
-        setScores({ mobility: '', appetite: '', mood: '', painLevel: '', energy: '' });
-        setNotes('');
-      }
-    } catch { setStatus('error'); }
+    if (overallScore === null) {
+      setStatus('error');
+      setErrorMsg('Please rate all five areas first.');
+      return;
+    }
+    const result = addRecordEntry({
+      type: 'qol',
+      score: overallScore,
+      date,
+      notes: notes.trim() || undefined,
+    });
+    if (result.ok) {
+      setStatus('saved');
+      setOpen(false);
+      setScores({ mobility: '', appetite: '', mood: '', painLevel: '', energy: '' });
+      setNotes('');
+    } else {
+      setStatus('error');
+      setErrorMsg(result.error);
+    }
   }
 
   return (
-    <Section icon="❤️" title="Quality of Life Assessment">
+    <Section icon="❤️" title="Wellness Check-in">
       {status === 'saved' && (
-        <p style={{ color: 'var(--teal)', fontSize: '0.9rem', marginBottom: 12 }}>✓ Assessment saved!</p>
+        <p style={{ color: 'var(--teal)', fontSize: '0.9rem', marginBottom: 12 }}>✓ Saved to this device.</p>
       )}
       {!open ? (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <p style={{ color: 'var(--tx3)', fontSize: '0.9rem' }}>No assessment yet.</p>
+            {latest ? (
+              <p style={{ color: 'var(--tx2)', fontSize: '0.9rem', fontWeight: 700 }}>
+                Last check-in: {latest.score}/5
+                <span style={{ color: 'var(--tx3)', fontWeight: 400 }}> on {latest.date}</span>
+              </p>
+            ) : (
+              <p style={{ color: 'var(--tx3)', fontSize: '0.9rem' }}>A 1-minute check-in you can repeat weekly.</p>
+            )}
             <p style={{ color: 'var(--tx3)', fontSize: '0.82rem', marginTop: 4 }}>
-              Rate {ctx.petName || 'your pet'}&apos;s wellbeing across 5 dimensions in under 2 minutes.
+              Rate {petName}&apos;s wellbeing across 5 areas in under 2 minutes.
             </p>
           </div>
-          <button onClick={() => setOpen(true)} className="btn btn--accent btn--sm">
-            Start Assessment
+          <button onClick={() => { setOpen(true); setStatus('idle'); }} className="btn btn--accent btn--sm">
+            Start Check-in
           </button>
         </div>
       ) : (
@@ -100,7 +117,7 @@ export default function QoLSection({ ctx }: { ctx: OwnerCtx }) {
             </div>
           ))}
 
-          {overallScore && (
+          {overallScore !== null && (
             <div style={{
               background: 'var(--teal3)',
               borderRadius: 'var(--r-sm)',
@@ -117,14 +134,14 @@ export default function QoLSection({ ctx }: { ctx: OwnerCtx }) {
           <Field label="Notes (optional)">
             <textarea
               rows={2}
-              placeholder={`Any observations about ${ctx.petName || 'your pet'} today…`}
+              placeholder={`Any observations about ${petName} today…`}
               value={notes}
               onChange={e => setNotes(e.target.value)}
               style={{ resize: 'vertical' }}
             />
           </Field>
 
-          <FormActions onCancel={() => setOpen(false)} saving={status === 'saving'} error={status === 'error'} />
+          <FormActions onCancel={() => setOpen(false)} error={status === 'error' ? errorMsg : null} />
         </form>
       )}
     </Section>

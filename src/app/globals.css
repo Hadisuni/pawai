@@ -12,6 +12,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Sticky .nav is ~72px tall; without this, anchor jumps clip headings under it. */
+  scroll-padding-top: 88px;
 }
 
 a {
@@ -854,18 +856,6 @@ body {
 
 .callcard__top { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 14px; }
 .callcard__title { font-weight: 800; font-size: 0.9rem; color: var(--tx1); }
-.callcard__live {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em;
-  color: var(--teal); background: rgba(var(--teal-rgb), 0.1);
-  border: 1px solid rgba(var(--teal-rgb), 0.25); border-radius: var(--r-pill);
-  padding: 4px 10px;
-}
-.callcard__live-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--teal);
-  box-shadow: 0 0 0 3px rgba(var(--teal-rgb), 0.22);
-  animation: pulse 1.6s ease-in-out infinite;
-}
 
 .callcard__stage {
   position: relative;
@@ -914,8 +904,6 @@ body {
   width: 7px; height: 7px; border-radius: 50%; background: var(--teal);
   box-shadow: 0 0 0 3px rgba(var(--teal-rgb), 0.2);
 }
-.callcard__timer { margin-left: 6px; color: var(--tx3); font-weight: 700; }
-
 .callcard__controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
 .callcard__ctrl {
   width: 46px; height: 46px; border-radius: 50%;
@@ -927,8 +915,6 @@ body {
 .callcard__ctrl:hover { background: rgba(var(--overlay-rgb), 0.1); }
 .callcard__ctrl--end { background: var(--red-muted); border-color: transparent; color: #fff; }
 .callcard__ctrl--end:hover { box-shadow: 0 0 22px rgba(var(--red-rgb), 0.45); }
-.callcard__ctrl--mic { cursor: default; opacity: 0.5; }
-.callcard__ctrl--mic.is-live { opacity: 1; background: rgba(var(--teal-rgb), 0.12); border-color: rgba(var(--teal-rgb), 0.35); animation: pulse 1.3s ease-in-out infinite; }
 
 @media (max-width: 640px) {
   .callcard__ctrl { width: 40px; height: 40px; font-size: 16px; }
@@ -951,6 +937,12 @@ body {
   border-radius: 50%;
   border: 2px solid rgba(var(--teal-rgb), 0.18);
   box-shadow: 0 0 0 0 rgba(var(--teal-rgb), 0.25);
+}
+
+/* Brand avatar: the PAWai paw mark in a calm circle (replaces the old photo). */
+.pa__logo {
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 38%, rgba(var(--teal-rgb), 0.16) 0%, rgba(var(--bg-rgb), 0.55) 75%);
 }
 
 .pa--listen .pa__photo { animation: paBreathe 2.2s ease-in-out infinite; }
@@ -1115,6 +1107,28 @@ body {
 
 .welcome-form__error { color: var(--red-muted); font-size: 0.86rem; margin-bottom: 14px; }
 .welcome-form__note { font-size: 0.78rem; color: var(--tx3); text-align: center; margin-top: 14px; line-height: 1.6; }
+
+.welcome-form__step {
+  font-size: 0.78rem; font-weight: 800; letter-spacing: 0.05em;
+  color: var(--teal); text-transform: uppercase; margin-bottom: 18px;
+}
+
+.welcome-form__more { margin-bottom: 18px; }
+.welcome-form__more summary {
+  font-size: 0.84rem; font-weight: 700; color: var(--tx2);
+  cursor: pointer; list-style-position: inside;
+}
+.welcome-form__more summary:hover { color: var(--tx1); }
+
+.welcome-form__consent {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 0.82rem; color: var(--tx2); line-height: 1.55;
+  margin-bottom: 18px; cursor: pointer;
+}
+.welcome-form__consent input {
+  margin-top: 3px; width: 16px; height: 16px; flex-shrink: 0;
+  accent-color: var(--teal); cursor: pointer;
+}
 
 /* MODE PICKER */
 .mode-pick { text-align: center; padding: 60px 20px; }
@@ -1486,6 +1500,6 @@ section textarea::placeholder {
   .hero h1 .hl { animation: none !important; background-position: 0% 50% !important; }
   .fc--a, .fc--b, .ey .dot, .blob { animation: none !important; }
   .demo__feed .ch, .demo__scan, .demo__caret, .demo__scan-dot,
-  .convo__feed .ch, .findings__live-dot, .callcard__live-dot,
-  .pa__photo, .pa__ring, .callcard__ctrl--mic { animation: none !important; }
+  .convo__feed .ch, .findings__live-dot,
+  .pa__photo, .pa__ring { animation: none !important; }
 }

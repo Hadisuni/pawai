@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import PawLogo from './PawLogo';
 import ThemeToggle from './ThemeToggle';
+import HeaderCta from './HeaderCta';
 
 export default function Header() {
   return (
@@ -14,14 +15,11 @@ export default function Header() {
           <Link href="/#features">Features</Link>
           <Link href="/#how">How it works</Link>
           <Link href="/demo">AI Care Journey</Link>
-          <Link href="/#vets">For vets</Link>
           <Link href="/blog">Learn</Link>
-          <Link href="/#pricing">Pricing</Link>
         </nav>
         <div className="nav__r">
           <ThemeToggle />
-          <a className="nav__login" href="#">Log in</a>
-          <Link href="/welcome" className="btn btn--pri btn--sm" data-mag>Get Started</Link>
+          <HeaderCta />
         </div>
       </div>
     </header>

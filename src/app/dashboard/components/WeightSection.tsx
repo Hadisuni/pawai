@@ -2,36 +2,60 @@
 
 import { useState } from 'react';
 import { Section } from './Section';
-import type { OwnerCtx } from './types';
+import { addRecordEntry, useRecord } from '@/lib/record';
 
-export default function WeightSection({ ctx }: { ctx: OwnerCtx }) {
+// Writes to the device-local record and renders back what was saved —
+// the record must always show your own entries (no write-only forms).
+export default function WeightSection() {
+  const record = useRecord();
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'saved' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
   const [form, setForm] = useState({ weight: '', unit: 'kg', date: today(), notes: '' });
 
-  async function submit(e: React.FormEvent) {
+  const entries = (record ?? []).filter((e) => e.type === 'weight');
+
+  function submit(e: React.FormEvent) {
     e.preventDefault();
-    setStatus('saving');
-    try {
-      const res = await fetch('/api/health/weight', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...ctx, ...form }),
-      });
-      setStatus(res.ok ? 'saved' : 'error');
-      if (res.ok) { setOpen(false); setForm({ weight: '', unit: 'kg', date: today(), notes: '' }); }
-    } catch { setStatus('error'); }
+    const result = addRecordEntry({
+      type: 'weight',
+      value: form.weight,
+      unit: form.unit,
+      date: form.date,
+      notes: form.notes.trim() || undefined,
+    });
+    if (result.ok) {
+      setStatus('saved');
+      setOpen(false);
+      setForm({ weight: '', unit: 'kg', date: today(), notes: '' });
+    } else {
+      setStatus('error');
+      setErrorMsg(result.error);
+    }
   }
 
   return (
     <Section icon="⚖️" title="Weight">
       {status === 'saved' && (
-        <p style={{ color: 'var(--teal)', fontSize: '0.9rem', marginBottom: 12 }}>✓ Weight saved!</p>
+        <p style={{ color: 'var(--teal)', fontSize: '0.9rem', marginBottom: 12 }}>✓ Saved to this device.</p>
+      )}
+      {entries.length > 0 && (
+        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
+          {entries.slice(0, 5).map((w) => (
+            <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, fontSize: '0.9rem' }}>
+              <span style={{ color: 'var(--tx2)', fontWeight: 700 }}>
+                {w.value} {w.unit}
+                {w.notes && <span style={{ color: 'var(--tx3)', fontWeight: 400 }}> — {w.notes}</span>}
+              </span>
+              <span style={{ color: 'var(--tx3)', fontSize: '0.82rem' }}>{w.date}</span>
+            </li>
+          ))}
+        </ul>
       )}
       {!open ? (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <p style={{ color: 'var(--tx3)', fontSize: '0.9rem' }}>No weight records yet.</p>
-          <button onClick={() => setOpen(true)} className="btn btn--ghost btn--sm">+ Add Weight</button>
+          {entries.length === 0 && <p style={{ color: 'var(--tx3)', fontSize: '0.9rem' }}>No weight entries yet.</p>}
+          <button onClick={() => { setOpen(true); setStatus('idle'); }} className="btn btn--ghost btn--sm">+ Add Weight</button>
         </div>
       ) : (
         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -55,7 +79,7 @@ export default function WeightSection({ ctx }: { ctx: OwnerCtx }) {
           <Field label="Notes (optional)">
             <input type="text" placeholder="e.g. After vet visit" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} />
           </Field>
-          <FormActions onCancel={() => setOpen(false)} saving={status === 'saving'} error={status === 'error'} />
+          <FormActions onCancel={() => setOpen(false)} error={status === 'error' ? errorMsg : null} />
         </form>
       )}
     </Section>
@@ -75,14 +99,12 @@ export function Field({ label, children, required }: { label: string; children: 
   );
 }
 
-export function FormActions({ onCancel, saving, error }: { onCancel: () => void; saving: boolean; error: boolean }) {
+export function FormActions({ onCancel, error }: { onCancel: () => void; error: string | null }) {
   return (
     <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-      <button type="submit" disabled={saving} className="btn btn--pri btn--sm">
-        {saving ? 'Saving…' : 'Save'}
-      </button>
+      <button type="submit" className="btn btn--pri btn--sm">Save</button>
       <button type="button" onClick={onCancel} className="btn btn--ghost btn--sm">Cancel</button>
-      {error && <p style={{ color: 'var(--red-muted)', fontSize: '0.85rem' }}>Something went wrong. Try again.</p>}
+      {error && <p style={{ color: 'var(--red-muted)', fontSize: '0.85rem' }}>{error}</p>}
     </div>
   );
 }

@@ -10,6 +10,10 @@ export interface IntakePayload {
   sex?: string;
   weight?: string;
   selectedExperience: string;
+  /** What the conversation was about (e.g. "Vomiting") — lands in the sheet's Main Concern column. */
+  concern?: string;
+  /** Free text echoed back in the confirmation email — used to deliver the vet-ready summary. */
+  message?: string;
 }
 
 export interface IntakeResponse {
@@ -27,15 +31,10 @@ const EXPERIENCE_LABELS: Record<string, string> = {
   wellness: 'Wellness',
 };
 
-// Production fallback so the route works even if N8N_WEBHOOK_URL isn't set in the deploy
-// environment — mirrors src/app/api/contact/route.ts. This points at the same PawAI Contact
-// Form workflow (production webhook), so /welcome submissions land in the same Sheet1 +
-// Gmail confirmation pipeline as the /contact form.
-const PRODUCTION_PAWAI_WEBHOOK_URL =
-  'https://n8n-production-ee0c.up.railway.app/webhook/pawai-contact';
-
-// Frontend contract is intentionally stable: { sessionId, ownerName, pet, selectedExperience }.
-// IMPORTANT: N8N_WEBHOOK_URL is read server-side only and never sent to the client.
+// Env-only by design: no hardcoded production fallback. If N8N_WEBHOOK_URL is
+// missing the route fails loudly (503) instead of silently posting user PII
+// to a URL baked into source. The client shows an honest "service
+// unavailable" message and the visitor's summary stays on their device.
 export async function POST(req: Request) {
   let body: Partial<IntakePayload>;
   try {
@@ -44,12 +43,42 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const { ownerName, ownerEmail, petName, species, breed, age, sex, weight, selectedExperience } = body;
+  const { ownerName, ownerEmail, petName, species, breed, age, sex, weight, selectedExperience, concern, message } = body;
   if (!ownerName?.trim() || !ownerEmail?.trim() || !petName?.trim() || !species?.trim() || !selectedExperience?.trim()) {
     return NextResponse.json(
       { error: 'ownerName, ownerEmail, petName, species, and selectedExperience are required' },
       { status: 400 },
     );
+  }
+
+  // This route relays content into an email pipeline under PAWai's sender
+  // identity — validate shape and cap sizes so it can't be used to deliver
+  // arbitrary payloads to arbitrary addresses.
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ownerEmail.trim()) || ownerEmail.trim().length > 254) {
+    return NextResponse.json({ error: 'ownerEmail is not a valid email address' }, { status: 400 });
+  }
+  const LIMITS: Array<[string | undefined, number, string]> = [
+    [ownerName, 100, 'ownerName'],
+    [petName, 60, 'petName'],
+    [species, 40, 'species'],
+    [breed, 80, 'breed'],
+    [age, 40, 'age'],
+    [sex, 40, 'sex'],
+    [weight, 40, 'weight'],
+    [selectedExperience, 40, 'selectedExperience'],
+    [concern, 120, 'concern'],
+    [message, 6000, 'message'],
+  ];
+  for (const [value, max, field] of LIMITS) {
+    if (typeof value === 'string' && value.length > max) {
+      return NextResponse.json({ error: `${field} is too long (max ${max} characters)` }, { status: 400 });
+    }
+  }
+
+  const webhookUrl = process.env.N8N_WEBHOOK_URL;
+  if (!webhookUrl) {
+    console.error('[api/intake] N8N_WEBHOOK_URL is not configured — refusing to send');
+    return NextResponse.json({ error: 'Email service is not configured' }, { status: 503 });
   }
 
   const experienceLabel = EXPERIENCE_LABELS[selectedExperience.trim()] ?? selectedExperience.trim();
@@ -66,14 +95,12 @@ export async function POST(req: Request) {
     selectedExperience: selectedExperience.trim(),
   };
 
-  const mockResponse: IntakeResponse = {
+  const response: IntakeResponse = {
     sessionId: crypto.randomUUID(),
     ownerName: payload.ownerName,
     pet: { name: payload.petName, species: payload.species, breed: payload.breed, age: payload.age, sex: payload.sex, weight: payload.weight },
     selectedExperience: payload.selectedExperience,
   };
-
-  const webhookUrl = process.env.N8N_WEBHOOK_URL || PRODUCTION_PAWAI_WEBHOOK_URL;
 
   // Shaped to match PawAI Contact Form's Normalize Submission node field names
   // (ownerName/ownerEmail/petName/.../mainConcern/message), not the IntakePayload shape above.
@@ -86,9 +113,9 @@ export async function POST(req: Request) {
     age: payload.age,
     sex: payload.sex,
     weight: payload.weight,
-    mainConcern: experienceLabel,
-    message: `Selected care path on /welcome: ${experienceLabel}`,
-    source: 'Welcome Intake Form',
+    mainConcern: concern?.trim() || experienceLabel,
+    message: message?.trim() || `Selected care path on /welcome: ${experienceLabel}`,
+    source: message?.trim() ? 'Vet-Ready Summary Save' : 'Welcome Intake Form',
   };
 
   try {
@@ -108,14 +135,14 @@ export async function POST(req: Request) {
     clearTimeout(timeout);
 
     if (!res.ok) {
+      // Honest failure: the UI must never claim "emailed" when nothing sent.
       console.error('[api/intake] n8n webhook responded with', res.status);
-      return NextResponse.json<IntakeResponse>(mockResponse);
+      return NextResponse.json({ error: 'Email service is unavailable' }, { status: 502 });
     }
 
-    return NextResponse.json<IntakeResponse>(mockResponse);
+    return NextResponse.json<IntakeResponse>(response);
   } catch (err) {
-    // Network failure, timeout, DNS error, etc. — never block the visitor's flow on backend wiring.
-    console.error('[api/intake] n8n webhook call failed, falling back to mock response:', err);
-    return NextResponse.json<IntakeResponse>(mockResponse);
+    console.error('[api/intake] n8n webhook call failed:', err);
+    return NextResponse.json({ error: 'Email service is unavailable' }, { status: 502 });
   }
 }

@@ -2,13 +2,16 @@ export function Section({
   icon,
   title,
   children,
+  id,
 }: {
   icon: string;
   title: string;
   children: React.ReactNode;
+  id?: string;
 }) {
   return (
     <section
+      id={id}
       style={{
         marginBottom: 20,
         background: 'var(--glass)',
