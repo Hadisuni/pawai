@@ -12,6 +12,7 @@ import VaccinationSection from './components/VaccinationSection';
 import MedicationSection from './components/MedicationSection';
 import QoLSection from './components/QoLSection';
 import RemindersSection from './components/RemindersSection';
+import CareAgentLauncher from './components/CareAgentLauncher';
 
 type View = 'record' | 'check';
 
@@ -78,7 +79,15 @@ export default function DashboardClient() {
     router.replace('/');
   }
 
-  const careAgent = null;
+  const careAgent = (
+    <CareAgentLauncher
+      pet={pet}
+      entries={entries}
+      latestSummary={latestSummary}
+      onStartHealthCheck={() => setView('check')}
+      onNavigate={handleNavigate}
+    />
+  );
 
   if (view === 'check') {
     return (
