@@ -46,41 +46,41 @@ function entryLabel(e: RecordEntry): string {
 // Data minimization (spec §6.2 R2): ONLY pet-care-relevant fields are passed
 // to the agent. Owner name, email, phone, and location must never appear
 // here — nothing in this function reads from session.owner.
+// Every variable is ALWAYS sent (with a "not provided" fallback): the agent's
+// prompt references each one as a {{placeholder}}, and ElevenLabs rejects the
+// session if any referenced variable is missing.
+const NOT_PROVIDED = 'not provided';
+
 function petVariables(pet: PetInfo, entries: RecordEntry[], latestSummary?: Summary): Record<string, string> {
-  const vars: Record<string, string> = {
-    mode: 'care',
-    pet_name: pet.name,
-    species: pet.species,
-  };
-  if (pet.breed) vars.breed = pet.breed;
-  if (pet.ageBucket || pet.age) vars.age_bucket = (pet.ageBucket || pet.age)!;
-  if (pet.sexNeutered || pet.sex) vars.sex_neutered = (pet.sexNeutered || pet.sex)!;
-  if (pet.weight) vars.weight = pet.weight;
-  if (pet.conditions) vars.conditions = pet.conditions;
-  if (pet.medications) vars.medications = pet.medications;
-
-  if (latestSummary) {
-    vars.current_concern = latestSummary.concern;
-    vars.previous_summary = latestSummary.text.slice(0, 600);
-  }
-
   const recentTimeline = entries
     .filter((e) => e.type !== 'reminder')
     .slice(0, 5)
     .map((e) => `${e.createdAt.slice(0, 10)}: ${entryLabel(e)}`)
     .join(' | ');
-  if (recentTimeline) vars.recent_timeline = recentTimeline;
 
   const upcomingReminders = entries
     .filter((e): e is Extract<RecordEntry, { type: 'reminder' }> => e.type === 'reminder' && !e.done)
     .map((e) => `${e.title} (due ${e.due})`)
     .join(' | ');
-  if (upcomingReminders) vars.reminders = upcomingReminders;
 
   const latestQol = entries.find((e): e is Extract<RecordEntry, { type: 'qol' }> => e.type === 'qol');
-  if (latestQol) vars.wellness_signal = `${latestQol.score}/5 on ${latestQol.date}`;
 
-  return vars;
+  return {
+    mode: 'care',
+    pet_name: pet.name,
+    species: pet.species,
+    breed: pet.breed || NOT_PROVIDED,
+    age_bucket: pet.ageBucket || pet.age || NOT_PROVIDED,
+    sex_neutered: pet.sexNeutered || pet.sex || NOT_PROVIDED,
+    weight: pet.weight || NOT_PROVIDED,
+    conditions: pet.conditions || NOT_PROVIDED,
+    medications: pet.medications || NOT_PROVIDED,
+    current_concern: latestSummary?.concern || NOT_PROVIDED,
+    previous_summary: latestSummary ? latestSummary.text.slice(0, 600) : NOT_PROVIDED,
+    recent_timeline: recentTimeline || NOT_PROVIDED,
+    reminders: upcomingReminders || NOT_PROVIDED,
+    wellness_signal: latestQol ? `${latestQol.score}/5 on ${latestQol.date}` : NOT_PROVIDED,
+  };
 }
 
 function greetingFor(pet: PetInfo): string {
