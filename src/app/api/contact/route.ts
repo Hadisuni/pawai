@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     const res = await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ submissionType: 'contact', ...payload }),
       signal: controller.signal,
     });
     clearTimeout(timeout);

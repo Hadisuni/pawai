@@ -201,6 +201,7 @@ export async function POST(req: Request) {
   // Shaped to match PawAI Contact Form's Normalize Submission node field names
   // (ownerName/ownerEmail/petName/.../mainConcern/message), not the IntakePayload shape above.
   const webhookBody = {
+    submissionType: 'intake',
     ownerName: payload.ownerName,
     ownerEmail: payload.ownerEmail,
     petName: payload.petName,
