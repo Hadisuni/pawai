@@ -1529,3 +1529,46 @@ section textarea::placeholder {
   .convo__feed .ch, .findings__live-dot,
   .pa__photo, .pa__ring { animation: none !important; }
 }
+
+/* ---- PAWai Care Card print layout ----------------------------------------
+   Scoped with body:has(#care-card) so printing any OTHER page is unaffected.
+   The site theme is dark by default, so the card forces print-safe
+   black-on-white by overriding its own CSS variables. */
+.print-only {
+  display: none;
+}
+
+@media print {
+  body:has(#care-card) * {
+    visibility: hidden;
+  }
+  body:has(#care-card) #care-card,
+  body:has(#care-card) #care-card * {
+    visibility: visible;
+  }
+  body:has(#care-card) #care-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100% !important;
+    padding: 0 4mm;
+    background: #fff;
+    color: #111;
+    --tx1: #111111;
+    --tx2: #2c2c2c;
+    --tx3: #555555;
+    --border: #c9c9c9;
+    --teal3: #f2f4f3;
+    --teal: #0e7d78;
+  }
+  body:has(#care-card) #care-card .care-card-actions {
+    display: none;
+  }
+  body:has(#care-card) #care-card .print-only {
+    display: block;
+  }
+  body:has(#care-card) #care-card section {
+    break-inside: avoid;
+  }
+}

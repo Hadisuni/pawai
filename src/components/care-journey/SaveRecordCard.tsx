@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, type FormEvent } from 'react';
-import { loadSession, type PetInfo } from '@/lib/session';
+import { loadSession, saveSession, type PetInfo } from '@/lib/session';
 
 interface SaveRecordCardProps {
   pet: PetInfo;
@@ -18,6 +18,7 @@ export default function SaveRecordCard({ pet, concern, summaryText }: SaveRecord
   const [email, setEmail] = useState('');
   const [ownerName, setOwnerName] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'invalid' | 'failed'>('idle');
+  const [careCardUrl, setCareCardUrl] = useState<string | null>(null);
 
   // Don't ask for what onboarding already collected: prefill from the local
   // session (post-mount to stay hydration-safe; fields remain editable).
@@ -54,6 +55,17 @@ export default function SaveRecordCard({ pet, concern, summaryText }: SaveRecord
           message: summaryText,
         }),
       });
+      if (res.ok) {
+        // Phase 0 returns a private record link when persistent storage is
+        // live; keep it on the session so the dashboard's Care Card can
+        // surface it. Absent recordUrl (storage not configured) is normal.
+        const data = (await res.json().catch(() => null)) as { recordUrl?: string } | null;
+        if (data?.recordUrl) {
+          setCareCardUrl(data.recordUrl);
+          const session = loadSession();
+          if (session) saveSession({ ...session, recordUrl: data.recordUrl });
+        }
+      }
       setStatus(res.ok ? 'sent' : 'failed');
     } catch {
       setStatus('failed');
@@ -68,6 +80,22 @@ export default function SaveRecordCard({ pet, concern, summaryText }: SaveRecord
           Check your inbox — {pet.name}&apos;s vet-ready summary has been emailed to you,
           so it&apos;s there whenever the appointment comes.
         </p>
+        {careCardUrl && (
+          <div style={{ marginTop: 14 }}>
+            <a
+              className="btn btn--ghost btn--sm"
+              href={careCardUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🪪 Open {pet.name}&apos;s Care Card
+            </a>
+            <p style={{ fontSize: '0.78rem', color: 'var(--tx3)', lineHeight: 1.6, marginTop: 8 }}>
+              Your private record link — it&apos;s in the email too. It&apos;s
+              private to you: opening it asks for your PAWai sign-in.
+            </p>
+          </div>
+        )}
       </div>
     );
   }
