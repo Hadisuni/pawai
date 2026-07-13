@@ -1,4 +1,27 @@
 import { NextResponse } from 'next/server';
+import { appOrigin } from '@/lib/server/origin';
+import { isDbConfigured } from '@/lib/server/db';
+import { saveSummaryToRecord } from '@/lib/server/recordStore';
+import { isEmailConfigured, sendSummaryEmail } from '@/lib/server/email';
+import { createSessionForOwner, SESSION_COOKIE, SESSION_TTL_MS } from '@/lib/server/auth';
+import { logError } from '@/lib/server/log';
+
+// Attaches the paw_session cookie when this request minted one (first-time
+// visitors are signed in transparently on save, so /dashboard doesn't wall
+// them out the moment DB auth is turned on — see server/auth.ts). No-op
+// when sessionToken is undefined (DB not configured, or the mint failed).
+function withSession(res: NextResponse, sessionToken: string | undefined): NextResponse {
+  if (sessionToken) {
+    res.cookies.set(SESSION_COOKIE, sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: Math.floor(SESSION_TTL_MS / 1000),
+    });
+  }
+  return res;
+}
 
 export interface IntakePayload {
   ownerName: string;
@@ -21,6 +44,8 @@ export interface IntakeResponse {
   ownerName: string;
   pet: { name: string; species: string; breed?: string; age?: string; sex?: string; weight?: string };
   selectedExperience: string;
+  /** Private link to the durable record — present only when storage is configured. */
+  recordUrl?: string;
 }
 
 const EXPERIENCE_LABELS: Record<string, string> = {
@@ -75,12 +100,6 @@ export async function POST(req: Request) {
     }
   }
 
-  const webhookUrl = process.env.N8N_WEBHOOK_URL;
-  if (!webhookUrl) {
-    console.error('[api/intake] N8N_WEBHOOK_URL is not configured — refusing to send');
-    return NextResponse.json({ error: 'Email service is not configured' }, { status: 503 });
-  }
-
   const experienceLabel = EXPERIENCE_LABELS[selectedExperience.trim()] ?? selectedExperience.trim();
 
   const payload: IntakePayload = {
@@ -95,12 +114,89 @@ export async function POST(req: Request) {
     selectedExperience: selectedExperience.trim(),
   };
 
+  const summaryText = message?.trim();
+  const concernLabel = concern?.trim() || experienceLabel;
+
+  // Phase 0 persistence: when DATABASE_URL is set, a saved summary also lands
+  // in the durable record and the response carries its private link. A DB
+  // failure must never block the email path — the summary is still on the
+  // visitor's device and in their inbox.
+  let recordUrl: string | undefined;
+  let sessionToken: string | undefined;
+  if (summaryText && isDbConfigured()) {
+    try {
+      const { recordToken, ownerId } = await saveSummaryToRecord({
+        ownerEmail: payload.ownerEmail,
+        ownerName: payload.ownerName,
+        pet: {
+          name: payload.petName,
+          species: payload.species,
+          breed: payload.breed,
+          age: payload.age,
+          sex: payload.sex,
+          weight: payload.weight,
+        },
+        concern: concernLabel,
+        summaryText,
+      });
+      recordUrl = `${appOrigin()}/record/${recordToken}`;
+      // Auto-sign-in: this is the visitor's first save, so there's nothing
+      // to "log into" yet from their point of view — a forced /signin step
+      // here would just be friction. Returning on another device still goes
+      // through the magic-link flow. A failure here must not block saving.
+      try {
+        const session = await createSessionForOwner(ownerId);
+        sessionToken = session.rawToken;
+      } catch (err) {
+        logError('api/intake', 'auto session mint failed', err);
+      }
+    } catch (err) {
+      console.error('[api/intake] record persistence failed:', err);
+    }
+  }
+
   const response: IntakeResponse = {
     sessionId: crypto.randomUUID(),
     ownerName: payload.ownerName,
     pet: { name: payload.petName, species: payload.species, breed: payload.breed, age: payload.age, sex: payload.sex, weight: payload.weight },
     selectedExperience: payload.selectedExperience,
+    recordUrl,
   };
+
+  // Phase 0 email: when RESEND_API_KEY is set, the app sends the user-facing
+  // summary email itself instead of relying on the n8n → Gmail pipeline.
+  // While both are live, disable the visitor-email node in the n8n workflow
+  // to avoid a duplicate email (the sheet/admin branch should stay on).
+  let userEmailSent = false;
+  if (summaryText && isEmailConfigured()) {
+    const sent = await sendSummaryEmail({
+      to: payload.ownerEmail,
+      ownerName: payload.ownerName,
+      petName: payload.petName,
+      concern: concernLabel,
+      summaryText,
+      recordUrl,
+    });
+    if (sent.ok) {
+      userEmailSent = true;
+    } else {
+      // Fall through to the n8n path so delivery still has a chance.
+      console.error('[api/intake] Resend send failed:', sent.error);
+    }
+  }
+
+  // n8n forward: still the data pipeline (sheet row + admin notification),
+  // and still the visitor email when Resend isn't configured. Its failure is
+  // fatal only when nothing else delivered the user-facing email.
+  const webhookUrl = process.env.N8N_WEBHOOK_URL;
+  if (!webhookUrl) {
+    if (userEmailSent) {
+      console.warn('[api/intake] N8N_WEBHOOK_URL not configured — skipping sheet/admin forward');
+      return withSession(NextResponse.json<IntakeResponse>(response), sessionToken);
+    }
+    console.error('[api/intake] N8N_WEBHOOK_URL is not configured — refusing to send');
+    return NextResponse.json({ error: 'Email service is not configured' }, { status: 503 });
+  }
 
   // Shaped to match PawAI Contact Form's Normalize Submission node field names
   // (ownerName/ownerEmail/petName/.../mainConcern/message), not the IntakePayload shape above.
@@ -113,9 +209,9 @@ export async function POST(req: Request) {
     age: payload.age,
     sex: payload.sex,
     weight: payload.weight,
-    mainConcern: concern?.trim() || experienceLabel,
-    message: message?.trim() || `Selected care path on /welcome: ${experienceLabel}`,
-    source: message?.trim() ? 'Vet-Ready Summary Save' : 'Welcome Intake Form',
+    mainConcern: concernLabel,
+    message: summaryText || `Selected care path on /welcome: ${experienceLabel}`,
+    source: summaryText ? 'Vet-Ready Summary Save' : 'Welcome Intake Form',
   };
 
   try {
@@ -135,14 +231,16 @@ export async function POST(req: Request) {
     clearTimeout(timeout);
 
     if (!res.ok) {
-      // Honest failure: the UI must never claim "emailed" when nothing sent.
       console.error('[api/intake] n8n webhook responded with', res.status);
+      if (userEmailSent) return withSession(NextResponse.json<IntakeResponse>(response), sessionToken);
+      // Honest failure: the UI must never claim "emailed" when nothing sent.
       return NextResponse.json({ error: 'Email service is unavailable' }, { status: 502 });
     }
 
-    return NextResponse.json<IntakeResponse>(response);
+    return withSession(NextResponse.json<IntakeResponse>(response), sessionToken);
   } catch (err) {
     console.error('[api/intake] n8n webhook call failed:', err);
+    if (userEmailSent) return withSession(NextResponse.json<IntakeResponse>(response), sessionToken);
     return NextResponse.json({ error: 'Email service is unavailable' }, { status: 502 });
   }
 }

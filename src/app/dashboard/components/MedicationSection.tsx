@@ -3,13 +3,15 @@
 import { useState } from 'react';
 import { Section } from './Section';
 import { Field, FormActions } from './WeightSection';
-import { addRecordEntry, useRecord } from '@/lib/record';
+import { addRecordEntry, useRecord, type NewRecordEntry } from '@/lib/record';
+import { syncEntryToCareCard, type CareCardSyncResult } from '@/lib/careCardSync';
 
 export default function MedicationSection() {
   const record = useRecord();
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<'idle' | 'saved' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [careCard, setCareCard] = useState<CareCardSyncResult | null>(null);
   const [form, setForm] = useState({
     medName: '', dose: '', frequency: '', startDate: today(), endDate: '', notes: '',
   });
@@ -20,7 +22,7 @@ export default function MedicationSection() {
     e.preventDefault();
     const name = form.medName.trim();
     if (!name) return;
-    const result = addRecordEntry({
+    const entry: NewRecordEntry = {
       type: 'medication',
       name,
       dose: form.dose.trim() || undefined,
@@ -28,11 +30,14 @@ export default function MedicationSection() {
       startDate: form.startDate || undefined,
       endDate: form.endDate || undefined,
       notes: form.notes.trim() || undefined,
-    });
+    };
+    const result = addRecordEntry(entry);
     if (result.ok) {
       setStatus('saved');
       setOpen(false);
       setForm({ medName: '', dose: '', frequency: '', startDate: today(), endDate: '', notes: '' });
+      setCareCard(null);
+      void syncEntryToCareCard(entry).then(setCareCard);
     } else {
       setStatus('error');
       setErrorMsg(result.error);
@@ -42,7 +47,15 @@ export default function MedicationSection() {
   return (
     <Section icon="💊" title="Medications">
       {status === 'saved' && (
-        <p style={{ color: 'var(--teal)', fontSize: '0.9rem', marginBottom: 12 }}>✓ Saved to this device.</p>
+        <p style={{ color: 'var(--teal)', fontSize: '0.9rem', marginBottom: 12 }}>
+          ✓ Saved to this device.
+          {careCard === 'synced' && ' Also saved to your Care Card.'}
+          {careCard === 'failed' && (
+            <span style={{ color: 'var(--tx3)' }}>
+              {' '}Couldn&apos;t update your Care Card right now — this entry stays safely on this device.
+            </span>
+          )}
+        </p>
       )}
       {entries.length > 0 && (
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>

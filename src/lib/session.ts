@@ -35,6 +35,12 @@ export interface PawSession {
   selectedExperience: string;
   agentGroup: AgentGroup;
   createdAt?: string;
+  /**
+   * Private durable-record link (the PAWai Care Card), captured from the
+   * /api/intake response when persistent storage is live. Absent until the
+   * owner saves a summary with the record foundation configured.
+   */
+  recordUrl?: string;
 }
 
 export interface PawDraft {
