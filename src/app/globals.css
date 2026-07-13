@@ -244,6 +244,32 @@ body {
   .wrap { padding: 0 20px; }
 }
 
+/* Dashboard layout: profile sidebar + care readiness map on desktop,
+   a single column (profile card first) on mobile. Cards keep their own
+   20px bottom margin, so the grids only add column gaps. */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  column-gap: 20px;
+  align-items: start;
+}
+.dash-lower {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 20px;
+  align-items: start;
+}
+.dash-grid > *,
+.dash-lower > * {
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  .dash-grid,
+  .dash-lower {
+    grid-template-columns: 1fr;
+  }
+}
+
 [data-r] {
   opacity: 0;
   transform: translateY(26px);
