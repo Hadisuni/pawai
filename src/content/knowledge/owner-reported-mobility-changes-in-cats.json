@@ -1,0 +1,109 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Degenerative joint disease (feline)" },
+      { "id": "e2", "type": "Species", "name": "Feline, client-owned, with and without early owner-reported mobility change" },
+      { "id": "e3", "type": "ClinicalSign", "name": "Early owner-reported impaired mobility" },
+      { "id": "e4", "type": "ClinicalSign", "name": "Crepitus on joint manipulation" },
+      { "id": "e5", "type": "ClinicalSign", "name": "Joint thickening" },
+      { "id": "e6", "type": "ClinicalSign", "name": "Bilateral joint involvement" },
+      { "id": "e7", "type": "Diagnostic", "name": "Feline Musculoskeletal Pain Index (owner-completed)" },
+      { "id": "e8", "type": "Diagnostic", "name": "VetMetrica health-related quality-of-life instrument" },
+      { "id": "e9", "type": "Diagnostic", "name": "Orthopaedic examination" },
+      { "id": "e10", "type": "Diagnostic", "name": "Collar-mounted accelerometer (2 weeks)" }
+    ],
+    "relationships": [
+      { "source": "e3", "relation": "associated_with", "target": "e1", "evidenceLevel": "Moderate — blinded nested case-control, n=57; case cats had significantly higher total pain, crepitus and thickening scores on orthopaedic examination" },
+      { "source": "e7", "relation": "diagnosed_by", "target": "e3", "evidenceLevel": "Moderate — case cats scored significantly lower on FMPI (P=0.003); the instrument differentiated the groups" },
+      { "source": "e8", "relation": "diagnosed_by", "target": "e3", "evidenceLevel": "Low — only the Comfort domain differentiated the groups (P=0.002); Vitality and Emotional Wellbeing did not" },
+      { "source": "e9", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — total pain P<0.0001, crepitus P=0.002, thickening P=0.003 in case versus control cats" },
+      { "source": "e6", "relation": "associated_with", "target": "e3", "evidenceLevel": "Low as a magnitude, Moderate as a direction — presence of bilateral disease P=0.005, OR 14, but from a 57-cat sample with correspondingly wide uncertainty" },
+      { "source": "e10", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Very Low — accelerometry was collected but no activity-based group difference is reported in the abstract" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a blinded nested case-control study of 57 cats, those with early owner-reported mobility changes scored significantly lower on the Feline Musculoskeletal Pain Index (P=0.003) than control cats.",
+      "sourcePaper": "Maniaki et al. 2023",
+      "category": "Owner Observation Validity",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Case cats had significantly higher total pain scores (P<0.0001), crepitus (P=0.002) and joint thickening (P=0.003) on orthopaedic examination.",
+      "sourcePaper": "Maniaki et al. 2023",
+      "category": "Examination Findings",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Presence of bilateral disease was significantly more likely in case cats (P=0.005, OR 14), as was the number of bilaterally affected joints (P=0.001).",
+      "sourcePaper": "Maniaki et al. 2023",
+      "category": "Disease Pattern",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The groups did not differ significantly in age category, breed, sex, temperament or body condition score, so the findings are not explained by case cats simply being older or heavier.",
+      "sourcePaper": "Maniaki et al. 2023",
+      "category": "Group Comparability",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Of the VetMetrica quality-of-life domains, only Comfort differentiated the groups (P=0.002); Vitality and Emotional Wellbeing were reported as not significant.",
+      "sourcePaper": "Maniaki et al. 2023",
+      "category": "Instrument Performance",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The authors concluded that recognising mobility impairment earlier would allow interventions aimed at slowing disease progression — a stated rationale, not an outcome this study tested.",
+      "sourcePaper": "Maniaki et al. 2023",
+      "category": "Authors' Conclusion",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The inference runs from owner observation to examination findings; the study does not establish what proportion of cats with joint disease have owners who notice.",
+      "sourcePaper": "Maniaki et al. 2023",
+      "category": "Directional Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Total sample was 57 cats (30 case, 27 control); effect sizes such as the OR of 14 carry wide uncertainty at this scale.",
+      "sourcePaper": "Maniaki et al. 2023",
+      "category": "Precision Limitation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by the study's inclusion criterion rather than prescribed by it: early owner-reported mobility change was itself the case-defining variable, and it separated groups that examination then confirmed differed — which supports asking about mobility change directly rather than waiting for lameness."
+    ],
+    "redFlags": [
+      "Not addressed — this study identifies no red-flag findings and defines no urgency threshold."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study contrasts cats with and without owner-reported mobility change and does not evaluate other causes of reduced mobility."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "The study's own measures: the Feline Musculoskeletal Pain Index completed by the owner, plus a hands-on orthopaedic examination scoring pain, crepitus, thickening and bilateral involvement."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "Small sample: 57 cats total (30 case, 27 control), so effect estimates including the OR of 14 for bilateral disease carry wide uncertainty",
+    "Recruitment favoured engaged owners willing to accept a home visit and two weeks of accelerometer wear; the informativeness of their observations may not generalise to less attentive owners",
+    "Inference direction is observation to examination — the study cannot estimate how often joint disease goes unnoticed by owners",
+    "The abstract reports Vitality (P=0.009) and Emotional Wellbeing (P=0.018) as non-significant without stating the significance threshold; correction for multiple comparisons is a plausible explanation but is not stated by the paper",
+    "No accelerometry result is reported in the abstract despite two weeks of collection, so the objective activity measure's contribution is unknown",
+    "Orthopaedic examination scoring involves subjective clinical judgement; blinding mitigates but does not eliminate this",
+    "Cross-sectional: no follow-up establishes whether earlier recognition changes outcome, despite that being the authors' stated motivation"
+  ]
+}

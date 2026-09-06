@@ -1,0 +1,110 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Periodontal disease (canine)" },
+      { "id": "e2", "type": "Species", "name": "Canine, UK primary-care population" },
+      { "id": "e3", "type": "Diagnostic", "name": "Visual oral assessment of a conscious dog (primary care)" },
+      { "id": "e4", "type": "Diagnostic", "name": "Detailed oral examination under anaesthesia" },
+      { "id": "e5", "type": "RiskFactor", "name": "Small adult bodyweight" },
+      { "id": "e6", "type": "RiskFactor", "name": "Predisposed breed (Toy Poodle, King Charles Spaniel, Greyhound, Cavalier King Charles Spaniel)" },
+      { "id": "e7", "type": "RiskFactor", "name": "Spaniel type" },
+      { "id": "e8", "type": "RiskFactor", "name": "Brachycephalic skull shape" },
+      { "id": "e9", "type": "RiskFactor", "name": "Increasing age" },
+      { "id": "e10", "type": "RiskFactor", "name": "Detection intensity confounding recorded prevalence" }
+    ],
+    "relationships": [
+      { "source": "e3", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — yields a recorded one-year period prevalence of 12.52% (95% CI 12.09–12.97) in 22,333 UK dogs" },
+      { "source": "e4", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — review-level: detailed examination of anaesthetised dogs reports 44–100% prevalence, versus 9.3–18.2% in conscious primary-care assessment" },
+      { "source": "e5", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — increasing adult bodyweight associated with progressively decreasing odds" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — 18 breeds with increased odds vs crossbred; Toy Poodle OR 3.97 (2.21–7.13) highest" },
+      { "source": "e7", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — OR 1.63 (95% CI 1.42–1.87) vs non-spaniel types" },
+      { "source": "e8", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — OR 1.25 (95% CI 1.11–1.42) vs mesocephalic breeds" },
+      { "source": "e9", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — review-level: likelihood of periodontitis increases with age" },
+      { "source": "e10", "relation": "contraindicated_for", "target": "interpreting_breed_odds_as_pure_incidence", "evidenceLevel": "Low — inherent to record-based design; differential examination rates by breed are not separable from true incidence" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a random sample of 22,333 UK dogs under primary veterinary care in 2016, the one-year period prevalence of a recorded periodontal disease diagnosis was 12.52% (95% CI 12.09–12.97).",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Recorded Prevalence",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Primary-care practices, where diagnosis rests largely on visual assessment of conscious dogs, report average prevalences of 9.3-18.2%, while detailed examinations of anaesthetised dogs report 44-100% — a large detection gap.",
+      "sourcePaper": "Wallis & Holcombe 2020",
+      "category": "Detection Gap",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Eighteen breeds showed increased odds of periodontal disease versus crossbred dogs; the highest were Toy Poodle (OR 3.97), King Charles Spaniel (2.63), Greyhound (2.58) and Cavalier King Charles Spaniel (2.39).",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Breed Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Increasing adult bodyweight was associated with progressively decreasing odds of periodontal disease — smaller dogs carry higher risk, contrary to common owner assumption.",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Size Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Brachycephalic breeds had 1.25 times the odds (95% CI 1.11-1.42) and spaniel types 1.63 times the odds (95% CI 1.42-1.87) of periodontal disease compared with their reference groups.",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Conformation Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The 12.52% figure counts diagnoses recorded in clinical notes, not disease present in mouths; undiagnosed disease is by construction absent from it.",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Measurement Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "No owner-observable sign was evaluated as a screening test in this study; halitosis and similar signs have no established sensitivity or specificity here.",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Scope Limitation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Neither study evaluated any prevention strategy — brushing, diet, chews and professional cleaning frequency were not tested as interventions.",
+      "sourcePaper": "O'Neill et al. 2021; Wallis & Holcombe 2020",
+      "category": "Intervention Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by these papers. The breed and bodyweight findings do support proactively raising dental assessment for small-breed, spaniel-type, brachycephalic and older dogs rather than waiting for an owner complaint."
+    ],
+    "redFlags": [
+      "Not addressed — neither study identifies red-flag findings or urgency thresholds."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the cohort study measures recorded periodontal disease diagnoses and does not evaluate other causes of oral signs."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "The detection-gap comparison implies that conscious visual assessment substantially under-detects relative to detailed examination under anaesthesia; the review reports both figures but neither paper issues a screening protocol."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by these papers."
+    ]
+  },
+  "limitations": [
+    "The primary outcome is a recorded diagnosis, not disease presence — the study measures what primary care detects, and undiagnosed disease is invisible to it by construction",
+    "Breed and size odds may partly reflect differential examination rates rather than true incidence; a record-based design cannot separate detection intensity from occurrence",
+    "Single country (UK), single year (2016)",
+    "The 44-100% anaesthetised-examination range is drawn from studies with differing populations, grading systems and eras — appropriate as order-of-magnitude context, not as a precise figure",
+    "No prevention or treatment intervention was evaluated by either paper",
+    "Severity distribution is not reported at the level used here, so 'diagnosed' spans everything from mild gingivitis to advanced periodontitis"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Heat-related illness / heatstroke (canine)" },
+      { "id": "e2", "type": "RiskFactor", "name": "Exertional trigger (exercise)" },
+      { "id": "e3", "type": "RiskFactor", "name": "Environmental trigger (ambient heat)" },
+      { "id": "e4", "type": "RiskFactor", "name": "Vehicular confinement trigger" },
+      { "id": "e5", "type": "RiskFactor", "name": "Brachycephalic skull shape" },
+      { "id": "e6", "type": "RiskFactor", "name": "Young male dog" },
+      { "id": "e7", "type": "RiskFactor", "name": "Older age or pre-existing respiratory compromise" },
+      { "id": "e8", "type": "EmergencyIndicator", "name": "Suspected overheating on a warm day" },
+      { "id": "e9", "type": "Prevention", "name": "Shifting exercise to cooler parts of the day" }
+    ],
+    "relationships": [
+      { "source": "e2", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — 74.2% of 1,259 heat-related illness events in 905,543 UK dogs under primary care, VetCompass 2016" },
+      { "source": "e3", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — 12.9% of events in the same cohort" },
+      { "source": "e4", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — 5.2% of events in the same cohort" },
+      { "source": "e5", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — greater odds of ALL three trigger types versus mesocephalic dogs" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "e2", "evidenceLevel": "Moderate — greater odds of exertional heat-related illness specifically" },
+      { "source": "e7", "relation": "increases_risk_of", "target": "e3", "evidenceLevel": "Moderate — greatest odds of environmental heat-related illness specifically" },
+      { "source": "e8", "relation": "increases_risk_of", "target": "emergency_presentation", "evidenceLevel": "Very Low — not an outcome measured by this study; included as a standing safety boundary only" },
+      { "source": "e9", "relation": "recommended_for", "target": "e1", "evidenceLevel": "Very Low — a reasonable inference from the trigger distribution, NOT an intervention this study tested" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In 905,543 UK dogs under primary veterinary care in 2016, 1,259 heat-related illness events were identified across 1,222 dogs.",
+      "sourcePaper": "Hall et al. 2020",
+      "category": "Incidence",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Exertion was the predominant trigger at 74.2% of heat-related illness events; environmental heat accounted for 12.9% and vehicular confinement for 5.2%.",
+      "sourcePaper": "Hall et al. 2020",
+      "category": "Trigger Distribution",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Brachycephalic dogs had greater odds of all three heat-related illness trigger types compared with mesocephalic dogs.",
+      "sourcePaper": "Hall et al. 2020",
+      "category": "Breed Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Young male dogs had greater odds of exertional heat-related illness, while older dogs and dogs with respiratory compromise had the greatest odds of the environmental type.",
+      "sourcePaper": "Hall et al. 2020",
+      "category": "Risk Stratification",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "The odds of death following vehicular heat-related illness (OR 1.47) were similar to exertional, and the difference was NOT statistically significant (p = 0.492).",
+      "sourcePaper": "Hall et al. 2020",
+      "category": "Outcome",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "In UK dogs, exertional heat-related illness affects more dogs and kills more dogs than confinement in a hot vehicle — a difference in event frequency, not in per-event lethality.",
+      "sourcePaper": "Hall et al. 2020",
+      "category": "Public Messaging Correction",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "In a companion VetCompass analysis of severity, the median ambient temperature on days when heat-related illness events occurred was 16.9°C — heat-related illness is not confined to heatwave conditions.",
+      "sourcePaper": "Hall et al. 2022",
+      "category": "Ambient Conditions",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "The study counts only events that reached a veterinary practice; dogs that recovered at home or died before arrival are not represented.",
+      "sourcePaper": "Hall et al. 2020",
+      "category": "Ascertainment Limitation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by this paper. Its risk stratification does support establishing trigger context — exertional versus environmental versus confinement — alongside skull shape, age and any respiratory compromise."
+    ],
+    "redFlags": [
+      "Not defined by this study. Heat-related illness is a recognised emergency, but this paper reports epidemiology and does not enumerate clinical red flags or grading criteria."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study classifies confirmed heat-related illness events by trigger and does not evaluate differential diagnosis."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not addressed — no diagnostic workup is evaluated or recommended by this study."
+    ],
+    "urgentCareTriggers": [
+      "Suspected overheating requires immediate veterinary contact. This is a standing safety boundary, not a finding of this study — the paper evaluates no triage threshold, and first-aid or cooling guidance must come from a veterinarian rather than from this record."
+    ]
+  },
+  "limitations": [
+    "Ascertainment: only events presenting to a veterinary practice were captured — home-recovered and pre-arrival deaths are absent, so trigger proportions describe presenting cases",
+    "Single country (UK) and single year (2016); climate, culture and exercise habits limit transfer to other populations",
+    "The vehicular-versus-exertional death odds comparison (OR 1.47) was not statistically significant (p = 0.492) and must not be reported as a difference",
+    "No safe temperature, duration, or activity threshold is defined for any individual dog",
+    "No prevention or treatment strategy was evaluated; any 'walk earlier' style advice is inference from the trigger distribution, not a tested intervention",
+    "Retrospective clinical records were not primarily recorded for research, so trigger classification depends on what practitioners documented at the time"
+  ]
+}
