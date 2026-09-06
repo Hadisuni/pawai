@@ -1,0 +1,96 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "ClinicalSign", "name": "Pruritus (canine)" },
+      { "id": "e2", "type": "Diagnostic", "name": "Pruritus Visual Analog Scale (pVAS), owner-completed" },
+      { "id": "e3", "type": "Diagnostic", "name": "0–10 verbal numeric scale (VNS)" },
+      { "id": "e4", "type": "Diagnostic", "name": "Presentation of the owner's previous score before rescoring" },
+      { "id": "e5", "type": "RiskFactor", "name": "Anchoring bias from a visible previous score" },
+      { "id": "e6", "type": "RiskFactor", "name": "Long interval between assessments" }
+    ],
+    "relationships": [
+      { "source": "e4", "relation": "associated_with", "target": "improved_score_perception_agreement", "evidenceLevel": "Moderate — Group A (previous score shown first) 96% agreement, kappa 0.81, versus Group C (standard, no previous score) 79%, kappa 0.37; n=192 prospective" },
+      { "source": "e2", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — the only validated tool for canine pruritus at the time of this study; measures owner-perceived severity, not disease" },
+      { "source": "e3", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — separately validated (Strzok 2022), but NOT interchangeable with pVAS despite good correlation" },
+      { "source": "e5", "relation": "contraindicated_for", "target": "interpreting_agreement_as_accuracy", "evidenceLevel": "Low — inherent to the design; the study measures internal agreement and cannot separate better assessment from a more self-consistent narrative" },
+      { "source": "e6", "relation": "associated_with", "target": "reduced_agreement", "evidenceLevel": "Low — retrospective analysis averaged 50.8% agreement (kappa 0.25), best at 30–60 day visit intervals (63%, kappa 0.355)" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "Owners shown their previous Pruritus Visual Analog Scale score before rescoring reached 96% agreement (kappa 0.81) with their own perception of improvement, versus 79% (kappa 0.37) for the standard method with no previous score shown.",
+      "sourcePaper": "Young et al. 2019",
+      "category": "Record Availability Effect",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The study measured agreement between score change and the owner's perception of improvement — NOT accuracy against the dog's actual pruritus. Anchoring to the visible previous score cannot be excluded as the mechanism.",
+      "sourcePaper": "Young et al. 2019",
+      "category": "Causal Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "In the retrospective arm across at least three consecutive real-world visits, average agreement was only 50.8% (kappa 0.25).",
+      "sourcePaper": "Young et al. 2019",
+      "category": "Real-World Performance",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Agreement was highest at visit intervals of 30–60 days (63%, kappa 0.355), suggesting longer gaps degrade the comparison.",
+      "sourcePaper": "Young et al. 2019",
+      "category": "Assessment Interval",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "In the group completing both, pVAS and a 0–10 verbal scale did not differ significantly (P = 0.56).",
+      "sourcePaper": "Young et al. 2019",
+      "category": "Instrument Comparison",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "A separate 2022 validation found the 0–10 verbal numeric scale valid for canine pruritus but NOT interchangeable with the pVAS (95% limits of agreement -2.0 to 2.57, outside the ±2 acceptability limit); 69% of clients preferred the pVAS.",
+      "sourcePaper": "Strzok et al. 2022",
+      "category": "Instrument Comparison",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "This study enrolled dogs already under care for pruritus; it evaluates scale behaviour at follow-up and says nothing about detecting skin disease or about home scoring.",
+      "sourcePaper": "Young et al. 2019",
+      "category": "Scope Limitation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by the study's own manipulation: presenting the owner's previous score before asking for a new one substantially raises agreement with their perception of change — but see the anchoring caveat before treating this as improved accuracy."
+    ],
+    "redFlags": [
+      "Not addressed — this study evaluates a severity scale's administration and identifies no red-flag findings."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — dogs were already under care for pruritus; the study does not evaluate the cause of itch."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not addressed — no diagnostic workup is evaluated. The pVAS measures owner-perceived severity and is not a diagnostic instrument."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "Outcome is agreement between score change and owner-perceived improvement — accuracy against the dog's true pruritus was never measured",
+    "Anchoring is an unexcluded alternative explanation for the Group A result and cuts directly against reading it as better observation",
+    "Single-centre study of dogs already under care for pruritus, using one scale",
+    "Real-world retrospective agreement was only 50.8%, far below the prospective figures, tempering how much the intervention effect transfers to ordinary practice",
+    "No home-scoring arm: the study describes clinic administration across follow-up visits, so it does not validate owner scoring at home",
+    "Group sizes for the five randomised arms are not reported in the abstract, so per-group precision is unknown"
+  ]
+}

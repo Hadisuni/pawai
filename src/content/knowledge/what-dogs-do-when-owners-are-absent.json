@@ -1,0 +1,97 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Behaviour", "name": "Separation-related distress (canine)" },
+      { "id": "e2", "type": "ClinicalSign", "name": "Behaviours suggestive of anxiety during owner absence" },
+      { "id": "e3", "type": "ClinicalSign", "name": "Destruction (visible, evidence-leaving behaviour)" },
+      { "id": "e4", "type": "Diagnostic", "name": "Owner-completed C-BARQ separation-related behaviour section" },
+      { "id": "e5", "type": "Diagnostic", "name": "Video recording with focal animal continuous sampling" },
+      { "id": "e6", "type": "RiskFactor", "name": "Structural unobservability of owner-absent behaviour" },
+      { "id": "e7", "type": "RiskFactor", "name": "Presence of conspecifics during recording" }
+    ],
+    "relationships": [
+      { "source": "e4", "relation": "associated_with", "target": "e2", "evidenceLevel": "Low — significant but moderate correlation, rs = 0.438, P = 0.003, n=31 dogs, single 25-minute recording each" },
+      { "source": "e4", "relation": "diagnosed_by", "target": "e3", "evidenceLevel": "Low — owner-report/video correlations were higher for more apparent behaviours such as destruction than for subtler signs" },
+      { "source": "e5", "relation": "diagnosed_by", "target": "e2", "evidenceLevel": "Low — video was the reference measure here, but a single session cannot separate habitual pattern from day-specific behaviour" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "under_recognition_of_e1", "evidenceLevel": "Low — implied by the moderate correlation and the stronger performance on evidence-leaving behaviours; not directly quantified" },
+      { "source": "e7", "relation": "contraindicated_for", "target": "clean_interpretation", "evidenceLevel": "Very Low — some dogs were recorded with conspecifics present; the design was not powered to disentangle this" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "Owner C-BARQ separation-related behaviour scores showed a significant moderate positive correlation with the percentage of time dogs spent in anxiety-suggestive behaviours on video (rs = 0.438, P = 0.003, n = 31).",
+      "sourcePaper": "van Rooy et al. 2018",
+      "category": "Owner Insight",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "A similar moderate correlation held against the first principal component of recorded behaviours (rs = 0.385, P = 0.008).",
+      "sourcePaper": "van Rooy et al. 2018",
+      "category": "Owner Insight",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Correlations between owner report and video were higher for more apparent behaviours such as destruction — owners read best the behaviours that leave physical evidence.",
+      "sourcePaper": "van Rooy et al. 2018",
+      "category": "Signal Asymmetry",
+      "evidenceLevel": "Low",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Behaviour was recorded during the first 25 minutes after the owner's departure using focal animal continuous sampling.",
+      "sourcePaper": "van Rooy et al. 2018",
+      "category": "Method",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "A correlation of 0.438 supports neither 'owners know' nor 'owners have no idea' — owner report carries real signal and substantial error simultaneously.",
+      "sourcePaper": "van Rooy et al. 2018",
+      "category": "Interpretation Boundary",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The authors state that further work with more participants and repeated recordings is required before their conclusion can be relied upon.",
+      "sourcePaper": "van Rooy et al. 2018",
+      "category": "Authors' Caveat",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The study establishes a group-level correlation; it does not identify which individual owners are accurate, nor validate any individual owner's impression.",
+      "sourcePaper": "van Rooy et al. 2018",
+      "category": "Directional Boundary",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by this paper. Its signal asymmetry finding does support treating owner reports of visible aftermath (destruction, toileting) as better-grounded than owner reports of subtle in-absence distress, and supports requesting video where available."
+    ],
+    "redFlags": [
+      "Not addressed — this study identifies no red-flag findings and defines no urgency threshold."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study validates a questionnaire against video and does not evaluate medical causes such as pain or cognitive decline that can mimic or contribute to separation-related behaviour."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Video recording of the dog during owner absence, coded by continuous sampling, served as the study's reference measure — interpretation requires a veterinarian or qualified behaviourist."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "Small sample: 31 dogs, each recorded once — day-to-day variation and camera novelty cannot be separated from habitual behaviour",
+    "Single 25-minute window immediately post-departure; nothing is established about behaviour across a full working day",
+    "Moderate correlation (rs = 0.438) leaves substantial unexplained variance; the result must not be reported as owners being either reliable or unreliable",
+    "Some dogs were recorded with one or two conspecifics present, an uncontrolled source of variation in this design",
+    "Group-level correlation only — no way to identify which individual owners' reports are trustworthy",
+    "Medical differentials for separation-related behaviour, including pain and canine cognitive dysfunction, were outside the study's scope"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Diabetes mellitus (feline)" },
+      { "id": "e2", "type": "Species", "name": "Feline, insured Swedish population, diagnosed 2009–2013" },
+      { "id": "e3", "type": "Treatment", "name": "Exogenous insulin therapy" },
+      { "id": "e4", "type": "Nutrition", "name": "Commercially available wet diet" },
+      { "id": "e5", "type": "ClinicalSign", "name": "Diabetic remission (insulin no longer required)" },
+      { "id": "e6", "type": "ClinicalSign", "name": "Owner-rated quality of life" },
+      { "id": "e7", "type": "RiskFactor", "name": "Response bias from a 35% questionnaire response rate" },
+      { "id": "e8", "type": "RiskFactor", "name": "Unsupervised diet change in an insulin-treated cat" }
+    ],
+    "relationships": [
+      { "source": "e3", "relation": "treats", "target": "e1", "evidenceLevel": "Low — descriptive within an owner-questionnaire cohort; remission reached in 118/405 (29%) of treated cats" },
+      { "source": "e4", "relation": "associated_with", "target": "e5", "evidenceLevel": "Low — OR 3.16 (95% CI 1.27–8.12) for remission; observational association within a retrospective survey, not a controlled comparison" },
+      { "source": "e4", "relation": "associated_with", "target": "remission_without_relapse", "evidenceLevel": "Very Low as a magnitude — OR 14.8 with 95% CI 2.25–153.8; the interval is too wide to support any effect-size claim" },
+      { "source": "e5", "relation": "associated_with", "target": "e6", "evidenceLevel": "Low — remission associated with better owner-rated quality of life; direction of effect not established" },
+      { "source": "e7", "relation": "contraindicated_for", "target": "population_level_generalization", "evidenceLevel": "Low — 477 of 1,369 questionnaires returned; non-responders may differ systematically" },
+      { "source": "e8", "relation": "increases_risk_of", "target": "hypoglycaemia_or_loss_of_control", "evidenceLevel": "Very Low — not measured by this study; included as a standing safety boundary because diet and insulin dose interact directly" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "Among treated cats in a study of 477 Swedish insured cats with diabetes mellitus, the remission rate was 29% (118/405).",
+      "sourcePaper": "Rothlin-Zachrisson et al. 2023",
+      "category": "Outcome",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Remission was associated with a better owner-rated quality of life for the cat.",
+      "sourcePaper": "Rothlin-Zachrisson et al. 2023",
+      "category": "Quality of Life",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Feeding a commercially available wet diet was associated with remission (OR 3.16, 95% CI 1.27-8.12).",
+      "sourcePaper": "Rothlin-Zachrisson et al. 2023",
+      "category": "Diet Association",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The association with remission without relapse (OR 14.8) has a 95% CI of 2.25-153.8 — the magnitude is effectively unconstrained and must never be quoted without the interval.",
+      "sourcePaper": "Rothlin-Zachrisson et al. 2023",
+      "category": "Precision Warning",
+      "evidenceLevel": "Very Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Unlike dogs, cats can enter diabetic remission; this is a species difference, not a treatment success rate transferable across species.",
+      "sourcePaper": "Rothlin-Zachrisson et al. 2023",
+      "category": "Species Distinction",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The questionnaire response rate was 35% (477 of 1,369), and all outcomes are owner-recalled without clinical verification.",
+      "sourcePaper": "Rothlin-Zachrisson et al. 2023",
+      "category": "Methodological Limitation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The diet finding is observational: cats fed wet food may differ from cats fed dry food in owner attentiveness, veterinary engagement or time to diagnosis, none of which this design can separate.",
+      "sourcePaper": "Rothlin-Zachrisson et al. 2023",
+      "category": "Confounding",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Diet, feeding schedule and insulin dose interact directly in an insulin-treated cat; no change should follow from this study without veterinary supervision.",
+      "sourcePaper": "Rothlin-Zachrisson et al. 2023",
+      "category": "Safety Boundary",
+      "evidenceLevel": "Very Low",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by this paper. Diet type is recorded as an exposure variable, which supports asking specifically what an insulin-treated cat is actually eating, including treats and food from other household members."
+    ],
+    "redFlags": [
+      "Not addressed — this study reports outcomes and defines no red-flag findings or urgency thresholds."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — cats were already diagnosed with diabetes mellitus; the study does not evaluate differential diagnosis of polyuria, polydipsia or weight loss."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not addressed — no diagnostic workup is evaluated. Diagnosis and monitoring of feline diabetes remain clinical and laboratory-based."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper. Any suspected hypoglycaemia in an insulin-treated cat is an emergency, but that is a standing clinical boundary rather than a finding of this study."
+    ]
+  },
+  "limitations": [
+    "Retrospective owner questionnaire with a 35% response rate — response bias is substantial and undirected",
+    "All outcomes including remission and quality of life are owner-recalled, potentially years after the events, without clinical verification",
+    "The OR of 14.8 for remission without relapse carries a 95% CI of 2.25-153.8; no magnitude claim is defensible from it",
+    "The wet-diet association is observational and open to confounding by owner attentiveness, veterinary engagement and time to diagnosis",
+    "Swedish insured-cat population diagnosed 2009-2013; insurance status shapes presentation and treatment, and protocols have changed since",
+    "Relapse occurred (remission and remission-without-relapse are separate outcomes) but no quotable relapse rate is available from the abstract",
+    "Quality of life was owner-rated and measured concurrently with remission status, so the direction of that association is not established"
+  ]
+}
