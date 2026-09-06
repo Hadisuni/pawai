@@ -1,0 +1,106 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Chronic kidney disease (feline)" },
+      { "id": "e2", "type": "Species", "name": "Feline, client-owned (CKD-diagnosed and apparently healthy)" },
+      { "id": "e3", "type": "ClinicalSign", "name": "Reduced defecation frequency (<1 per day)" },
+      { "id": "e4", "type": "Diagnostic", "name": "Owner-recorded daily litter box observation over 7 days" },
+      { "id": "e5", "type": "Diagnostic", "name": "Fecal consistency scoring" },
+      { "id": "e6", "type": "RiskFactor", "name": "Owner-judged 'apparently healthy' comparison group (unverified by examination)" },
+      { "id": "e7", "type": "RiskFactor", "name": "Shared litter box in multi-cat households (attribution ambiguity)" }
+    ],
+    "relationships": [
+      { "source": "e1", "relation": "associated_with", "target": "e3", "evidenceLevel": "Low — cross-sectional owner survey; 42% of CKD cats (n=43) vs 15% of apparently healthy cats (n=124) defecated <1/day, P<0.0001" },
+      { "source": "e1", "relation": "associated_with", "target": "reduced_observed_bm_frequency", "evidenceLevel": "Low — observed frequency significantly lower in CKD cats, P=0.02, same cohort" },
+      { "source": "e5", "relation": "contraindicated_for", "target": "distinguishing_ckd_from_healthy", "evidenceLevel": "Low — observed fecal scores showed no significant difference between groups" },
+      { "source": "e4", "relation": "diagnosed_by", "target": "e3", "evidenceLevel": "Low — owner-collected, unverified data; as few as 2 days of observation accepted for inclusion" },
+      { "source": "e6", "relation": "contraindicated_for", "target": "clean_group_separation", "evidenceLevel": "Low — comparison group health status was owner-reported, not clinically confirmed" },
+      { "source": "e3", "relation": "contraindicated_for", "target": "early_detection_screening", "evidenceLevel": "Low — study design is cross-sectional on already-diagnosed cats and tests no predictive or screening capability" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a 2021 owner-reported survey, 42% of cats with chronic kidney disease (n=43) were observed to defecate less than once per day, compared with 15% of apparently healthy cats (n=124); P<0.0001.",
+      "sourcePaper": "Jones et al. 2021",
+      "category": "Clinical Pattern",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Eighty-five percent of apparently healthy cats in this survey were observed to defecate one or more times per day.",
+      "sourcePaper": "Jones et al. 2021",
+      "category": "Reference Pattern",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Observed defecation frequency was significantly lower in CKD cats than in apparently healthy cats (P=0.02).",
+      "sourcePaper": "Jones et al. 2021",
+      "category": "Clinical Pattern",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Observed fecal consistency scores were NOT significantly different between CKD and apparently healthy cats — the difference between groups was in frequency only.",
+      "sourcePaper": "Jones et al. 2021",
+      "category": "Negative Finding",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Group overlap is substantial: 58% of CKD cats still defecated at least once daily, and 15% of apparently healthy cats did not — the measure separates groups, not individual cats.",
+      "sourcePaper": "Jones et al. 2021",
+      "category": "Discriminative Limitation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The authors concluded that reduced observed bowel movement frequency in CKD cats represents a clinically important variation from normal.",
+      "sourcePaper": "Jones et al. 2021",
+      "category": "Authors' Conclusion",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The study compared cats already diagnosed with CKD against a comparison group; it did not follow undiagnosed cats and provides no evidence that litter box tracking detects CKD early.",
+      "sourcePaper": "Jones et al. 2021",
+      "category": "Scope Limitation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "A secondary aim of the study was to assess owner awareness of bowel movement frequency by comparing predicted with observed counts; the abstract does not report the outcome of that comparison.",
+      "sourcePaper": "Jones et al. 2021",
+      "category": "Unreported Outcome",
+      "evidenceLevel": "Very Low",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by the study's own method rather than prescribed by it: daily observed defecation count over a defined window, compared against the individual cat's own prior pattern rather than a population rule."
+    ],
+    "redFlags": [
+      "Not addressed — this study identifies no red-flag findings and defines no urgency threshold."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study compares CKD cats with apparently healthy cats and does not evaluate other causes of reduced defecation frequency."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not addressed — no diagnostic workup is evaluated. CKD diagnosis and staging remain clinical and laboratory-based; nothing in this study substitutes for them."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "Small CKD group (n=43) drawn from a self-selected online survey population",
+    "Comparison group was 'apparently healthy' by owner report only, without veterinary confirmation — undetected disease in that group cannot be excluded",
+    "All data was owner-collected at home with no independent verification of counts or fecal scores",
+    "Inclusion required only two or more days of daily observation despite a 7-day protocol, so exposure windows varied substantially between cats",
+    "Cross-sectional design on already-diagnosed cats — establishes association, not predictive or screening value",
+    "Multi-cat households cannot reliably attribute stools in a shared box to an individual cat, a source of misclassification the design does not resolve",
+    "CKD stage was not used to stratify the reported frequency findings in the abstract, so severity-dependence is unknown"
+  ]
+}

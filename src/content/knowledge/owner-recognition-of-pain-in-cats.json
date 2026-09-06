@@ -1,0 +1,109 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "ClinicalSign", "name": "Acute pain-associated facial expression (feline)" },
+      { "id": "e2", "type": "Species", "name": "Feline, client-owned (assessed via photographic images)" },
+      { "id": "e3", "type": "Diagnostic", "name": "Feline Grimace Scale (5 action units, 0–2 each)" },
+      { "id": "e4", "type": "Diagnostic", "name": "Ear position action unit" },
+      { "id": "e5", "type": "Diagnostic", "name": "Orbital tightening action unit" },
+      { "id": "e6", "type": "Diagnostic", "name": "Muzzle tension action unit" },
+      { "id": "e7", "type": "Diagnostic", "name": "Whiskers change action unit" },
+      { "id": "e8", "type": "Diagnostic", "name": "Head position action unit" },
+      { "id": "e9", "type": "RiskFactor", "name": "Convenience sampling via a cat-welfare organization (selection bias)" }
+    ],
+    "relationships": [
+      { "source": "e3", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — caregiver total scores not significantly different from veterinarian scores; ICCsingle 0.65 (good) for sum of scores, n=1262 across 66 countries" },
+      { "source": "e4", "relation": "associated_with", "target": "e1", "evidenceLevel": "Moderate — ICCsingle 0.65 among caregivers (good band)" },
+      { "source": "e5", "relation": "associated_with", "target": "e1", "evidenceLevel": "Moderate — ICCsingle 0.69 among caregivers, the highest of the five action units" },
+      { "source": "e6", "relation": "associated_with", "target": "e1", "evidenceLevel": "Low — ICCsingle 0.58 (moderate band); the single unit where caregivers differed significantly from veterinarians (P=0.035)" },
+      { "source": "e7", "relation": "associated_with", "target": "e1", "evidenceLevel": "Low — ICCsingle 0.37, 'reasonable' band; least reliable unit" },
+      { "source": "e8", "relation": "associated_with", "target": "e1", "evidenceLevel": "Low — ICCsingle 0.38, 'reasonable' band" },
+      { "source": "e9", "relation": "contraindicated_for", "target": "generalization_to_all_cat_owners", "evidenceLevel": "Low — inherent to the recruitment method; not measured or corrected by the study" },
+      { "source": "e3", "relation": "contraindicated_for", "target": "chronic_pain_assessment", "evidenceLevel": "Moderate — the instrument and this survey address acute pain only" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a 2023 bilingual global survey with 1,262 completed responses from 66 countries, cat caregivers' Feline Grimace Scale scores were not significantly different from veterinarians' scores of the same images, except for muzzle tension.",
+      "sourcePaper": "Monteiro et al. 2023",
+      "category": "Owner Recognition",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The single-rater intraclass correlation for caregivers' total Feline Grimace Scale score was 0.65, which the study classified as good reliability.",
+      "sourcePaper": "Monteiro et al. 2023",
+      "category": "Reliability",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Orbital tightening (ICCsingle 0.69) and ear position (0.65) were the most reliable action units among caregivers; whiskers change (0.37) and head position (0.38) were the least reliable.",
+      "sourcePaper": "Monteiro et al. 2023",
+      "category": "Signal Quality",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Caregivers scored muzzle tension significantly higher than veterinarians did (0.9 vs 0.7, P=0.035) — the only action unit showing a significant group difference.",
+      "sourcePaper": "Monteiro et al. 2023",
+      "category": "Rater Divergence",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Demographic variables did not significantly affect the Feline Grimace Scale scores caregivers assigned.",
+      "sourcePaper": "Monteiro et al. 2023",
+      "category": "Rater Characteristics",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The Feline Grimace Scale comprises five action units scored 0–2 each: ear position, orbital tightening, muzzle tension, whiskers change, and head position.",
+      "sourcePaper": "Monteiro et al. 2023",
+      "category": "Instrument Structure",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "This survey assessed acute pain only; its findings do not extend to chronic or slowly progressive pain in cats.",
+      "sourcePaper": "Monteiro et al. 2023",
+      "category": "Scope Limitation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Participants scored 10 static photographic images, not live cats; the study measured inter-rater agreement, not any clinical or welfare outcome of owner-performed scoring.",
+      "sourcePaper": "Monteiro et al. 2023",
+      "category": "Methodological Limitation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by this paper. Its action units (ear position, orbital tightening, muzzle tension, whiskers change, head position) indicate which facial features carry the most reliable signal, but the study does not specify owner-facing history questions."
+    ],
+    "redFlags": [
+      "Not addressed — this study does not identify red-flag findings warranting urgent referral, and defines no owner-facing action threshold."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study measures rater agreement on a pain scale, not the cause of pain."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not addressed — no diagnostic workup is evaluated or recommended by this study."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper. Suspected pain remains a reason to contact a veterinarian; this study provides no threshold that would justify home observation instead."
+    ]
+  },
+  "limitations": [
+    "Author-acknowledged: convenience sampling recruited largely through a cat-welfare organization — participants are unusually engaged and not representative of cat owners generally",
+    "Author-acknowledged: 86% of respondents identified as female; male raters were underrepresented",
+    "Design-level: raters scored 10 static images rather than live cats, removing movement, lighting, angle, and observer-presence effects present in real use",
+    "Design-level: the study measures inter-rater agreement only — no clinical, welfare, or decision-quality outcome of owner scoring was assessed",
+    "Scope: acute pain only; the instrument was neither designed nor tested here for chronic pain",
+    "Two of the five action units (whiskers change, head position) reached only 'reasonable' reliability among caregivers, so the total score is not uniformly reliable across its components"
+  ]
+}

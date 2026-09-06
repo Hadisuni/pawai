@@ -1,0 +1,104 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "RiskFactor", "name": "Overweight body condition in middle age (canine)" },
+      { "id": "e2", "type": "Species", "name": "Canine, neutered client-owned, middle-aged (6.5–8.5 years)" },
+      { "id": "e3", "type": "Diagnostic", "name": "Veterinarian-assigned body condition score (clinical record)" },
+      { "id": "e4", "type": "Prevention", "name": "Body condition management from midlife onward" },
+      { "id": "e5", "type": "Breed", "name": "Yorkshire Terrier (largest observed life-span gap)" },
+      { "id": "e6", "type": "Breed", "name": "German Shepherd Dog (smallest observed life-span gap)" },
+      { "id": "e7", "type": "RiskFactor", "name": "Reverse causation / occult illness driving both weight change and mortality" }
+    ],
+    "relationships": [
+      { "source": "e1", "relation": "associated_with", "target": "reduced_life_span", "evidenceLevel": "Moderate — retrospective case-control, n=50,787 across ~900 North American hospitals; hazard ratios 1.35–2.86 across all 12 breeds" },
+      { "source": "e1", "relation": "associated_with", "target": "increased_instantaneous_mortality_risk", "evidenceLevel": "Moderate — elevated throughout the age range studied in every breed examined" },
+      { "source": "e3", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — exposure classification derived from recorded clinical body condition, not from a research-grade standardized re-assessment" },
+      { "source": "e4", "relation": "recommended_for", "target": "e2", "evidenceLevel": "Low — authors' stated recommendation, not an outcome tested by this study" },
+      { "source": "e7", "relation": "contraindicated_for", "target": "causal_interpretation", "evidenceLevel": "Low — inherent limitation of the observational design; not measured or excluded by the study" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a retrospective case-control study of 50,787 middle-aged neutered client-owned dogs across 12 breeds, dogs in overweight body condition had a shorter median life span than dogs in normal body condition in every breed examined.",
+      "sourcePaper": "Salt et al. 2019",
+      "category": "Longevity",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Hazard ratios for death in overweight versus normal-condition dogs ranged from 1.35 (German Shepherd Dog, 99.79% CI 1.05–1.73) to 2.86 (Yorkshire Terrier, 99.79% CI 2.14–3.83).",
+      "sourcePaper": "Salt et al. 2019",
+      "category": "Effect Size",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Yorkshire Terriers showed the largest median life-span gap: 13.7 years in overweight condition versus 16.2 years in normal condition.",
+      "sourcePaper": "Salt et al. 2019",
+      "category": "Breed Variation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "German Shepherd Dogs showed the smallest median life-span gap: 12.1 years in overweight condition versus 12.5 years in normal condition.",
+      "sourcePaper": "Salt et al. 2019",
+      "category": "Breed Variation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The elevated risk of death in overweight dogs was present throughout the age range studied, not only at advanced ages.",
+      "sourcePaper": "Salt et al. 2019",
+      "category": "Risk Pattern",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The study's authors concluded that veterinary professionals should promote healthy body condition particularly from midlife onward.",
+      "sourcePaper": "Salt et al. 2019",
+      "category": "Authors' Recommendation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "This study tested no weight-loss intervention; it cannot support any claim that reducing a dog's weight extends life span.",
+      "sourcePaper": "Salt et al. 2019",
+      "category": "Methodological Limitation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The study population was restricted to neutered client-owned dogs of 12 breeds in North America; mixed-breed and unneutered dogs were not represented.",
+      "sourcePaper": "Salt et al. 2019",
+      "category": "Generalizability",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not specified by this paper. The study uses recorded body condition as an exposure variable and prescribes no owner-facing history questions."
+    ],
+    "redFlags": [
+      "Not addressed — this study does not identify red-flag symptoms warranting urgent referral."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study measures the association between recorded body condition and life span, not differential diagnosis."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "The study's own exposure measure: veterinarian-assigned body condition recorded at routine visits, as distinct from scale weight alone."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "Design-level: retrospective case-control from clinical records — establishes association, never causation",
+    "Design-level: no weight-loss intervention was tested, so no conclusion about the effect of weight reduction is supported",
+    "Uncontrolled confounding: occult illness can independently drive both body condition change and mortality; the design cannot separate this from a weight effect",
+    "Exposure classification relied on body condition as recorded in routine clinical practice rather than a standardized research re-assessment",
+    "Generalizability: neutered client-owned dogs, 12 breeds, North America only — excludes mixed-breed and unneutered populations",
+    "Effect size varied more than sixfold across breeds (HR 1.35 to 2.86), so a single population-level figure would misrepresent any individual breed"
+  ]
+}
