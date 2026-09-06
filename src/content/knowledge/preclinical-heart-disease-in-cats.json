@@ -1,0 +1,107 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Preclinical hypertrophic cardiomyopathy (feline, HCM)" },
+      { "id": "e2", "type": "Disease", "name": "Preclinical obstructive hypertrophic cardiomyopathy (HOCM)" },
+      { "id": "e3", "type": "Disease", "name": "Congestive heart failure (feline)" },
+      { "id": "e4", "type": "EmergencyIndicator", "name": "Arterial thromboembolism — sudden hind-limb pain or paralysis" },
+      { "id": "e5", "type": "EmergencyIndicator", "name": "Tachypnoea or dyspnoea at rest" },
+      { "id": "e6", "type": "Diagnostic", "name": "Cardiac auscultation (murmur or gallop)" },
+      { "id": "e7", "type": "Diagnostic", "name": "Echocardiography" },
+      { "id": "e8", "type": "RiskFactor", "name": "Referral-centre ascertainment" }
+    ],
+    "relationships": [
+      { "source": "e1", "relation": "increases_risk_of", "target": "e3", "evidenceLevel": "Moderate — CHF, ATE or both in 30.5% of 1,008 preclinical cats; CHF risk 7.0% / 19.9% / 23.9% at 1 / 5 / 10 years" },
+      { "source": "e1", "relation": "increases_risk_of", "target": "e4", "evidenceLevel": "Moderate — ATE risk 3.5% / 9.7% / 11.3% at 1 / 5 / 10 years in the same cohort" },
+      { "source": "e1", "relation": "increases_risk_of", "target": "cardiovascular_death", "evidenceLevel": "Moderate — 27.9% cardiovascular death; risk 6.7% / 22.8% / 28.3% at 1 / 5 / 10 years" },
+      { "source": "e2", "relation": "associated_with", "target": "e1", "evidenceLevel": "Moderate — no statistically significant difference between HOCM and HCM for morbidity, mortality, time to complication or survival" },
+      { "source": "e6", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Low — the usual route to suspicion in practice; this study evaluates outcomes rather than the sensitivity of auscultation" },
+      { "source": "e7", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — the confirmatory method by which cohort membership was defined" },
+      { "source": "e8", "relation": "contraindicated_for", "target": "generalizing_risk_to_all_affected_cats", "evidenceLevel": "Low — cats reached participating centres through clinical suspicion; quieter incidentally-found disease may carry lower risk" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In the REVEAL study of 1,730 client-owned cats across 21 countries, congestive heart failure, arterial thromboembolism or both occurred in 30.5% of the 1,008 cats with preclinical hypertrophic cardiomyopathy.",
+      "sourcePaper": "Fox et al. 2018",
+      "category": "Outcome",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Cardiovascular death occurred in 27.9% of preclinical HCM/HOCM cats; risk was 6.7% at 1 year, 22.8% at 5 years and 28.3% at 10 years.",
+      "sourcePaper": "Fox et al. 2018",
+      "category": "Mortality",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Cats that developed a cardiovascular complication survived a mean of only 1.3 years (SD 1.7) afterwards.",
+      "sourcePaper": "Fox et al. 2018",
+      "category": "Prognosis",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Only about 10% of cats with preclinical HCM/HOCM reached 9-15 years of age.",
+      "sourcePaper": "Fox et al. 2018",
+      "category": "Longevity",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "No statistically significant differences were found between obstructive and nonobstructive preclinical HCM for cardiovascular morbidity, mortality, time to complication, or survival.",
+      "sourcePaper": "Fox et al. 2018",
+      "category": "Disease Subtype",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Preclinical means no clinical signs: this study identifies NO owner-observable marker of the disease, and provides no basis for any form of home screening.",
+      "sourcePaper": "Fox et al. 2018",
+      "category": "Owner Observation Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Roughly seven in ten cats with preclinical disease did NOT develop heart failure or a clot during the study period — the risk is substantial but not the majority outcome.",
+      "sourcePaper": "Fox et al. 2018",
+      "category": "Risk Framing",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The study identifies no protective intervention; the authors frame the need for effective monitoring and treatment strategies as still open.",
+      "sourcePaper": "Fox et al. 2018",
+      "category": "Intervention Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by this paper. Because the disease is preclinical by definition, history contributes little to detection; documentation of any previously noted murmur or gallop and of prior echocardiographic findings is the practical record."
+    ],
+    "redFlags": [
+      "Tachypnoea or dyspnoea at rest, and sudden hind-limb pain, weakness or paralysis consistent with arterial thromboembolism. These are the clinical manifestations the study counts as outcomes; it does not itself define triage criteria."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed in this study. Note that mild-to-moderate left ventricular wall thickening in cats is a diagnosis of exclusion requiring hyperthyroidism, systemic hypertension and other causes to be ruled out — that framing comes from the wider literature, not from this paper."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Echocardiography defined cohort membership in this study and is the confirmatory test; auscultation is the usual route to suspicion. No screening protocol is evaluated or recommended here."
+    ],
+    "urgentCareTriggers": [
+      "Respiratory distress at rest and suspected arterial thromboembolism require immediate veterinary attention. This is a standing clinical boundary; the study measures these as outcomes rather than defining thresholds."
+    ]
+  },
+  "limitations": [
+    "Retrospective design with follow-up partly via owner and referring-veterinarian interviews, introducing recall and ascertainment variability",
+    "Cats were diagnosed at participating specialist centres, so the cohort over-represents disease that prompted clinical suspicion; risk in incidentally-found disease may be lower",
+    "Other work in non-referred populations has reported lower progression to cardiac death; this study cannot resolve that discrepancy alone",
+    "No intervention was evaluated — the study establishes risk, not that any monitoring or treatment strategy modifies it",
+    "No owner-observable predictor is identified, so the findings cannot support home screening or owner-led risk assessment",
+    "Apparently healthy comparison cats (n=722) were classified at a single time point; subclinical disease undetected at entry cannot be excluded in that group"
+  ]
+}

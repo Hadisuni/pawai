@@ -1,0 +1,109 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Dilated cardiomyopathy (canine), diet-associated" },
+      { "id": "e2", "type": "Nutrition", "name": "Grain-free diet" },
+      { "id": "e3", "type": "Nutrition", "name": "Diet with peas, lentils or potatoes in the top 10 ingredients (FDA-PLP)" },
+      { "id": "e4", "type": "Nutrition", "name": "Taurine status" },
+      { "id": "e5", "type": "Diagnostic", "name": "High-sensitivity cardiac troponin I (hs-cTnI)" },
+      { "id": "e6", "type": "Diagnostic", "name": "Echocardiography" },
+      { "id": "e7", "type": "Diagnostic", "name": "NT-proBNP" },
+      { "id": "e8", "type": "ClinicalSign", "name": "Ventricular premature complexes" },
+      { "id": "e9", "type": "RiskFactor", "name": "Owner self-selection of diet (unmeasured confounding)" }
+    ],
+    "relationships": [
+      { "source": "e2", "relation": "associated_with", "target": "elevated_hs_cTnI", "evidenceLevel": "Low — median 0.076 vs 0.048 ng/mL, P<.001, but grain-free group only n=26 in a cross-sectional observational design" },
+      { "source": "e3", "relation": "associated_with", "target": "elevated_hs_cTnI", "evidenceLevel": "Low — median 0.059 vs 0.048 ng/mL, P=.006" },
+      { "source": "e3", "relation": "associated_with", "target": "e8", "evidenceLevel": "Low — VPCs during examination in 10% vs 2%, P=.04" },
+      { "source": "e2", "relation": "contraindicated_for", "target": "explaining_echocardiographic_change", "evidenceLevel": "Moderate — NO differences in echocardiographic variables or NT-proBNP were found between diet types in healthy dogs" },
+      { "source": "e2", "relation": "contraindicated_for", "target": "causing_taurine_deficiency", "evidenceLevel": "Moderate — whole blood taurine did not differ; plasma taurine was HIGHER in the grain-free group (125 vs 104 nmol/mL, P=.02)" },
+      { "source": "e4", "relation": "associated_with", "target": "e1", "evidenceLevel": "Low — a separate 2018 case series of 24 golden retrievers with taurine-deficient DCM, 23/24 fed grain-free and/or legume-rich diets; no control group" },
+      { "source": "e9", "relation": "contraindicated_for", "target": "causal_interpretation", "evidenceLevel": "Low — dogs were not randomised to diets; owner choice may correlate with unmeasured factors" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In 188 healthy dogs of four breeds, NO differences in echocardiographic variables, NT-proBNP or whole blood taurine were found between grain-free and grain-inclusive diets.",
+      "sourcePaper": "Adin et al. 2021",
+      "category": "Negative Finding",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Dogs eating grain-free diets had higher median high-sensitivity cardiac troponin I (0.076 vs 0.048 ng/mL, P<.001), which the authors state MIGHT indicate low-level cardiomyocyte injury.",
+      "sourcePaper": "Adin et al. 2021",
+      "category": "Biomarker Signal",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Dogs eating diets with peas, lentils or potatoes in the top 10 ingredients had higher median hs-cTnI (0.059 vs 0.048 ng/mL, P=.006) and more ventricular premature complexes during examination (10% vs 2%, P=.04).",
+      "sourcePaper": "Adin et al. 2021",
+      "category": "Biomarker Signal",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Plasma taurine was HIGHER, not lower, in dogs eating grain-free diets (125 vs 104 nmol/mL, P=.02) — this study found no evidence of diet-induced taurine deficiency in healthy dogs.",
+      "sourcePaper": "Adin et al. 2021",
+      "category": "Mechanism Boundary",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The grain-free group comprised only 26 of 188 dogs, so all grain-free comparisons rest on a small subgroup.",
+      "sourcePaper": "Adin et al. 2021",
+      "category": "Precision Limitation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "In a separate 2018 case series, 23 of 24 golden retrievers with taurine deficiency and DCM were fed grain-free, legume-rich, or combined diets; 23 of 24 improved echocardiographically after diet change plus taurine supplementation.",
+      "sourcePaper": "Kaplan et al. 2018",
+      "category": "Reversibility",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The Kaplan case series has no control group and applied diet change and taurine supplementation together, so their individual contributions cannot be separated.",
+      "sourcePaper": "Kaplan et al. 2018",
+      "category": "Causal Boundary",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Taurine-deficient DCM (Kaplan) and the healthy-dog biomarker findings (Adin) describe different populations and different questions; conflating them is a common error when this topic is summarised.",
+      "sourcePaper": "Adin et al. 2021; Kaplan et al. 2018",
+      "category": "Interpretation Boundary",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by both papers' exposure definitions: a complete diet history — brand, specific formulation, top-10 ingredients, and dates of every change, including treats — rather than a binary grain-free/grain-inclusive label."
+    ],
+    "redFlags": [
+      "Not defined by these studies. Exercise intolerance, cough, syncope and collapse are the clinical signs that prompt cardiac investigation in the wider literature, not findings of these papers."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Taurine-deficient DCM is distinguished from DCM occurring without taurine deficiency; genetic DCM in predisposed breeds is a separate entity these studies do not evaluate."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "The studies' own measures: echocardiography, hs-cTnI, NT-proBNP, and whole blood plus plasma taurine. Neither paper proposes a screening protocol for dogs on any particular diet."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by these papers."
+    ]
+  },
+  "limitations": [
+    "Cross-sectional observational design with owner-chosen diets — no randomisation, and unmeasured confounding by owner characteristics cannot be excluded",
+    "Grain-free group was only 26 dogs of 188; all grain-free comparisons rest on that small subgroup",
+    "Troponin is an intermediate marker, not a clinical outcome; no dog was followed to determine whether elevated hs-cTnI predicted subsequent disease",
+    "All dogs had normal echocardiograms — the study describes healthy dogs, not dogs with DCM",
+    "Four breeds only (Doberman Pinscher, Golden Retriever, Miniature Schnauzer, Whippet), several selected for known cardiac profiles; transfer to other breeds is unestablished",
+    "Kaplan et al. is an uncontrolled case series of 24 dogs with combined interventions; it establishes association and clinical improvement, not causation",
+    "The mechanism connecting non-traditional diets to canine cardiac change remains unidentified in both papers; taurine deficiency explains only a subset of reported cases"
+  ]
+}
