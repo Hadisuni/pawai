@@ -1,0 +1,99 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Brachycephalic obstructive airway syndrome (BOAS)" },
+      { "id": "e2", "type": "Breed", "name": "French Bulldog (pet population)" },
+      { "id": "e3", "type": "ClinicalSign", "name": "Respiratory noise and effort, at rest and after exercise" },
+      { "id": "e4", "type": "Diagnostic", "name": "Whole-body barometric plethysmography (WBBP)" },
+      { "id": "e5", "type": "Diagnostic", "name": "Respiratory functional grading (Grades 0–III, pre- and post-exercise)" },
+      { "id": "e6", "type": "Diagnostic", "name": "BOAS Index (quadratic discriminant analysis classifier)" },
+      { "id": "e7", "type": "RiskFactor", "name": "Owner normalisation of breed-typical respiratory signs" },
+      { "id": "e8", "type": "EmergencyIndicator", "name": "Dyspnoea, cyanosis or collapse" }
+    ],
+    "relationships": [
+      { "source": "e7", "relation": "increases_risk_of", "target": "unrecognised_BOAS", "evidenceLevel": "Moderate — 60% of owners failed to recognise BOAS in dogs graded BOAS+ (functional Grades II–III), n=89 French Bulldogs" },
+      { "source": "e4", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — flow traces significantly separated BOAS− from BOAS+ French Bulldogs; single-centre study" },
+      { "source": "e6", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Moderate — training group n=69: sensitivity 0.97, specificity 0.93, PPV 0.95, NPV 0.97; test group n=20: accuracy 0.95" },
+      { "source": "e5", "relation": "diagnosed_by", "target": "e3", "evidenceLevel": "Moderate — grading assessed respiratory signs both before and after exercise" },
+      { "source": "e2", "relation": "associated_with", "target": "altered_respiratory_flow_versus_non_brachycephalic", "evidenceLevel": "Moderate — flow traces of Grade 0 French Bulldogs differed significantly from non-brachycephalic controls; a breed-level measurement finding, not an individual diagnosis" },
+      { "source": "e8", "relation": "increases_risk_of", "target": "emergency_presentation", "evidenceLevel": "Very Low — not an outcome measured by this study; included as a standing safety boundary only" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a 2015 study of 89 French Bulldogs, 60% of owners failed to recognise brachycephalic obstructive airway syndrome in dogs that were functionally graded as significantly affected.",
+      "sourcePaper": "Liu et al. 2015",
+      "category": "Owner Recognition Gap",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Respiratory functional grading in this study assessed signs both before and after exercise; functional Grades 0–I were treated as clinically insignificant and Grades II–III as significant.",
+      "sourcePaper": "Liu et al. 2015",
+      "category": "Assessment Method",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Airflow traces of French Bulldogs graded 0 — the least affected grade — still differed significantly from non-brachycephalic control dogs.",
+      "sourcePaper": "Liu et al. 2015",
+      "category": "Breed Physiology",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The BOAS Index classifier achieved sensitivity 0.97, specificity 0.93, PPV 0.95 and NPV 0.97 in a training group of 69 dogs, and 0.95 accuracy in a 20-dog test group.",
+      "sourcePaper": "Liu et al. 2015",
+      "category": "Diagnostic Accuracy",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Whole-body barometric plethysmography allows safe, repeated, quantitative respiratory measurement in unsedated dogs, but requires a measurement chamber and cannot be replicated at home.",
+      "sourcePaper": "Liu et al. 2015",
+      "category": "Method Constraint",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The study population was 89 French Bulldogs plus 20 non-brachycephalic controls at a single centre; Pugs, Bulldogs and other brachycephalic breeds were not assessed.",
+      "sourcePaper": "Liu et al. 2015",
+      "category": "Generalizability",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The authors present application of the technique to other brachycephalic breeds and to other canine respiratory disease as a possibility, not as a demonstrated result.",
+      "sourcePaper": "Liu et al. 2015",
+      "category": "Scope Limitation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by the study's grading approach rather than prescribed by it: respiratory noise and effort should be assessed after exercise as well as at rest, since exertion is where restriction becomes apparent."
+    ],
+    "redFlags": [
+      "Not defined by this study. Dyspnoea, cyanosis and collapse are recognised emergency presentations of BOAS in the wider literature but were not outcomes measured here."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study characterises BOAS in a single breed and does not evaluate other causes of respiratory noise or exercise intolerance."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Whole-body barometric plethysmography combined with pre- and post-exercise functional grading, as used and validated within this study."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper. Owner-observed breathing difficulty remains a reason for immediate veterinary contact; nothing in this study supports home observation in place of that."
+    ]
+  },
+  "limitations": [
+    "Single-breed, single-centre population: 89 French Bulldogs plus 20 controls — no other brachycephalic breed was tested",
+    "The classifier's validation set comprised only 20 dogs, so the reported accuracy figures are preliminary",
+    "The 60% owner-recognition figure derives from one study population and must not be presented as a general population rate",
+    "Owner perception was compared against functional grading at a single time point; no longitudinal follow-up of recognition or outcome was performed",
+    "Functional grading incorporates subjective assessment of respiratory signs, which introduces rater dependence into the reference standard",
+    "The finding that Grade 0 French Bulldogs differ from non-brachycephalic controls is a group-level measurement result and carries no diagnostic implication for an individual dog"
+  ]
+}

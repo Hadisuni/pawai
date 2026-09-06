@@ -1,0 +1,109 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Canine cognitive dysfunction (CCD)" },
+      { "id": "e2", "type": "Species", "name": "Canine, companion, Dog Aging Project cohort (n=15,019)" },
+      { "id": "e3", "type": "RiskFactor", "name": "Increasing chronological age" },
+      { "id": "e4", "type": "RiskFactor", "name": "Low owner-reported activity level" },
+      { "id": "e5", "type": "RiskFactor", "name": "History of neurological, eye, or ear disorders" },
+      { "id": "e6", "type": "Diagnostic", "name": "Owner-completed CCD rating scale (minimally modified)" },
+      { "id": "e7", "type": "Diagnostic", "name": "Weight-based lifespan quartile estimation" },
+      { "id": "e8", "type": "RiskFactor", "name": "Sensory loss mimicking cognitive impairment on a behavioural scale" },
+      { "id": "e9", "type": "RiskFactor", "name": "Reverse causation between cognitive decline and reduced activity" }
+    ],
+    "relationships": [
+      { "source": "e3", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — odds of CCD increased 52% per additional year of age, controlling for all other measured characteristics, n=15,019" },
+      { "source": "e4", "relation": "associated_with", "target": "e1", "evidenceLevel": "Moderate as an association, Very Low as a causal claim — OR 6.47 for not active vs very active, controlling for age, health status, breed type and sterilization status; cross-sectional, direction undetermined" },
+      { "source": "e5", "relation": "associated_with", "target": "e1", "evidenceLevel": "Moderate — higher odds after controlling for age, breed type, activity level and other comorbidities" },
+      { "source": "e6", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Low — outcome is an owner-reported scale score, not a veterinary diagnosis, imaging, or post-mortem confirmation" },
+      { "source": "e7", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Low — lifespan quartile analysis discriminated well between scale-positive and scale-negative dogs; proposed by the authors as a screening aid, not validated as a diagnostic test" },
+      { "source": "e8", "relation": "contraindicated_for", "target": "interpreting_scale_scores_as_dementia", "evidenceLevel": "Low — plausible confound consistent with the reported eye/ear association; not separately measured or excluded by the study" },
+      { "source": "e9", "relation": "contraindicated_for", "target": "causal_interpretation_of_activity", "evidenceLevel": "Low — inherent to the cross-sectional design; not testable within this analysis" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In 15,019 companion dogs in the Dog Aging Project, the odds of canine cognitive dysfunction increased 52% with each additional year of age when controlling for all other measured characteristics.",
+      "sourcePaper": "Yarborough et al. 2022",
+      "category": "Age Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Odds of CCD were 6.47 times higher in dogs described as not active than in those described as very active, among dogs of the same age, health status, breed type and sterilization status.",
+      "sourcePaper": "Yarborough et al. 2022",
+      "category": "Activity Association",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The activity association is cross-sectional and cannot establish direction: cognitive decline reducing activity fits the data as well as inactivity contributing to decline. This finding must never be presented as evidence that exercise prevents cognitive dysfunction.",
+      "sourcePaper": "Yarborough et al. 2022",
+      "category": "Causal Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Dogs with a history of neurological, eye, or ear disorders had higher odds of CCD after controlling for age, breed type, activity level and other comorbidities.",
+      "sourcePaper": "Yarborough et al. 2022",
+      "category": "Comorbidity",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Weight-based lifespan quartile estimation showed excellent discriminating ability between CCD-positive and CCD-negative dogs, and was proposed by the authors as a way to inform veterinary screening.",
+      "sourcePaper": "Yarborough et al. 2022",
+      "category": "Screening Proposal",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "CCD status was determined by a minimally modified owner-completed rating scale rather than clinical diagnosis, imaging, or histopathology.",
+      "sourcePaper": "Yarborough et al. 2022",
+      "category": "Outcome Measurement",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The Dog Aging Project is a volunteer cohort; enrolled owners are self-selected and not a random sample of the dog-owning population.",
+      "sourcePaper": "Yarborough et al. 2022",
+      "category": "Generalizability",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "A 2023 Author Correction to this paper corrected the Dog Aging Project Consortium author list only; no data, analysis, or finding was changed.",
+      "sourcePaper": "Yarborough et al. 2022 (Author Correction 2023)",
+      "category": "Publication Record",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by this paper. Its comorbidity finding does support asking specifically about sight and hearing before attributing behavioural change to cognitive decline, since sensory loss can produce similar owner-observed behaviour."
+    ],
+    "redFlags": [
+      "Not addressed — this study identifies no red-flag findings and defines no urgency threshold."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Neurological, eye, and ear disorders are reported as comorbidities associated with higher CCD odds. The study does not evaluate them as differential diagnoses, and does not assess pain or musculoskeletal disease as alternative explanations for reduced activity."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "None evaluated. The authors propose weight-based lifespan quartile estimation as a way to inform which dogs veterinarians screen, but no diagnostic workup was tested."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "Cross-sectional analysis — every reported association, most consequentially the activity association, is undirected",
+    "Outcome is an owner-completed rating scale score, not a veterinary diagnosis; no imaging or post-mortem confirmation was available",
+    "Sensory impairment (eye/ear disease) can produce behaviour that scores as cognitive impairment on an owner-reported scale; this confound is not separately excluded",
+    "Pain and musculoskeletal disease, plausible common causes of both reduced activity and altered behaviour, were not modelled as such",
+    "Volunteer cohort: Dog Aging Project participants are self-selected and skew toward highly engaged owners",
+    "Activity level was owner-described in ordinal categories rather than objectively measured",
+    "The proposed weight-based lifespan quartile screening aid was not prospectively validated as a diagnostic instrument"
+  ]
+}

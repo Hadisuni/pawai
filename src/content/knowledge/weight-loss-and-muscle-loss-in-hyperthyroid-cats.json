@@ -1,0 +1,108 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Feline hyperthyroidism (untreated)" },
+      { "id": "e2", "type": "Species", "name": "Feline, client-owned, hyperthyroid" },
+      { "id": "e3", "type": "ClinicalSign", "name": "Body weight loss from premorbid baseline" },
+      { "id": "e4", "type": "ClinicalSign", "name": "Muscle mass loss (sarcopenia/wasting)" },
+      { "id": "e5", "type": "Diagnostic", "name": "Body condition score (BCS, 5-point)" },
+      { "id": "e6", "type": "Diagnostic", "name": "Muscle condition score (MCS, 3-point)" },
+      { "id": "e7", "type": "Diagnostic", "name": "Serial body weight history from clinical records" },
+      { "id": "e8", "type": "Treatment", "name": "Treatment to euthyroid state" },
+      { "id": "e9", "type": "RiskFactor", "name": "Normal-appearing body condition masking substantial weight loss" }
+    ],
+    "relationships": [
+      { "source": "e1", "relation": "associated_with", "target": "e3", "evidenceLevel": "Moderate — median 4.36 kg at diagnosis vs 5.45 kg premorbid (1–2 years earlier), P<.0001, n=462" },
+      { "source": "e1", "relation": "associated_with", "target": "e4", "evidenceLevel": "Moderate — 357/462 (77.3%) had loss of muscle mass" },
+      { "source": "e9", "relation": "increases_risk_of", "target": "missed_weight_loss", "evidenceLevel": "Moderate — only 154/462 (35.3%) were thin or emaciated despite population-level weight loss of roughly 1 kg" },
+      { "source": "e7", "relation": "diagnosed_by", "target": "e3", "evidenceLevel": "Moderate — the study's central comparison depended on a weight recorded 1–2 years before diagnosis" },
+      { "source": "e8", "relation": "treats", "target": "e3", "evidenceLevel": "Moderate — median weight rose 4.1 kg to 5.0 kg after treatment, P<.001, n=117 reassessed" },
+      { "source": "e8", "relation": "treats", "target": "e4", "evidenceLevel": "Low — MCS improved (median 2/3 to 3/3) but mild-to-moderate wasting persisted in 45% of treated cats" },
+      { "source": "e5", "relation": "contraindicated_for", "target": "detecting_weight_loss_alone", "evidenceLevel": "Moderate — BCS remained ideal or overweight in about two-thirds of affected cats despite substantial weight loss" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In 462 untreated hyperthyroid cats, median body weight at diagnosis was 4.36 kg versus a premorbid median of 5.45 kg recorded 1–2 years earlier (P<.0001).",
+      "sourcePaper": "Peterson et al. 2016",
+      "category": "Weight Change",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Only 154 of 462 hyperthyroid cats (35.3%) were assessed as thin or emaciated, despite most having lost substantial weight from their own baseline.",
+      "sourcePaper": "Peterson et al. 2016",
+      "category": "Detection Gap",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Loss of muscle mass affected 357 of 462 hyperthyroid cats (77.3%) — more than twice the proportion that appeared underweight.",
+      "sourcePaper": "Peterson et al. 2016",
+      "category": "Muscle Wasting",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "After treatment to a euthyroid state, median body weight rose from 4.1 kg to 5.0 kg, BCS from 3/5 to 3.5/5 and MCS from 2/3 to 3/3 (all P<.001) in the 117 cats reassessed.",
+      "sourcePaper": "Peterson et al. 2016",
+      "category": "Treatment Response",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Mild-to-moderate muscle wasting persisted in 45% of hyperthyroid cats after successful treatment.",
+      "sourcePaper": "Peterson et al. 2016",
+      "category": "Incomplete Recovery",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Body condition score and muscle condition score are separate assessments; in this cohort the muscle findings were substantially worse than the body condition findings.",
+      "sourcePaper": "Peterson et al. 2016",
+      "category": "Assessment Distinction",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "The study examined cats already diagnosed with hyperthyroidism and did not evaluate serial weight monitoring as a screening or early-detection method.",
+      "sourcePaper": "Peterson et al. 2016",
+      "category": "Scope Limitation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Weight loss and muscle loss are not specific to hyperthyroidism; this study did not compare against other causes of weight loss in older cats.",
+      "sourcePaper": "Peterson et al. 2016",
+      "category": "Specificity Limitation",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by the study's method rather than prescribed by it: retrieving a body weight recorded 1–2 years earlier is what makes current weight interpretable, since absolute weight alone concealed the loss in about two-thirds of these cats."
+    ],
+    "redFlags": [
+      "Not defined by this study — no urgency thresholds or red-flag findings were evaluated."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study characterises body composition within diagnosed hyperthyroid cats and does not evaluate competing causes of weight or muscle loss."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "The study's own assessments: body weight compared against a premorbid record, plus separate body condition and muscle condition scoring. Diagnosis of hyperthyroidism itself is laboratory-based and outside this study's scope."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "Cross-sectional design on cats already diagnosed — provides no evidence that weight monitoring detects hyperthyroidism earlier",
+    "Premorbid weights were drawn from pre-existing clinical records rather than a standardised protocol, so measurement interval and conditions varied between cats",
+    "Only 117 of 462 cats (25%) were reassessed after treatment, and the follow-up window spanned 3–12 months",
+    "BCS and MCS are subjective clinical assessments; inter-observer variability was not reported in the abstract",
+    "No comparison group of non-hyperthyroid older cats, so the findings cannot distinguish hyperthyroid weight loss from weight loss due to other age-related disease",
+    "Weight and muscle loss are non-specific findings; this study supports no inference from weight change to a hyperthyroidism diagnosis"
+  ]
+}
