@@ -115,3 +115,17 @@ export async function query<R extends QueryResultRow>(
   const result = await getPool().query<R>(text, params ? [...params] : undefined);
   return result.rows;
 }
+
+/**
+ * Releases the connection pool. Only for scripts and preflight tests that
+ * run outside the server lifecycle — the app itself never calls this, since
+ * a serverless instance keeps its pool for as long as it lives.
+ */
+export async function closePool(): Promise<void> {
+  if (pool) {
+    const p = pool;
+    pool = null;
+    schemaReady = null;
+    await p.end();
+  }
+}
