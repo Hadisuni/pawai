@@ -1,0 +1,108 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Feline lower urinary tract disease (FLUTD)" },
+      { "id": "e2", "type": "Disease", "name": "Feline idiopathic cystitis" },
+      { "id": "e3", "type": "Disease", "name": "Urolithiasis (feline lower urinary tract)" },
+      { "id": "e4", "type": "Disease", "name": "Bacterial urinary tract infection (feline)" },
+      { "id": "e5", "type": "ClinicalSign", "name": "Lower urinary tract signs — stranguria, pollakiuria, haematuria, periuria, vocalisation" },
+      { "id": "e6", "type": "EmergencyIndicator", "name": "Straining with little or no urine produced (possible urethral obstruction)" },
+      { "id": "e7", "type": "Prevention", "name": "Prophylactic measures (two or more)" },
+      { "id": "e8", "type": "RiskFactor", "name": "Assuming a later episode shares the earlier episode's cause" }
+    ],
+    "relationships": [
+      { "source": "e1", "relation": "associated_with", "target": "recurrence", "evidenceLevel": "Low — 58.1% recurrence among 86 cats with a known diagnosis, median follow-up 38 months (range 0.5–138); owner-interview follow-up, n=101 total" },
+      { "source": "e2", "relation": "associated_with", "target": "e5", "evidenceLevel": "Low — most common diagnosis, 52/101 cats" },
+      { "source": "e3", "relation": "associated_with", "target": "e5", "evidenceLevel": "Low — 21/101 cats" },
+      { "source": "e4", "relation": "associated_with", "target": "e5", "evidenceLevel": "Low — 13/101 cats" },
+      { "source": "e8", "relation": "increases_risk_of", "target": "misdiagnosis_at_recurrence", "evidenceLevel": "Low — 14 cats had DIFFERENT causes of FLUTD at different episodes; the authors conclude each presentation needs full investigation" },
+      { "source": "e7", "relation": "associated_with", "target": "reduced_recurrence", "evidenceLevel": "Low — significant only within the urolithiasis subgroup (P=0.029), a subset of just 21 cats" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "emergency_presentation", "evidenceLevel": "Very Low — standing veterinary safety boundary, NOT a finding of this study, which did not analyse obstruction separately" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "Among 86 cats with a known FLUTD diagnosis, the recurrence rate was 58.1% over a median observation period of 38 months.",
+      "sourcePaper": "Kaul et al. 2019",
+      "category": "Recurrence",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Fourteen cats had different underlying causes of lower urinary tract disease at different episodes — a later episode cannot be assumed to share the earlier diagnosis.",
+      "sourcePaper": "Kaul et al. 2019",
+      "category": "Diagnostic Caution",
+      "evidenceLevel": "Low",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Relapse counts among recurring cats: 21 had one relapse, 12 had two, 10 had three, and 7 had between four and eight.",
+      "sourcePaper": "Kaul et al. 2019",
+      "category": "Recurrence Pattern",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Diagnoses among 101 cats: 52 feline idiopathic cystitis, 21 urolithiasis, 13 bacterial urinary tract infection, 15 without a definitive diagnosis.",
+      "sourcePaper": "Kaul et al. 2019",
+      "category": "Aetiology Distribution",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Recurrence rates did not differ significantly between the aetiology groups.",
+      "sourcePaper": "Kaul et al. 2019",
+      "category": "Negative Finding",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Cats with urolithiasis receiving at least two prophylactic measures had significantly lower recurrence than those receiving none (P=0.029) — a subgroup finding within just 21 cats.",
+      "sourcePaper": "Kaul et al. 2019",
+      "category": "Prophylaxis",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Mortality attributed to FLUTD across all 101 cats was 5.0%, which the authors note is lower than previously reported.",
+      "sourcePaper": "Kaul et al. 2019",
+      "category": "Mortality",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Lower urinary tract signs are clinically indistinguishable between underlying causes, which is why the authors recommend full investigation at each presentation.",
+      "sourcePaper": "Kaul et al. 2019",
+      "category": "Clinical Principle",
+      "evidenceLevel": "Low",
+      "usageTier": "Useful for Triage"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by the study's central conclusion: at each presentation, establish the dates and character of previous episodes, the diagnosis reached each time, and which prophylactic measures are currently in place — without assuming continuity of cause between episodes."
+    ],
+    "redFlags": [
+      "Not defined by this study. Straining with little or no urine output, consistent with urethral obstruction, is a recognised emergency in the wider literature but was not analysed as a separate outcome here."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Feline idiopathic cystitis, urolithiasis, and bacterial urinary tract infection are the three named aetiologies; 15 of 101 cats reached no definitive diagnosis."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "The authors recommend thorough investigation at EACH presentation rather than relying on a prior diagnosis; the specific workup is not prescribed by this paper."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper. Suspected urethral obstruction requires immediate veterinary attention as a standing clinical boundary, independent of this study."
+    ]
+  },
+  "limitations": [
+    "Small sample (n=101) with much smaller aetiology subgroups — 13 bacterial UTI, 21 urolithiasis",
+    "Follow-up by owner telephone interview, sometimes years after events; mild recurrences never presented to a vet may be missed or misremembered",
+    "Observation period ranged from 0.5 to 138 months, so a single pooled recurrence percentage flattens very unequal exposure times",
+    "The prophylaxis finding rests on a subset of the 21-cat urolithiasis group, limiting precision despite statistical significance",
+    "Cats without a definitive diagnosis (15/101) were excluded from the recurrence figure, so the result describes diagnosed cats only",
+    "Observational throughout: no cause of recurrence is identified and no treatment is tested",
+    "Urethral obstruction was not analysed as a separate outcome, so this study supports no statement about obstruction risk or its recurrence"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "RiskFactor", "name": "General anaesthesia or sedation (small animal)" },
+      { "id": "e2", "type": "RiskFactor", "name": "Poor health status (ASA 3-5)" },
+      { "id": "e3", "type": "Species", "name": "Canine" },
+      { "id": "e4", "type": "Species", "name": "Feline" },
+      { "id": "e5", "type": "Species", "name": "Rabbit (lagomorph)" },
+      { "id": "e6", "type": "Diagnostic", "name": "ASA physical status classification" },
+      { "id": "e7", "type": "RiskFactor", "name": "Postoperative recovery period (first 48 hours)" },
+      { "id": "e8", "type": "Prevention", "name": "Enhanced postoperative patient care" },
+      { "id": "e9", "type": "RiskFactor", "name": "Subjective attribution of death to anaesthesia" }
+    ],
+    "relationships": [
+      { "source": "e1", "relation": "increases_risk_of", "target": "death_in_dogs", "evidenceLevel": "Moderate — 0.17% (1 in 601, 95% CI 0.14-0.19%) within 48 h, n=98,036 dogs across 117 UK practices" },
+      { "source": "e1", "relation": "increases_risk_of", "target": "death_in_cats", "evidenceLevel": "Moderate — 0.24% (1 in 419, 95% CI 0.20-0.27%), n=79,178 cats" },
+      { "source": "e1", "relation": "increases_risk_of", "target": "death_in_rabbits", "evidenceLevel": "Moderate — 1.39% (1 in 72, 95% CI 1.14-1.64%), n=8,209 rabbits" },
+      { "source": "e2", "relation": "increases_risk_of", "target": "anaesthetic_related_death", "evidenceLevel": "Moderate — sick vs healthy: dogs 1.33% vs 0.05%, cats 1.40% vs 0.11%, rabbits 7.37% vs 0.73%" },
+      { "source": "e7", "relation": "increases_risk_of", "target": "anaesthetic_related_death", "evidenceLevel": "Moderate — postoperative deaths were 47% of deaths in dogs, 61% in cats, 64% in rabbits" },
+      { "source": "e8", "relation": "recommended_for", "target": "reducing_fatalities", "evidenceLevel": "Low — the authors' stated conclusion, not an intervention tested by this study" },
+      { "source": "e9", "relation": "contraindicated_for", "target": "precise_cross_study_comparison", "evidenceLevel": "Low — later worldwide studies report 0.69% (dogs) and 0.63% (cats) using non-randomised sampling; method and population differences are not separable from real change" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "Across 117 UK practices, anaesthetic and sedation-related death within 48 hours occurred in 0.17% of dogs (1 in 601), 0.24% of cats (1 in 419) and 1.39% of rabbits (1 in 72).",
+      "sourcePaper": "Brodbelt et al. 2008",
+      "category": "Baseline Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "In healthy animals (ASA 1-2) the risk was 0.05% in dogs (1 in 1,849), 0.11% in cats (1 in 895) and 0.73% in rabbits (1 in 137).",
+      "sourcePaper": "Brodbelt et al. 2008",
+      "category": "Risk Stratification",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "In sick animals (ASA 3-5) the risk rose to 1.33% in dogs (1 in 75), 1.40% in cats (1 in 71) and 7.37% in rabbits (1 in 14) — roughly a twenty-fold increase over healthy dogs.",
+      "sourcePaper": "Brodbelt et al. 2008",
+      "category": "Risk Stratification",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Postoperative deaths accounted for 47% of anaesthetic-related deaths in dogs, 61% in cats and 64% in rabbits — most deaths occurred after the procedure, not during it.",
+      "sourcePaper": "Brodbelt et al. 2008",
+      "category": "Timing of Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "The authors concluded that greater patient care in the postoperative period could reduce fatalities.",
+      "sourcePaper": "Brodbelt et al. 2008",
+      "category": "Authors' Conclusion",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Data were collected 2002-2004; more recent worldwide prospective studies reported higher anaesthesia-related mortality of 0.69% in dogs and 0.63% in cats.",
+      "sourcePaper": "Redondo et al. 2023; Redondo et al. 2024",
+      "category": "Conflicting Estimates",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The later worldwide studies list non-randomised sampling, potential selection bias, unquantified response rates and subjective classification of cause of death among their own limitations, so the discrepancy with CEPSAF may reflect method rather than real change.",
+      "sourcePaper": "Redondo et al. 2023; Redondo et al. 2024",
+      "category": "Methodological Caution",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "These are population-level figures and do not estimate risk for an individual animal, which depends on age, health status, procedure and clinical team.",
+      "sourcePaper": "Brodbelt et al. 2008",
+      "category": "Interpretation Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by the study's strongest predictor: ASA physical status should be established and recorded before every anaesthetic, alongside any previous anaesthetic history and how the animal recovered."
+    ],
+    "redFlags": [
+      "Not defined by this study. It establishes that the postoperative window carries most of the risk but does not enumerate clinical signs warranting re-presentation."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the study attributes deaths to anaesthesia versus surgical or pre-existing medical causes but does not evaluate differential diagnosis."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "ASA physical status classification as the preoperative risk stratifier; no specific workup protocol is prescribed by this paper."
+    ],
+    "urgentCareTriggers": [
+      "Not enumerated by this study. Deterioration during the 48-hour postoperative window warrants immediate contact with the practice, which follows from the timing finding rather than from any threshold this paper defines."
+    ]
+  },
+  "limitations": [
+    "Data collected 2002-2004; anaesthetic drugs, monitoring and protocols have changed since, and the authors themselves describe an improving trend",
+    "Later worldwide studies report several-fold higher mortality (0.69% dogs, 0.63% cats), so no single figure should be presented as 'the' risk of anaesthesia",
+    "Participating practices volunteered for audit and may not represent all UK practice",
+    "Classifying a death as anaesthetic-related rather than surgical or disease-related is a judgement, and assessors could classify differently",
+    "UK-only population; transfer to other countries' practice standards is unestablished",
+    "Population-level estimates only — the study provides no individual risk prediction",
+    "The postoperative-care conclusion is the authors' recommendation, not an intervention this study tested"
+  ]
+}
