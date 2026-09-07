@@ -1,0 +1,111 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Otitis externa (canine)" },
+      { "id": "e2", "type": "RiskFactor", "name": "Pendulous ear carriage (breed-level)" },
+      { "id": "e3", "type": "RiskFactor", "name": "V-shaped drop ear carriage (breed-level)" },
+      { "id": "e4", "type": "Breed", "name": "Basset Hound (highest observed odds)" },
+      { "id": "e5", "type": "Breed", "name": "Chihuahua (lowest observed odds)" },
+      { "id": "e6", "type": "RiskFactor", "name": "Designer breed type" },
+      { "id": "e7", "type": "ClinicalSign", "name": "Head shaking, ear scratching, malodour, discharge, pain on head handling" },
+      { "id": "e8", "type": "Diagnostic", "name": "Otoscopic examination and aural cytology" },
+      { "id": "e9", "type": "RiskFactor", "name": "Untreated primary condition underlying recurrent otitis" },
+      { "id": "e10", "type": "RiskFactor", "name": "Overzealous ear cleaning" }
+    ],
+    "relationships": [
+      { "source": "e2", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — OR 1.76 (95% CI 1.48-2.10) versus erect ear carriage, n=22,333" },
+      { "source": "e3", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — OR 1.84 (95% CI 1.53-2.21) versus erect ear carriage" },
+      { "source": "e4", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — OR 5.87 versus crossbred dogs; 16 breed types showed increased odds" },
+      { "source": "e5", "relation": "contraindicated_for", "target": "e1", "evidenceLevel": "Moderate — OR 0.20 versus crossbred dogs; four breeds showed reduced odds" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — OR 1.63 (95% CI 1.31-2.03) versus crossbred dogs" },
+      { "source": "e9", "relation": "increases_risk_of", "target": "recurrent_otitis_externa", "evidenceLevel": "Low — review-level: all recurrent canine ear infections are secondary, requiring the primary, secondary, predisposing and perpetuating framework" },
+      { "source": "e8", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Low — standard clinical practice referenced in the review; not a diagnostic accuracy finding of the cohort study" },
+      { "source": "e10", "relation": "contraindicated_for", "target": "preventive_ear_care", "evidenceLevel": "Low — cautioned against in the cohort study's own plain-language guidance; no cleaning regimen was tested by either paper" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a random sample of 22,333 UK dogs under primary veterinary care in 2016, the one-year period prevalence of diagnosed otitis externa was 7.30% (95% CI 6.97-7.65).",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Prevalence",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Breed and ear carriage were the highest-ranked risk factors for otitis externa in this cohort.",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Risk Ranking",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Pendulous ear carriage carried 1.76 times the odds (95% CI 1.48-2.10) and V-shaped drop ear carriage 1.84 times the odds (95% CI 1.53-2.21) of otitis externa versus erect ear carriage.",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Conformation Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Highest-odds breeds versus crossbreds were Basset Hound (5.87), Chinese Shar Pei (3.44), Labradoodle (2.95), Beagle (2.54) and Golden Retriever (2.23); protected breeds were Chihuahua (0.20), Border Collie (0.34), Yorkshire Terrier (0.49) and Jack Russell Terrier (0.52).",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Breed Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Designer breed types overall had 1.63 times the odds (95% CI 1.31-2.03) of otitis externa compared with crossbred dogs.",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Breed Risk",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "All recurrent ear infections in dogs are secondary; good long-term outcomes require diagnosing the primary condition, treating secondary infection, correcting predisposing risks and reversing perpetuating factors.",
+      "sourcePaper": "Nuttall 2023",
+      "category": "Clinical Principle",
+      "evidenceLevel": "Low",
+      "usageTier": "Useful for Triage"
+    },
+    {
+      "fact": "Most ear canal surgery is considered avoidable if recurrent otitis is properly managed at an earlier stage.",
+      "sourcePaper": "Nuttall 2023",
+      "category": "Prognosis",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Ear carriage was assigned at breed level rather than measured on individual dogs, so the conformation findings describe breed groups and not any individual animal's anatomy.",
+      "sourcePaper": "O'Neill et al. 2021",
+      "category": "Measurement Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Supported by the review's framework rather than prescribed by the cohort study: for any repeat presentation, establish the number and dates of previous episodes, which ear, what was prescribed, and whether each episode fully resolved — recurrence signals an undiagnosed primary condition."
+    ],
+    "redFlags": [
+      "Not defined by either paper. Neither identifies urgency thresholds; pain on head handling is described as a clinical sign, not a triage criterion."
+    ],
+    "differentialDiagnosesMentioned": [
+      "The review frames recurrent otitis using primary, secondary, predisposing and perpetuating factors — allergic skin disease is named in the cohort study as a common underlying tendency — but neither paper provides a differential list."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not evaluated by the cohort study. The review's position is that recurrent cases require identification of the primary condition rather than repeated topical courses; specific diagnostics are not prescribed here."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by either paper."
+    ]
+  },
+  "limitations": [
+    "Prevalence counts diagnoses recorded in one year of clinical notes; unpresented or home-managed ear disease is invisible, so 7.30% is a floor",
+    "Breed odds may partly reflect differential examination and presentation rates rather than true incidence — a record-based design cannot separate the two",
+    "Ear carriage was classified at breed level, not measured on individual dogs, so within-breed anatomical variation is unaddressed",
+    "No severity distribution is reported: 'diagnosed with otitis externa' spans a single mild episode to chronic end-stage disease",
+    "Single country (UK), single year (2016)",
+    "No prevention or treatment was tested by the cohort study — ear cleaning, products, drying and plucking are all unevaluated, which is why its guidance is cautious rather than prescriptive",
+    "Nuttall 2023 is a narrative review, so its clinical framework carries expert-opinion weight rather than trial evidence"
+  ]
+}

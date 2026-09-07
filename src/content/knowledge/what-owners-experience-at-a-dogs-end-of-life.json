@@ -1,0 +1,108 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "ClinicalSign", "name": "Perimortem quality of life (owner-rated)" },
+      { "id": "e2", "type": "Species", "name": "Canine, companion, Dog Aging Project bereaved-owner cohort" },
+      { "id": "e3", "type": "Treatment", "name": "Euthanasia" },
+      { "id": "e4", "type": "ClinicalSign", "name": "Owner-perceived pain and/or suffering" },
+      { "id": "e5", "type": "Disease", "name": "Cancer (owner-perceived cause of death)" },
+      { "id": "e6", "type": "Diagnostic", "name": "Dog Aging Project End of Life Survey (EOLS)" },
+      { "id": "e7", "type": "RiskFactor", "name": "Owner-perceived rather than clinically verified cause of death" },
+      { "id": "e8", "type": "RiskFactor", "name": "Fair inter-rater reliability of the reason-for-euthanasia item" }
+    ],
+    "relationships": [
+      { "source": "e4", "relation": "associated_with", "target": "e3", "evidenceLevel": "Low — most common stated reason, 260/536 (48.5%); the underlying survey item had only FAIR reliability (kappa 0.3, 95% CI 0.08-0.52)" },
+      { "source": "e1", "relation": "associated_with", "target": "e3", "evidenceLevel": "Low — poor quality of life given as reason in 133/536 (24.8%); item reliability moderate (kappa 0.49, 95% CI 0.26-0.73)" },
+      { "source": "e5", "relation": "associated_with", "target": "canine_death", "evidenceLevel": "Moderate — most common owner-perceived cause, 192/646 (29.7%); cause-of-death item reliability substantial (kappa 0.73, 95% CI 0.5-0.95)" },
+      { "source": "e1", "relation": "associated_with", "target": "increasing_age_at_death", "evidenceLevel": "Low — perimortem quality of life negatively associated with age at death; direction of effect not established" },
+      { "source": "e6", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Low — validated instrument, but reliability varies markedly by item and is weakest for the euthanasia-reason item" },
+      { "source": "e7", "relation": "contraindicated_for", "target": "epidemiological_cause_of_death_inference", "evidenceLevel": "Moderate — no post-mortem verification; 29.4% of deaths attributed to 'old age', a description rather than a mechanism" },
+      { "source": "e8", "relation": "contraindicated_for", "target": "precise_reporting_of_euthanasia_reasons", "evidenceLevel": "Moderate — the confidence interval on that kappa approaches zero" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "Among 646 analysed responses from bereaved dog owners, 536 dogs (83.0%) were euthanased rather than dying unassisted.",
+      "sourcePaper": "McNulty et al. 2026",
+      "category": "Mode of Death",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Mean age at death was 13.0 years (SD 3.0), pooled across all body sizes — canine life expectancy varies substantially with size, so this describes the cohort, not any individual dog.",
+      "sourcePaper": "McNulty et al. 2026",
+      "category": "Longevity",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The most common reason given for euthanasia was pain and/or suffering (260/536, 48.5%), followed by poor quality of life (133/536, 24.8%).",
+      "sourcePaper": "McNulty et al. 2026",
+      "category": "Decision Drivers",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The reason-for-euthanasia survey item had only FAIR inter-rater reliability (kappa 0.3, 95% CI 0.08-0.52) in validation — the headline 48.5% figure rests on the weakest item in the instrument.",
+      "sourcePaper": "McNulty et al. 2023",
+      "category": "Reliability Warning",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Owner-perceived causes of death were cancer (192/646, 29.7%), 'old age' (190/646, 29.4%) and organ system diseases (144/646, 22.3%).",
+      "sourcePaper": "McNulty et al. 2026",
+      "category": "Cause of Death",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Of dogs that were euthanased, 411 (76.7%) were euthanased in a veterinary clinic and 122 (22.8%) at the owner's home.",
+      "sourcePaper": "McNulty et al. 2026",
+      "category": "Care Setting",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Ninety-five of 646 dogs (14.7%) died without any veterinary involvement.",
+      "sourcePaper": "McNulty et al. 2026",
+      "category": "Veterinary Access",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The survey response rate was 85.7% (655 of 793 invited), unusually high for a bereavement survey; nonetheless owners for whom the loss was too painful to revisit are absent by construction.",
+      "sourcePaper": "McNulty et al. 2026",
+      "category": "Sampling",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by this paper. Its finding that pain, suffering and quality of life dominate owner decisions supports asking about those domains explicitly and longitudinally, well before a crisis."
+    ],
+    "redFlags": [
+      "Not addressed — this study describes deaths retrospectively and defines no clinical thresholds or warning signs."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Owner-perceived categories only (cancer, 'old age', organ system diseases); no clinical differential diagnosis is evaluated and no cause was verified post-mortem."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not addressed — no diagnostic workup is evaluated. The study assesses a survey instrument's findings, not clinical assessment."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "All principal variables are owner-perceived; no cause of death was verified post-mortem",
+    "Instrument reliability varies sharply by item — substantial for cause of death (kappa 0.73), moderate for perimortem quality of life (0.49), only fair for reason for euthanasia (0.3, CI approaching zero)",
+    "'Old age' accounted for 29.4% of owner-perceived causes and is a description of an ending rather than a mechanism",
+    "Volunteer cohort of engaged owners who then chose to complete a bereavement survey; non-responders are unmeasurable and the direction of bias is unknown",
+    "Mean age at death pools all body sizes despite large size-related differences in canine life expectancy",
+    "Purely descriptive: no approach to end-of-life care is evaluated for its effect on animal or owner outcomes",
+    "Deaths occurred largely during the COVID-19 pandemic period (December 2019 to March 2021), which may have affected veterinary access and the setting of euthanasia"
+  ]
+}
