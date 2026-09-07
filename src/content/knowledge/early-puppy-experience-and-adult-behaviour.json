@@ -1,0 +1,108 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Behaviour", "name": "Owner-reported problem behaviour (canine, 21 months)" },
+      { "id": "e2", "type": "Behaviour", "name": "Separation-related behaviour" },
+      { "id": "e3", "type": "RiskFactor", "name": "Aversive training techniques including physical punishment" },
+      { "id": "e4", "type": "Prevention", "name": "Attendance at online puppy classes" },
+      { "id": "e5", "type": "RiskFactor", "name": "First-time ownership and underestimation of training difficulty" },
+      { "id": "e6", "type": "RiskFactor", "name": "Restricted socialisation before 16 weeks (pandemic acquisition context)" },
+      { "id": "e7", "type": "RiskFactor", "name": "Bidirectional confounding between behaviour and training method" },
+      { "id": "e8", "type": "RiskFactor", "name": "Cohort attrition from 4,369 to 985" }
+    ],
+    "relationships": [
+      { "source": "e3", "relation": "associated_with", "target": "e1", "evidenceLevel": "Low as an association, Very Low as a causal claim — owners reporting more problem behaviours used more aversive techniques, but both were measured concurrently from one reporter" },
+      { "source": "e4", "relation": "associated_with", "target": "reduced_aversive_method_use", "evidenceLevel": "Low — the sole protective factor identified; observational, and attendees differ from non-attendees in unmeasured ways" },
+      { "source": "e1", "relation": "associated_with", "target": "canine_population_21_months", "evidenceLevel": "Low — 96.7% of owners reported at least one problem behaviour, median 5 (IQR 3-7)" },
+      { "source": "e2", "relation": "associated_with", "target": "e1", "evidenceLevel": "Low — reported in 30.9% of dogs; largely unobservable without deliberate recording" },
+      { "source": "e5", "relation": "associated_with", "target": "underestimating_training_difficulty", "evidenceLevel": "Low — almost one third of owners underestimated difficulty, more likely among first-time owners" },
+      { "source": "e7", "relation": "contraindicated_for", "target": "causal_interpretation_of_training_association", "evidenceLevel": "Low — inherent to the design; direction is not testable within this analysis" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Very Low — context of the cohort rather than a quantified association reported in this abstract" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In a longitudinal cohort of 985 UK dogs at 21 months, 96.7% of owners reported at least one problem behaviour, with a median of 5 (IQR 3-7).",
+      "sourcePaper": "Brand et al. 2024",
+      "category": "Prevalence",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Separation-related behaviours were reported in 30.9% of the cohort.",
+      "sourcePaper": "Brand et al. 2024",
+      "category": "Behaviour Type",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Use of aversive training techniques, including physical punishment, was reported by 82.3% of owners — notably high compared with previous studies.",
+      "sourcePaper": "Brand et al. 2024",
+      "category": "Training Practice",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Owners reporting more problem behaviours were more likely to use multiple aversive techniques. Both variables were measured concurrently from a single reporter, so this must NEVER be cited as evidence that punishment causes problem behaviour.",
+      "sourcePaper": "Brand et al. 2024",
+      "category": "Causal Boundary",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Attendance at online puppy classes was the sole protective factor identified against owner use of aversive training methods.",
+      "sourcePaper": "Brand et al. 2024",
+      "category": "Protective Factor",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Almost one third of owners had underestimated how hard training their dog would be, a view more likely among first-time owners.",
+      "sourcePaper": "Brand et al. 2024",
+      "category": "Owner Expectation",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The cohort comprises dogs acquired during the 2020 UK pandemic period, already shown to have greater exposure to risk factors than puppies acquired in 2019 — these outcomes are not a general baseline for dogs.",
+      "sourcePaper": "Brand et al. 2024",
+      "category": "Generalizability",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "'Problem behaviour' is owner-defined and subjective, so the 96.7% figure partly measures what owners are willing to label a problem.",
+      "sourcePaper": "Brand et al. 2024",
+      "category": "Measurement Boundary",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by this paper. Its variables do support asking specifically about socialisation and habituation experiences before 16 weeks, about behaviour when the dog is left alone, and about which training methods are in use — the last asked without judgement, given 82.3% reported aversive techniques."
+    ],
+    "redFlags": [
+      "Not addressed — this study identifies no red-flag findings and defines no urgency threshold."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed. The study does not evaluate medical causes of behaviour change; pain and other clinical contributors are outside its scope and must be excluded clinically."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not addressed — no diagnostic workup is evaluated. Behavioural assessment by a qualified professional is outside this study's design."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by this paper."
+    ]
+  },
+  "limitations": [
+    "The central association (problem behaviours and aversive methods) is concurrent and single-reporter — direction is untestable and the finding must not be read causally",
+    "Online puppy class attendance is self-selected; attendees differ from non-attendees in engagement and resources, which this design cannot separate from any effect of the class",
+    "All variables are owner-reported, and 'problem behaviour' is owner-defined and expectation-dependent",
+    "Pandemic-acquisition cohort with documented elevated exposure to risk factors; findings do not transfer to dogs acquired under normal conditions",
+    "Substantial attrition: 985 followed up from an original 4,369, with engaged owners over-represented",
+    "Single country (UK) and a single follow-up age (21 months); no later outcomes are observed",
+    "Medical contributors to behaviour, including pain, were not assessed"
+  ]
+}

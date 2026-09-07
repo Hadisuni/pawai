@@ -1,0 +1,109 @@
+{
+  "knowledgeVersion": "1.0",
+  "knowledgeGraph": {
+    "entities": [
+      { "id": "e1", "type": "Disease", "name": "Cranial cruciate ligament rupture (canine, unilateral)" },
+      { "id": "e2", "type": "ClinicalSign", "name": "Hind-limb lameness, often intermittent" },
+      { "id": "e3", "type": "RiskFactor", "name": "Age 6 to under 9 years" },
+      { "id": "e4", "type": "RiskFactor", "name": "Neutered status (male and female)" },
+      { "id": "e5", "type": "Breed", "name": "Rottweiler, Bichon Frise, West Highland White Terrier" },
+      { "id": "e6", "type": "RiskFactor", "name": "Insured status (ascertainment artefact)" },
+      { "id": "e7", "type": "Treatment", "name": "Surgical stifle stabilisation" },
+      { "id": "e8", "type": "Disease", "name": "Contralateral cruciate ligament rupture" },
+      { "id": "e9", "type": "Diagnostic", "name": "Orthopaedic examination of the stifle" }
+    ],
+    "relationships": [
+      { "source": "e3", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — increased odds of diagnosis after adjustment; 1,000 cases vs 500,000 non-cases, UK primary care 2019" },
+      { "source": "e4", "relation": "associated_with", "target": "e1", "evidenceLevel": "Low as a causal claim — male and female neutered dogs had increased odds, but body composition, owner type and attendance frequency are not separable in this design" },
+      { "source": "e5", "relation": "increases_risk_of", "target": "e1", "evidenceLevel": "Moderate — Rottweiler, Bichon Frise and West Highland White Terrier particularly predisposed; note this is not exclusively a large-breed condition" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "diagnosis_of_e1", "evidenceLevel": "Moderate as an ascertainment effect, Very Low as biology — insurance cannot affect ligament integrity; it marks the pathway to investigation" },
+      { "source": "e6", "relation": "increases_risk_of", "target": "e7", "evidenceLevel": "Moderate — insured dogs and dogs >=20 kg had increased odds of surgical management" },
+      { "source": "e1", "relation": "increases_risk_of", "target": "e8", "evidenceLevel": "Low — 19.1% (95% CI 16.6-22.0%) at a median of 12.9 months, in dogs >=15 kg that were >=8 years at first rupture; narrower population than the primary study" },
+      { "source": "e9", "relation": "diagnosed_by", "target": "e1", "evidenceLevel": "Low — clinical standard referenced rather than a diagnostic accuracy finding of either paper" }
+    ]
+  },
+  "aiAgentFacts": [
+    {
+      "fact": "In UK primary care during 2019, dogs aged 6 to under 9 years, male neutered and female neutered dogs, insured dogs, and Rottweiler, Bichon Frise and West Highland White Terrier breeds had increased odds of unilateral cranial cruciate ligament rupture diagnosis.",
+      "sourcePaper": "Pegram et al. 2023",
+      "category": "Risk Factors",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Insured status increased the odds of BOTH diagnosis and surgical management. Insurance cannot affect ligament biology, so this is an ascertainment and decision effect, and it implies every other risk factor here is subject to detection bias to an unknown degree.",
+      "sourcePaper": "Pegram et al. 2023",
+      "category": "Ascertainment Bias",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The Bichon Frise appearing among the most predisposed breeds alongside the Rottweiler indicates this is not exclusively a large-breed condition.",
+      "sourcePaper": "Pegram et al. 2023",
+      "category": "Breed Pattern",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Insured dogs and dogs weighing 20 kg or more had increased odds of surgical management; dogs aged 9 years or over and dogs with one non-orthopaedic comorbidity had reduced odds.",
+      "sourcePaper": "Pegram et al. 2023",
+      "category": "Management Decisions",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The management findings describe what practices decided, NOT what produced better outcomes — no outcome of surgical versus non-surgical management is reported.",
+      "sourcePaper": "Pegram et al. 2023",
+      "category": "Outcome Boundary",
+      "evidenceLevel": "Moderate",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Among 831 dogs weighing at least 15 kg that were 8 years or older at first rupture, 19.1% (95% CI 16.6-22.0%) subsequently ruptured the contralateral ligament, at a median of 12.9 months.",
+      "sourcePaper": "Murphy et al. 2023",
+      "category": "Contralateral Risk",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "The contralateral figure applies to older medium-to-large dogs specifically and is described by its authors as lower than previously reported; it must not be applied to young or small dogs.",
+      "sourcePaper": "Murphy et al. 2023",
+      "category": "Generalizability",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    },
+    {
+      "fact": "Age and breed — Golden Retrievers and Labrador Retrievers — were significantly associated with contralateral rupture in that cohort.",
+      "sourcePaper": "Murphy et al. 2023",
+      "category": "Contralateral Risk",
+      "evidenceLevel": "Low",
+      "usageTier": "Educational Only"
+    }
+  ],
+  "clinicalDecisionSupport": {
+    "historyQuestions": [
+      "Not prescribed by either paper. The intermittent character of cruciate lameness supports asking when the limp began, which limb, and whether it has waxed and waned — an apparent recovery followed by relapse is characteristic."
+    ],
+    "redFlags": [
+      "Not addressed — neither study identifies red-flag findings or urgency thresholds."
+    ],
+    "differentialDiagnosesMentioned": [
+      "Not addressed — the cohort study identifies verified incident cases and does not evaluate other causes of hind-limb lameness."
+    ],
+    "recommendedDiagnosticWorkups": [
+      "Not evaluated. Cases were identified from verified clinical records; diagnosis in practice rests on orthopaedic examination of the stifle, which neither paper assesses for accuracy."
+    ],
+    "urgentCareTriggers": [
+      "Not addressed by either paper."
+    ]
+  },
+  "limitations": [
+    "Record-based design measures diagnosis, not disease: insured status raising the odds proves detection bias is operating, and its magnitude for other risk factors is unknown",
+    "The neutering association cannot be separated from body composition, owner type or veterinary attendance frequency in this design",
+    "No population prevalence, no severity grading and no clinical outcome are reported",
+    "Management findings describe practice decisions rather than comparative effectiveness of surgical versus conservative treatment",
+    "Single country (UK), single year (2019), unilateral cases only",
+    "The contralateral rupture figure comes from a narrower population (>=15 kg, >=8 years at first rupture) and a different caseload; it does not transfer to young or small dogs",
+    "Both papers are retrospective; neither followed dogs prospectively from a defined starting point"
+  ]
+}
