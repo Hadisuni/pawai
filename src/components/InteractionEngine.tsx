@@ -160,7 +160,11 @@ export default function InteractionEngine() {
     const NO_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const cRing = document.getElementById('c-ring');
     const cleanups: Array<() => void> = [];
-    const bound = new WeakSet<Element>();
+    // Hover/tilt/magnetic and scroll-reveal must use separate sets. Listing cards are
+    // <Link data-r> (an <a>); if one WeakSet marks them bound after hover bind, reveal
+    // never runs and they stay opacity:0 forever (empty /blog and /research grids).
+    const interactionBound = new WeakSet<Element>();
+    const revealBound = new WeakSet<Element>();
 
     const revObs = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
@@ -252,21 +256,21 @@ export default function InteractionEngine() {
 
     function scan(root: Document | Element) {
       matchesIncludingSelf(root, 'a,button,[data-tilt]').forEach((el) => {
-        if (bound.has(el) || !(el instanceof HTMLElement)) return;
-        bound.add(el);
+        if (interactionBound.has(el) || !(el instanceof HTMLElement)) return;
+        interactionBound.add(el);
         bindHover(el);
         if (!NO_MOTION && el.hasAttribute('data-tilt')) bindTilt(el);
       });
       if (!NO_MOTION) {
         matchesIncludingSelf(root, '[data-mag]').forEach((el) => {
-          if (bound.has(el) || !(el instanceof HTMLElement)) return;
-          bound.add(el);
+          if (interactionBound.has(el) || !(el instanceof HTMLElement)) return;
+          interactionBound.add(el);
           bindMagnetic(el);
         });
       }
       matchesIncludingSelf(root, '[data-r]').forEach((el) => {
-        if (bound.has(el)) return;
-        bound.add(el);
+        if (revealBound.has(el)) return;
+        revealBound.add(el);
         bindReveal(el);
       });
     }
