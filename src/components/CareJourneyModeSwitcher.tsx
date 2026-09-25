@@ -3,12 +3,10 @@
 import { useState } from 'react';
 import AICareJourney from './AICareJourney';
 
-// /demo hosts the public showreel only: `demo` forces AICareJourney to
-// ignore any local session, so a returning owner watching the demo sees the
-// default pet auto-play — never their own pet impersonated by a script. The
-// real guided health check lives inside /dashboard.
-// (Voice mode / LiveVoiceJourney stays disabled; the site's corner widget is
-// the single public ElevenLabs agent — see SupportWidget.)
+// Legacy Max showreel host. /demo now uses DemoCinema; keep this switcher for
+// any deep-link or internal reuse of the original AICareJourney demo mode.
+// `demo` forces AICareJourney to ignore any local session so a returning owner
+// never sees their own pet auto-answered by a script.
 export default function CareJourneyModeSwitcher() {
   const [started, setStarted] = useState(false);
 
