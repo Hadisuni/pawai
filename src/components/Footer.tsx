@@ -85,6 +85,8 @@ export default function Footer() {
               <li>Vancouver, BC, Canada</li>
               <li><Link href="/help">Help center</Link></li>
               <li><Link href="/trust">Trust center</Link></li>
+              <li><Link href="/privacy">Privacy policy</Link></li>
+              <li><Link href="/terms">Terms of use</Link></li>
             </ul>
           </div>
         </div>
