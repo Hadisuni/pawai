@@ -60,7 +60,6 @@ export default function DemoCinema() {
   const pausedRef = useRef(false);
   const speedRef = useRef<Speed>(1);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pendingRef = useRef<null | (() => void)>(null);
   const storyIndexRef = useRef(0);
   const beatIndexRef = useRef(0);
 
@@ -98,12 +97,8 @@ export default function DemoCinema() {
   const schedule = useCallback(
     (fn: () => void, delayMs: number) => {
       clearTimer();
-      pendingRef.current = fn;
       if (pausedRef.current) return;
-      timerRef.current = setTimeout(() => {
-        pendingRef.current = null;
-        fn();
-      }, delayMs / speedRef.current);
+      timerRef.current = setTimeout(fn, delayMs / speedRef.current);
     },
     [clearTimer],
   );
@@ -111,7 +106,6 @@ export default function DemoCinema() {
   const goToStory = useCallback(
     (index: number, autoPlay = true) => {
       clearTimer();
-      pendingRef.current = null;
       const next = ((index % DEMO_STORIES.length) + DEMO_STORIES.length) % DEMO_STORIES.length;
       setStoryIndex(next);
       setBeatIndex(0);
@@ -150,33 +144,16 @@ export default function DemoCinema() {
     return clearTimer;
   }, [started, reduceMotion, paused, story, beatIndex, schedule, advance, clearTimer]);
 
-  // Reduced-motion: once started, auto-rotate full stories on a calm interval.
-  useEffect(() => {
-    if (!started || !reduceMotion || paused) {
-      clearTimer();
-      return;
-    }
-    schedule(() => goToStory(storyIndexRef.current + 1, true), 9000);
-    return clearTimer;
-  }, [started, reduceMotion, paused, storyIndex, schedule, goToStory, clearTimer]);
+  // Reduced-motion never auto-rotates: content that changes on its own with
+  // no Pause control fails WCAG 2.2.2. Those users switch stories with
+  // Prev / Next and the story tabs.
 
   useEffect(() => () => clearTimer(), [clearTimer]);
 
+  // The auto-play effect above clears or reschedules the timer when `paused`
+  // changes; resuming restarts the current beat.
   function togglePause() {
-    setPaused((p) => {
-      const next = !p;
-      pausedRef.current = next;
-      if (!next && pendingRef.current) {
-        const fn = pendingRef.current;
-        timerRef.current = setTimeout(() => {
-          pendingRef.current = null;
-          fn();
-        }, 350);
-      } else {
-        clearTimer();
-      }
-      return next;
-    });
+    setPaused((p) => !p);
   }
 
   function handlePlay() {
