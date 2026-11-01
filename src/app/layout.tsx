@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import InteractionEngine from '@/components/InteractionEngine';
 import SupportWidget from '@/components/SupportWidget';
 import { THEME_INIT_SCRIPT } from '@/components/ThemeToggle';
-import { SITE_URL } from '@/lib/site';
+import { SITE_NAME, SITE_URL } from '@/lib/site';
 
 const fredoka = Fredoka({
   subsets: ['latin'],
@@ -29,6 +29,12 @@ export const metadata: Metadata = {
   title: 'PAWai — The AI Health Companion for Every Pet',
   description:
     "Describe your pet's symptoms, get a clear sense of urgency, and walk into the clinic with a vet-ready summary — anytime, anywhere.",
+  // Inherited by pages that don't set their own. No title/description here:
+  // Next fills og:/twitter: title and description from each page's own, so
+  // subpages don't inherit the home page's; './' makes og:url the current
+  // page. Images come from opengraph-image.tsx / twitter-image.tsx.
+  openGraph: { type: 'website', siteName: SITE_NAME, url: './' },
+  twitter: { card: 'summary_large_image' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

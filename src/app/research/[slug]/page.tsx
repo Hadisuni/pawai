@@ -13,7 +13,7 @@ import { getEvidenceRecord } from '@/lib/evidence';
 import { formatPublishedDate } from '@/lib/blog';
 import EvidenceSnapshotCard from '@/components/research/EvidenceSnapshotCard';
 import RelatedResearch from '@/components/research/RelatedResearch';
-import { SITE_URL } from '@/lib/site';
+import { DEFAULT_OG_IMAGE, SITE_LOGO, SITE_NAME, SITE_URL } from '@/lib/site';
 
 export function generateStaticParams() {
   return getAllResearch().map((insight) => ({ slug: insight.slug }));
@@ -25,6 +25,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!insight) return {};
 
   const url = `${SITE_URL}/research/${insight.slug}`;
+  // This openGraph replaces the inherited one wholesale, so siteName and the
+  // default card are restated here (research posts have no image of their own).
+  const images = [DEFAULT_OG_IMAGE];
 
   return {
     title: insight.metaTitle,
@@ -35,15 +38,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: insight.metaTitle,
       description: insight.metaDescription,
       url,
+      siteName: SITE_NAME,
       publishedTime: insight.publishedAt,
       modifiedTime: insight.updatedAt ?? insight.publishedAt,
       authors: [insight.author],
       tags: insight.tags,
+      images,
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: insight.metaTitle,
       description: insight.metaDescription,
+      images,
     },
   };
 }
@@ -68,7 +74,7 @@ export default async function ResearchInsightPage({ params }: { params: Promise<
     publisher: {
       '@type': 'Organization',
       name: 'PAWai',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/favicon.ico` },
+      logo: { '@type': 'ImageObject', ...SITE_LOGO },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/research/${insight.slug}` },
     keywords: insight.tags.join(', '),

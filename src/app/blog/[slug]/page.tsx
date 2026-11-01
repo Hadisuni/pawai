@@ -11,7 +11,7 @@ import {
   getRelatedPosts,
   formatPublishedDate,
 } from '@/lib/blog';
-import { SITE_URL } from '@/lib/site';
+import { DEFAULT_OG_IMAGE, SITE_LOGO, SITE_NAME, SITE_URL } from '@/lib/site';
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
@@ -23,6 +23,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return {};
 
   const url = `${SITE_URL}/blog/${post.slug}`;
+  // This openGraph replaces the inherited one wholesale, so siteName and (for
+  // a post without its own image) the default card are restated here.
+  const images = post.featuredImage ? [{ url: post.featuredImage }] : [DEFAULT_OG_IMAGE];
 
   return {
     title: post.metaTitle,
@@ -34,17 +37,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: post.metaTitle,
       description: post.metaDescription,
       url,
+      siteName: SITE_NAME,
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt ?? post.publishedAt,
       authors: [post.author],
       tags: post.tags,
-      images: post.featuredImage ? [{ url: post.featuredImage }] : undefined,
+      images,
     },
     twitter: {
-      card: post.featuredImage ? 'summary_large_image' : 'summary',
+      card: 'summary_large_image',
       title: post.metaTitle,
       description: post.metaDescription,
-      images: post.featuredImage ? [post.featuredImage] : undefined,
+      images,
     },
   };
 }
@@ -69,7 +73,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     publisher: {
       '@type': 'Organization',
       name: 'PAWai',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/favicon.ico` },
+      logo: { '@type': 'ImageObject', ...SITE_LOGO },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${post.slug}` },
     keywords: post.keywords.join(', '),
