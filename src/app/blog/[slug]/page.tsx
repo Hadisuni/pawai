@@ -11,7 +11,7 @@ import {
   getRelatedPosts,
   formatPublishedDate,
 } from '@/lib/blog';
-import { DEFAULT_OG_IMAGE, SITE_LOGO, SITE_URL } from '@/lib/site';
+import { DEFAULT_OG_IMAGE, SITE_LOGO, SITE_NAME, SITE_URL } from '@/lib/site';
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
@@ -23,8 +23,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return {};
 
   const url = `${SITE_URL}/blog/${post.slug}`;
-  // This openGraph replaces the inherited one, images included, so a post
-  // without its own image names the default card explicitly.
+  // This openGraph replaces the inherited one wholesale, so siteName and (for
+  // a post without its own image) the default card are restated here.
   const images = post.featuredImage ? [{ url: post.featuredImage }] : [DEFAULT_OG_IMAGE];
 
   return {
@@ -37,6 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: post.metaTitle,
       description: post.metaDescription,
       url,
+      siteName: SITE_NAME,
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt ?? post.publishedAt,
       authors: [post.author],

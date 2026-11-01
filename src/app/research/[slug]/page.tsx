@@ -13,7 +13,7 @@ import { getEvidenceRecord } from '@/lib/evidence';
 import { formatPublishedDate } from '@/lib/blog';
 import EvidenceSnapshotCard from '@/components/research/EvidenceSnapshotCard';
 import RelatedResearch from '@/components/research/RelatedResearch';
-import { DEFAULT_OG_IMAGE, SITE_LOGO, SITE_URL } from '@/lib/site';
+import { DEFAULT_OG_IMAGE, SITE_LOGO, SITE_NAME, SITE_URL } from '@/lib/site';
 
 export function generateStaticParams() {
   return getAllResearch().map((insight) => ({ slug: insight.slug }));
@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!insight) return {};
 
   const url = `${SITE_URL}/research/${insight.slug}`;
-  // This openGraph replaces the inherited one, images included, so it names
-  // the default card explicitly (research posts have no image of their own).
+  // This openGraph replaces the inherited one wholesale, so siteName and the
+  // default card are restated here (research posts have no image of their own).
   const images = [DEFAULT_OG_IMAGE];
 
   return {
@@ -38,6 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: insight.metaTitle,
       description: insight.metaDescription,
       url,
+      siteName: SITE_NAME,
       publishedTime: insight.publishedAt,
       modifiedTime: insight.updatedAt ?? insight.publishedAt,
       authors: [insight.author],
