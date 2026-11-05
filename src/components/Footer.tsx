@@ -82,6 +82,7 @@ export default function Footer() {
             <ul>
               <li><a href="mailto:contact.pawai.it@gmail.com">contact.pawai.it@gmail.com</a></li>
               <li><a href="tel:+17789004775">+1 (778) 900-4775</a></li>
+              <li><Link href="/contact">Contact form</Link></li>
               <li>Vancouver, BC, Canada</li>
               <li><Link href="/help">Help center</Link></li>
               <li><Link href="/trust">Trust center</Link></li>
